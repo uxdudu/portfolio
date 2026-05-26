@@ -1618,7 +1618,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       {/* Main CV Layout */}
       <div className="max-w-[800px] mx-auto flex flex-col gap-10 print:gap-8">
         {/* Header Section */}
-        <header className="flex flex-col gap-4 border-b border-gray-200 pb-8 print:pb-6">
+        <div className="flex flex-col gap-4 border-b border-gray-200 pb-8 print:pb-6">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
             <h1 className="text-[32px] sm:text-[40px] font-bold tracking-tight text-black leading-none">
               Eduardo Amaral
@@ -1641,7 +1641,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
               🌐 eduardoamaral.me
             </a>
           </div>
-        </header>
+        </div>
 
         {/* Profile Section */}
         <section className="flex flex-col gap-3">
@@ -4336,16 +4336,7 @@ export function App() {
     }
   }, [path]);
 
-  // Synchronize path/URL when language is changed via switcher on CV pages
-  useEffect(() => {
-    if (path === "/cv/pt" && language === "en") {
-      window.history.pushState({}, "", "/cv/en");
-      setPath("/cv/en");
-    } else if (path === "/cv/en" && language === "pt-BR") {
-      window.history.pushState({}, "", "/cv/pt");
-      setPath("/cv/pt");
-    }
-  }, [language]);
+
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -4456,8 +4447,19 @@ export function App() {
     return <CvPrintPage lang="en" />;
   }
 
+  const handleLanguageChange = (newLang: LanguagePreference) => {
+    setLanguage(newLang);
+    if (path === "/cv/pt" && newLang === "en") {
+      window.history.pushState({}, "", "/cv/en");
+      setPath("/cv/en");
+    } else if (path === "/cv/en" && newLang === "pt-BR") {
+      window.history.pushState({}, "", "/cv/pt");
+      setPath("/cv/pt");
+    }
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, onLanguageChange: setLanguage }}>
+    <LanguageContext.Provider value={{ language, onLanguageChange: handleLanguageChange }}>
       <main className="mx-auto flex w-[1200px] flex-col items-center overflow-x-clip bg-background">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
