@@ -121,7 +121,9 @@ const projects = [
     id: "clinia",
     title: "Clinia",
     tags: ["AI, Saúde, CRM", "Em andamento"],
+    tagsEn: ["AI, Health, CRM", "In progress"],
     description: "Site, Plataforma, Design System",
+    descriptionEn: "Site, Platform, Design System",
     logo: cliniaLogoPng,
     icon: cliniaLogoPng,
     href: "/cases/clinia",
@@ -130,7 +132,9 @@ const projects = [
     id: "talqui",
     title: "Talqui",
     tags: ["AI, Provedores, Chat", "Em andamento"],
+    tagsEn: ["AI, Providers, Chat", "In progress"],
     description: "Site, Plataforma, Design System",
+    descriptionEn: "Site, Platform, Design System",
     logo: talquiLogoPng,
     symbol: talquiSymbol,
     icon: talquiLogoPng,
@@ -140,7 +144,9 @@ const projects = [
     id: "petrobras",
     title: "Petrobras",
     tags: ["Institucional", "2022 - 2024"],
+    tagsEn: ["Institutional", "2022 - 2024"],
     description: "Site, Portal de Conteúdos, Design System",
+    descriptionEn: "Site, Content Portal, Design System",
     href: "/petrobras",
     icon: petrobrasLogo,
   },
@@ -148,7 +154,9 @@ const projects = [
     id: "orcamais",
     title: "Orçamais",
     tags: ["AI, Obras, SaaS", "Em andamento"],
+    tagsEn: ["AI, Construction, SaaS", "In progress"],
     description: "Plataforma de gestão de obras pela Versare",
+    descriptionEn: "Construction management platform by Versare",
     logo: orcamaisColorsLogo,
     lightLogo: orcamaisLightLogo,
     icon: orcamaisColorsLogo,
@@ -157,7 +165,9 @@ const projects = [
     id: "grupo-primo",
     title: "Grupo Primo",
     tags: ["Marketing, Finanças, Educacional", "2021 - 2022"],
+    tagsEn: ["Marketing, Finance, Education", "2021 - 2022"],
     description: "Finclass, Staage, Staart, Design System e Landing Pages",
+    descriptionEn: "Finclass, Staage, Staart, Design System and Landing Pages",
     logo: grupoPrimoLogo,
     icon: grupoPrimoLogo,
   },
@@ -468,25 +478,33 @@ const youtubeVideos = [
     id: "cop3LX65sEA",
     title: "Hands On - Claude Design - Conhecendo a novidade do Claude",
     date: "17 abr 2026",
+    dateEn: "Apr 17, 2026",
     views: "1,7 mil visualizações",
+    viewsEn: "1.7K views",
   },
   {
     id: "qvnCen5ffA4",
     title: "Conheça o Wonder, a ferramenta de vibe design",
     date: "2 abr 2026",
+    dateEn: "Apr 2, 2026",
     views: "372 visualizações",
+    viewsEn: "372 views",
   },
   {
     id: "TwZJ1KtJzoQ",
     title: "Editor visual para Claude Code e Cursor",
     date: "30 mar 2026",
+    dateEn: "Mar 30, 2026",
     views: "429 visualizações",
+    viewsEn: "429 views",
   },
   {
     id: "hSLU8O22BZM",
     title: "Design System com IA - Claude Code + Figma",
     date: "26 mar 2026",
+    dateEn: "Mar 26, 2026",
     views: "5,2 mil visualizações",
+    viewsEn: "5.2K views",
   },
 ];
 
@@ -742,7 +760,9 @@ const allProjects = [
     name: "Clinia",
     type: "Web app",
     status: "Em andamento",
+    statusEn: "In progress",
     summary: "Produto de saúde digital com CRM, experiências com IA e design system.",
+    summaryEn: "Digital health product with CRM, AI experiences and design system.",
     deliverables: ["UI", "UX", "Design System", "AI", "Research"],
     href: "/cases/clinia",
   },
@@ -750,7 +770,9 @@ const allProjects = [
     name: "Talqui",
     type: "Web app",
     status: "Em andamento",
+    statusEn: "In progress",
     summary: "Plataforma de atendimento com IA, redesign, design system e site em Framer.",
+    summaryEn: "AI support platform, redesign, design system and Framer site.",
     deliverables: ["UI", "UX", "Design System", "No code", "AI"],
     href: "/cases/talqui",
   },
@@ -758,7 +780,9 @@ const allProjects = [
     name: "Orçamais",
     type: "Web app",
     status: "Em andamento",
+    statusEn: "In progress",
     summary: "Plataforma de gestão de obras construída pela Versare com AI no processo.",
+    summaryEn: "Construction management platform by Versare with AI in the process.",
     deliverables: ["UI", "UX", "AI", "Design System"],
   },
   // Petrobras hidden temporarily
@@ -766,14 +790,18 @@ const allProjects = [
     name: "Grupo Primo",
     type: "Site",
     status: "Finalizado",
+    statusEn: "Completed",
     summary: "Produtos digitais de educação e conteúdo como Finclass, Staage e Staart.",
+    summaryEn: "Digital education and content products like Finclass, Staage and Staart.",
     deliverables: ["UI", "UX", "Design System"],
   },
   {
     name: "JStack",
     type: "Site",
     status: "Finalizado",
+    statusEn: "Completed",
     summary: "Redesign institucional, posicionamento, landing pages e evolução de produto.",
+    summaryEn: "Institutional redesign, positioning, landing pages and product evolution.",
     deliverables: ["UI", "UX", "No code", "Design System"],
   },
   {
@@ -781,6 +809,7 @@ const allProjects = [
     type: "Web app",
     status: "Versare",
     summary: "Produto financeiro com foco em clareza, jornadas e experiência de uso.",
+    summaryEn: "Financial product focused on clarity, journeys and user experience.",
     deliverables: ["UI", "UX", "AI"],
   },
   {
@@ -788,6 +817,7 @@ const allProjects = [
     type: "Web app",
     status: "Versare",
     summary: "Plataforma jurídica com IA para fluxos de compliance e operação.",
+    summaryEn: "Legal platform with AI for compliance and operation flows.",
     deliverables: ["UI", "UX", "AI", "Design System"],
   },
   {
@@ -795,6 +825,7 @@ const allProjects = [
     type: "Site",
     status: "Versare",
     summary: "Landing pages e presença digital para comunicação de produto.",
+    summaryEn: "Landing pages and digital presence for product communication.",
     deliverables: ["UI", "No code"],
   },
   {
@@ -802,6 +833,7 @@ const allProjects = [
     type: "App",
     status: "Versare",
     summary: "Experiência mobile com foco em interface, fluxos e produto.",
+    summaryEn: "Mobile experience focused on interface, flows and product.",
     deliverables: ["UI", "UX"],
   },
   {
@@ -809,6 +841,7 @@ const allProjects = [
     type: "Site",
     status: "Versare",
     summary: "Site institucional com direção visual e experiência responsiva.",
+    summaryEn: "Institutional site with visual direction and responsive experience.",
     deliverables: ["UI", "UX", "No code"],
   },
 ];
@@ -837,8 +870,8 @@ function mergeHomeProjects(cmsProjects: SanityProject[] | undefined): HomeProjec
       title: cmsProject.title || project.title,
       tags: cmsProject.tags?.length ? cmsProject.tags : project.tags,
       description: cmsProject.description || project.description,
-      href: cmsProject.href ?? project.href,
-    };
+      href: (cmsProject.href ?? project.href) as string,
+    } as HomeProject;
   });
 }
 
@@ -851,12 +884,14 @@ function mergeDirectoryProjects(cmsProjects: SanityProject[] | undefined): Direc
       name: project.title,
       type: project.type as DirectoryProject["type"],
       status: project.status || "",
+      statusEn: undefined as string | undefined,
       summary: project.summary || project.description || "",
+      summaryEn: undefined as string | undefined,
       deliverables: project.deliverables || [],
       href: project.href,
     }));
 
-  return directoryProjects.length ? directoryProjects : allProjects.filter((project) => !hiddenProjectNames.has(project.name));
+  return (directoryProjects.length ? directoryProjects : allProjects.filter((project) => !hiddenProjectNames.has(project.name))) as DirectoryProject[];
 }
 
 function mergeHubProjects<T extends HubProject | CliniaHubProject>(
@@ -1256,7 +1291,7 @@ function ProjectCover({ project }: { project: HomeProject }) {
 }
 
 function ProjectCard({ project }: { project: HomeProject }) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const Wrapper = project.href ? motion.a : motion.article;
 
   return (
@@ -1282,10 +1317,10 @@ function ProjectCard({ project }: { project: HomeProject }) {
           <div className="absolute inset-x-0 top-0 h-[80px] bg-gradient-to-b from-black/40 via-black/8 to-transparent pointer-events-none z-10" />
 
           <div className="absolute left-4 top-4 z-10 rounded-full border border-white/8 bg-black/40 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white/90 backdrop-blur-md">
-            {project.tags[0]}
+            {language === "en" ? (project.tagsEn?.[0] ?? project.tags[0]) : project.tags[0]}
           </div>
           <div className="absolute right-4 top-4 z-10 rounded-full border border-white/8 bg-black/40 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white/90 backdrop-blur-md">
-            {project.tags[1]}
+            {language === "en" ? (project.tagsEn?.[1] ?? project.tags[1]) : project.tags[1]}
           </div>
         </div>
 
@@ -1303,7 +1338,7 @@ function ProjectCard({ project }: { project: HomeProject }) {
               ) : null}
             </div>
             <p className="text-[15px] font-normal leading-[1.45] tracking-[-0.30px] text-muted lg:text-[16px] lg:tracking-[-0.32px]">
-              {project.description}
+              {language === "en" ? (project.descriptionEn ?? project.description) : project.description}
             </p>
           </div>
         </div>
@@ -1840,7 +1875,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
 }
 
 function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[number]; featured?: boolean }) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const href = `https://www.youtube.com/watch?v=${video.id}`;
 
   if (featured) {
@@ -1865,7 +1900,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
               {video.title}
             </h2>
             <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-              {video.date}. {video.views}.
+              {language === "en" ? (video.dateEn || video.date) : video.date}. {language === "en" ? (video.viewsEn || video.views) : video.views}.
             </p>
           </div>
           <motion.a
@@ -1905,14 +1940,14 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
       <div className="flex flex-1 flex-col justify-between gap-5 p-6">
         <div className="flex flex-col gap-3">
           <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
-            {video.date}
+            {language === "en" ? (video.dateEn || video.date) : video.date}
           </p>
           <h3 className="text-[24px] font-medium leading-none tracking-[-1.2px] text-card-foreground">
             {video.title}
           </h3>
         </div>
         <p className="text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-          {video.views}
+          {language === "en" ? (video.viewsEn || video.views) : video.views}
         </p>
       </div>
     </motion.a>
@@ -2248,6 +2283,7 @@ function FilterChip({
 }
 
 function ProjectListCard({ project }: { project: DirectoryProject }) {
+  const { language } = useTranslation();
   const Wrapper = project.href ? motion.a : motion.article;
 
   return (
@@ -2264,7 +2300,7 @@ function ProjectListCard({ project }: { project: DirectoryProject }) {
           {project.type}
         </span>
         <span className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
-          {project.status}
+          {language === "en" ? (project.statusEn ?? project.status) : project.status}
         </span>
       </div>
       <div className="flex flex-col gap-4">
@@ -2272,7 +2308,7 @@ function ProjectListCard({ project }: { project: DirectoryProject }) {
           {project.name}
         </h2>
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-          {project.summary}
+          {language === "en" ? (project.summaryEn ?? project.summary) : project.summary}
         </p>
         <div className="flex flex-wrap gap-2">
           {project.deliverables.map((item) => (
@@ -2854,29 +2890,32 @@ function CliniaPrototypeSection({
 }: {
   onOpen: (image: LightboxImage) => void;
 }) {
+  const { language } = useTranslation();
   return (
     <motion.section
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
       <div className="flex flex-col gap-4">
-        <SectionLabel>Prototipação real</SectionLabel>
+        <SectionLabel>{language === "en" ? "Real prototyping" : "Prototipação real"}</SectionLabel>
         <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-          Claude, Cursor e MCP do Figma no fluxo.
+          {language === "en" ? "Claude, Cursor and Figma MCP in the flow." : "Claude, Cursor e MCP do Figma no fluxo."}
         </h2>
       </div>
       <div className="flex flex-col gap-6">
         <CaseLightboxFigure
           image={cliniaClaudeCursorFigmaMcp}
-          title="Claude, Cursor e Figma MCP aplicados na Clinia"
-          caption="Uso do Claude, Cursor e MCP do Figma para criar protótipos reais e sincronizados com as interfaces do Figma."
+          title={language === "en" ? "Claude, Cursor and Figma MCP applied at Clinia" : "Claude, Cursor e Figma MCP aplicados na Clinia"}
+          caption={language === "en"
+            ? "Using Claude, Cursor and Figma MCP to create real prototypes synchronized with Figma interfaces."
+            : "Uso do Claude, Cursor e MCP do Figma para criar protótipos reais e sincronizados com as interfaces do Figma."}
           onOpen={onOpen}
           imageClassName="aspect-[16/9] w-full object-cover"
         />
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-          Usamos Claude, Cursor e MCP do Figma para criar protótipos reais sincronizados com
-          as interfaces do Figma. O objetivo é reduzir a distância entre decisão de design,
-          validação de fluxo e implementação.
+          {language === "en"
+            ? "We use Claude, Cursor and Figma MCP to create real prototypes synchronized with Figma interfaces. The goal is to reduce the gap between design decisions, flow validation and implementation."
+            : "Usamos Claude, Cursor e MCP do Figma para criar protótipos reais sincronizados com as interfaces do Figma. O objetivo é reduzir a distância entre decisão de design, validação de fluxo e implementação."}
         </p>
       </div>
     </motion.section>
@@ -3074,7 +3113,7 @@ function PetrobrasDesignSystemCasePage({
           >
             <img
               src={petrobrasDsCover}
-              alt="Capa do projeto Petrobras Design System"
+              alt={language === "en" ? "Petrobras Design System case cover" : "Capa do projeto Petrobras Design System"}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
             />
             <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
@@ -3257,7 +3296,7 @@ function PetrobrasDesignSystemCasePage({
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
-          <SectionLabel>{language === "en" ? "Results" : "Resultado"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {outcomes.map((item) => (
@@ -3811,7 +3850,7 @@ function CliniaCasePage({
           >
             <img
               src={cliniaCover}
-              alt="Capa do projeto Clinia Plataforma"
+              alt={language === "en" ? "Clinia Platform case cover" : "Capa do projeto Clinia Plataforma"}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
             />
             <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
@@ -3822,7 +3861,7 @@ function CliniaCasePage({
 
         <CmsCaseNarrative caseStudy={cmsCase} />
 
-        <CaseTextSection eyebrow={language === "en" ? "Context" : "Contexto"} title={language === "en" ? "Version 2.0 started with understanding the problem." : "A versão 2.0 começou pelo entendimento do problema."}>
+        <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "Version 2.0 started with understanding the problem." : "A versão 2.0 começou pelo entendimento do problema."}>
           {language === "en" ? (
             <>
               <p>
@@ -3909,7 +3948,7 @@ function CliniaCasePage({
           </div>
         </motion.section>
 
-        <CaseTextSection eyebrow={language === "en" ? "Decision" : "Decisão"} title={language === "en" ? "shadcn as the bridge between identity, Figma, and frontend." : "shadcn como ponte entre identidade, Figma e frontend."}>
+        <CaseTextSection eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "shadcn as the bridge between identity, Figma, and frontend." : "shadcn como ponte entre identidade, Figma e frontend."}>
           {language === "en" ? (
             <>
               <p>
@@ -4074,7 +4113,7 @@ function CliniaCasePage({
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
-          <SectionLabel>{language === "en" ? "Partial results" : "Resultado parcial"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {outcomes.map((item) => (
               <motion.p
@@ -4161,7 +4200,7 @@ function TalquiCasePage({
           >
             <img
               src={talquiCover}
-              alt="Capa do projeto Talqui Plataforma"
+              alt={language === "en" ? "Talqui Platform case cover" : "Capa do projeto Talqui Plataforma"}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
             />
             <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
@@ -4172,7 +4211,7 @@ function TalquiCasePage({
 
         <CmsCaseNarrative caseStudy={cmsCase} />
 
-        <CaseTextSection eyebrow={language === "en" ? "Context" : "Contexto"} title={language === "en" ? "The platform needed to stop looking like a technical fork." : "A plataforma precisava deixar de parecer um fork técnico."}>
+        <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "The platform needed to stop looking like a technical fork." : "A plataforma precisava deixar de parecer um fork técnico."}>
           {language === "en" ? (
             <>
               <p>
@@ -4202,7 +4241,7 @@ function TalquiCasePage({
           )}
         </CaseTextSection>
 
-        <CaseTextSection eyebrow="Design System" title={language === "en" ? "Tokens, components, and documentation designed for scale." : "Tokens, componentes e documentação pensados para escala."}>
+        <CaseTextSection eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "Tokens, components, and documentation designed for scale." : "Tokens, componentes e documentação pensados para escala."}>
           {language === "en" ? (
             <>
               <p>
@@ -4325,7 +4364,7 @@ function TalquiCasePage({
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
-          <SectionLabel>{language === "en" ? "Results" : "Resultado"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {outcomes.map((item) => (
