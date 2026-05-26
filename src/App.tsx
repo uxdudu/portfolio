@@ -129,14 +129,14 @@ const projects = [
     icon: talquiSymbol,
     href: "/cases/talqui",
   },
-  {
-    id: "petrobras",
-    title: "Petrobras",
-    tags: ["Institucional", "2022 - 2024"],
-    description: "Site, Portal de Conteúdos, Design System",
-    href: "/petrobras",
-    icon: faviconSymbol,
-  },
+  // {
+  //   id: "petrobras",
+  //   title: "Petrobras",
+  //   tags: ["Institucional", "2022 - 2024"],
+  //   description: "Site, Portal de Conteúdos, Design System",
+  //   href: "/petrobras",
+  //   icon: faviconSymbol,
+  // },
   {
     id: "orcamais",
     title: "Orçamais",
@@ -687,14 +687,7 @@ const allProjects = [
     summary: "Plataforma de gestão de obras construída pela Versare com AI no processo.",
     deliverables: ["UI", "UX", "AI", "Design System"],
   },
-  {
-    name: "Petrobras",
-    type: "Site",
-    status: "Case disponível",
-    summary: "Portal Nossa Energia, site institucional e Design System Petrobras v2.",
-    deliverables: ["UI", "UX", "Design System", "Motion", "Research"],
-    href: "/petrobras",
-  },
+  // Petrobras hidden temporarily
   {
     name: "Grupo Primo",
     type: "Site",
@@ -989,7 +982,7 @@ function Header({
 
   return (
     <motion.header
-      className="flex w-full items-center justify-between bg-background px-5 py-4 lg:h-[88px] lg:px-20 lg:py-6"
+      className="sticky top-0 z-40 flex w-full items-center justify-between bg-background/90 px-5 py-4 backdrop-blur-md lg:h-[88px] lg:px-20 lg:py-6"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -1589,8 +1582,8 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
           </div>
           <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
             {language === "en"
-              ? "A page to centralize public content. YouTube uses the public feed; Instagram stories and LinkedIn posts require an official API for automatic updates."
-              : "Uma página para centralizar os conteúdos públicos. YouTube usa dados do feed público; Instagram stories e posts do LinkedIn precisam de API oficial para atualização automática."}
+              ? "Check out the latest videos, posts and content from the channel."
+              : "Confira os vídeos, posts e conteúdos mais recentes do canal."}
           </p>
         </motion.section>
 
@@ -1882,6 +1875,7 @@ function ProjectsPage({
   const [deliverableFilter, setDeliverableFilter] = useState<(typeof deliverableFilters)[number]>("Todos");
 
   const filteredProjects = directoryProjects.filter((project) => {
+    if (!project.href) return false;
     const matchesType = typeFilter === "Todos" || project.type === typeFilter;
     const matchesDeliverable =
       deliverableFilter === "Todos" || project.deliverables.includes(deliverableFilter);
@@ -2051,81 +2045,29 @@ function CliniaHubPage({
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="flex flex-col gap-8" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-6" variants={sectionReveal}>
           <a
             href="/projetos"
             className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToProjects}
           </a>
-          <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20">
-            <div className="flex flex-col gap-6">
-              <SectionLabel>Clinia</SectionLabel>
-              <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
-                {language === "en" ? "An evolving product with multiple connected fronts." : "Um produto em evolução com múltiplas frentes conectadas."}
-              </h1>
-            </div>
-            <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-              {language === "en"
-                ? "Clinia is an ongoing project. Platform 2.0, new onboarding, Pricing page, stats, CRM, and other fronts are all part of the same effort to build a more modern, scalable base connected to the design system."
-                : "A Clinia é um projeto em andamento. A plataforma 2.0, o novo onboarding, a página de Pricing, estatísticas, CRM e outras frentes fazem parte do mesmo esforço para criar uma base mais moderna, escalável e conectada ao design system."}
-            </p>
-          </div>
+          <h1 className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
+            Clinia
+          </h1>
         </motion.section>
 
         <motion.section
-          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
-          variants={sectionReveal}
-        >
-          <div className="relative min-h-[440px] overflow-hidden rounded-[24px] bg-[#eef5ff]">
-            <img src={cliniaCover} alt="Clinia Plataforma" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#10255f]/78 via-transparent to-transparent" />
-            <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-2">
-              {["2.0", "Onboarding", "Pricing", "Stats", "CRM", "DS", language === "en" ? "In progress" : "Em andamento"].map((item) => (
-                <span key={item} className="rounded-full border border-white/18 bg-white/14 px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-white backdrop-blur">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
-          <div className="flex flex-col gap-4">
-            <SectionLabel>{language === "en" ? "Projects" : "Projetos"}</SectionLabel>
-            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-              {language === "en" ? "Platform and Site" : "Plataforma e Site"}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {projectOptions.map((project) => (
-              <CliniaProjectOptionCard key={project.title} project={project} />
-            ))}
-          </div>
+          {projectOptions.map((project) => (
+            <CliniaProjectOptionCard key={project.title} project={project} />
+          ))}
         </motion.section>
-
-        <CaseTextSection
-          eyebrow={language === "en" ? "Vision" : "Visão"}
-          title={language === "en" ? "The main case is the platform, but the story is bigger." : "O case principal é a plataforma, mas a história é maior."}
-        >
-          {language === "en" ? (
-            <>
-              <p>Clinia should be viewed across two main fronts. The Platform holds the most structural work — design system, Figma, code, onboarding, CRM, and stats. The Site covers the commercial front, including the Pricing page.</p>
-              <p>This format shows that the work isn't an isolated screen: it's a continuous effort in product, visual foundation, collaboration with development, and commercial evolution.</p>
-            </>
-          ) : (
-            <>
-              <p>A Clinia deve ser apresentada em duas frentes principais. A Plataforma concentra o trabalho mais estrutural de design system, Figma, código, onboarding, CRM e estatísticas. O Site concentra a frente comercial, incluindo a página de Pricing.</p>
-              <p>Esse formato ajuda a mostrar que o trabalho não é uma tela isolada: é uma atuação contínua em produto, base visual, colaboração com desenvolvimento e evolução comercial.</p>
-            </>
-          )}
-        </CaseTextSection>
       </motion.div>
       <Footer />
     </>
@@ -2150,89 +2092,22 @@ function PetrobrasHubPage({
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="flex flex-col gap-8" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-6" variants={sectionReveal}>
           <a
             href="/#projetos"
             className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToProjects}
           </a>
-          <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20">
-            <div className="flex flex-col gap-6">
-              <SectionLabel>{language === "en" ? "Petrobras Ecosystem" : "Ecossistema Petrobras"}</SectionLabel>
-              <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
-                {language === "en"
-                  ? "Three fronts connected by the same design system."
-                  : "Três frentes conectadas pelo mesmo design system."}
-              </h1>
-            </div>
-            <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-              {language === "en"
-                ? "Nossa Energia portal, the design system, and the main site are part of the same digital ecosystem. The best experience for recruiters is to understand this relationship before entering each case."
-                : "O portal Nossa Energia, o design system e o site principal fazem parte do mesmo ecossistema digital. A melhor experiência para recrutadores é entender essa relação antes de entrar em cada case."}
-            </p>
-          </div>
+          <h1 className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
+            Petrobras
+          </h1>
         </motion.section>
 
         <motion.section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" variants={staggerChildren}>
           {projectOptions.map((project) => (
             <ProjectOptionCard key={project.title} project={project} />
           ))}
-        </motion.section>
-
-        <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-          variants={sectionReveal}
-        >
-          <div className="flex flex-col gap-4">
-            <SectionLabel>{language === "en" ? "Documentation" : "Documentação"}</SectionLabel>
-            <a
-              href="https://uxdudu.notion.site/Petro-DS-v2-2d88fb2f824449078175f0599d7b0b92?pvs=73"
-              target="_blank"
-              rel="noreferrer"
-              className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
-            >
-              {language === "en" ? "Open Petro DS v2" : "Abrir Petro DS v2"}
-            </a>
-          </div>
-          <div className="rounded-[32px] border border-border bg-card p-8">
-            <div className="flex flex-col gap-6">
-              <h2 className="max-w-[680px] text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-                {language === "en"
-                  ? "Before the products, there was a hand-documented foundation."
-                  : "Antes dos produtos, havia uma base documentada à mão."}
-              </h2>
-              <p className="max-w-[720px] text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-                {language === "en"
-                  ? "The Petrobras Design System v2 was organized in Notion with welcome, accessibility, tokens, components, sections, templates, and motion pages. At the time, documentation and specs were created manually to guide design, content, and development."
-                  : "O Design System Petrobras v2 foi organizado no Notion com páginas de boas-vindas, acessibilidade, tokens, componentes, seções, templates e motion. Na época, a documentação e as specs foram feitas manualmente para orientar design, conteúdo e desenvolvimento."}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {pillars.map((pillar) => (
-                  <span
-                    key={pillar}
-                    className="rounded-full border border-border bg-background px-4 py-2 text-[14px] leading-[1.45] tracking-[-0.42px] text-muted"
-                  >
-                    {pillar}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section
-          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
-          variants={sectionReveal}
-        >
-          <div className="relative h-[280px] overflow-hidden rounded-[24px] bg-media sm:h-[400px] lg:h-[520px]">
-            <img
-              src={petrobrasNossaEnergia}
-              alt="Preview do case Nossa Energia Petrobras"
-              className="absolute inset-0 h-full w-full object-cover object-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-          </div>
         </motion.section>
       </motion.div>
       <Footer />
