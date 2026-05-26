@@ -17,7 +17,7 @@ import cliniaLogoBlue from "./assets/clinia-logo-blue.svg";
 import grupoPrimoLogo from "./assets/grupo-primo-logo.svg";
 import orcamaisColorsLogo from "./assets/orcamais-colors.svg";
 import orcamaisLightLogo from "./assets/orcamais-light.svg";
-import petrobrasNossaEnergia from "./assets/case-petrobras-nossa-energia.jpg";
+import petrobrasNossaEnergia from "./assets/case-petrobras-nossa-energia.png";
 import petrobrasDsBulletSpec from "./assets/petrobras-ds-bullet-spec.png";
 import petrobrasDsCardSpec from "./assets/petrobras-ds-card-spec.png";
 import petrobrasDsComponents from "./assets/petrobras-ds-components.png";
@@ -179,6 +179,32 @@ const petrobrasProjects = [
     description:
       "Experiência institucional principal conectada ao mesmo sistema visual e aos mesmos padrões de componentes.",
     status: "Em breve",
+  },
+];
+
+const petrobrasProjectsEn = [
+  {
+    title: "Nossa Energia",
+    eyebrow: "Content portal",
+    description:
+      "Petrobras editorial hub to centralize institutional content, articles and editorial sections using design system components.",
+    href: "/cases/petrobras-nossa-energia",
+    status: "Case available",
+  },
+  {
+    title: "Petrobras Design System",
+    eyebrow: "Ecosystem foundation",
+    description:
+      "Manually documented library with tokens, components, sections, templates, motion and specs to sustain the digital ecosystem.",
+    href: "/cases/petrobras-design-system",
+    status: "Case available",
+  },
+  {
+    title: "Main website",
+    eyebrow: "petrobras.com.br",
+    description:
+      "Main institutional experience connected to the same visual system and component patterns.",
+    status: "Coming soon",
   },
 ];
 
@@ -348,6 +374,26 @@ const cliniaProjects = [
     description:
       "Frente do site institucional, incluindo a página de Pricing para comunicar planos, valor e conversão comercial.",
     status: "Em andamento",
+  },
+];
+
+const cliniaProjectsEn = [
+  {
+    title: "Platform",
+    category: "Web App",
+    eyebrow: "Web App",
+    description:
+      "New foundation of the Clinia platform: v2.0, onboarding, statistics, CRM, design system and design-to-code workflow with Cursor and Claude.",
+    href: "/cases/clinia",
+    status: "Case available",
+  },
+  {
+    title: "Website",
+    category: "Site",
+    eyebrow: "Pricing",
+    description:
+      "Institutional website front, including the Pricing page to communicate plans, value and commercial conversion.",
+    status: "In progress",
   },
 ];
 
@@ -1038,8 +1084,8 @@ function Hero() {
         </span>
         <motion.span
           className="relative top-[2px] h-[36px] w-[65px] shrink-0 overflow-hidden rounded-[24px] sm:top-[3px] sm:h-[45px] sm:w-[81px] sm:rounded-[32px]"
-          initial={prefersReducedMotion ? false : { width: 0, opacity: 0 }}
-          animate={{ width: "auto", opacity: 1 }}
+          initial={prefersReducedMotion ? false : { scaleX: 0, opacity: 0, originX: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
           transition={{ ...SPRING, delay: 0.2 }}
         >
           <img src={avatar} alt="" className="h-full w-full object-cover" />
@@ -3016,6 +3062,36 @@ function PetrobrasNossaEnergiaCasePage({
             </>
           )}
         </CaseTextSection>
+
+        {cmsCase?.evidence && cmsCase.evidence.length > 0 && (
+          <motion.section
+            className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
+            initial={prefersReducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, margin: "-15% 0px" }}
+            variants={staggerChildren}
+          >
+            <div className="flex flex-col gap-4">
+              <SectionLabel>Nossa Energia</SectionLabel>
+              <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+                {language === "en" ? "Interface screens and design exploration." : "Telas de interface e exploração de design."}
+              </h2>
+            </div>
+            <div className="flex flex-col gap-8">
+              {cmsCase.evidence.map((item) =>
+                item.imageUrl ? (
+                  <CaseLightboxFigure
+                    key={item.title}
+                    image={item.imageUrl}
+                    title={item.title || ""}
+                    caption={item.caption || ""}
+                    onOpen={setLightboxImage}
+                  />
+                ) : null
+              )}
+            </div>
+          </motion.section>
+        )}
       </motion.div>
       <Footer />
     </>
@@ -3705,8 +3781,10 @@ export function App() {
   const localizedCmsProjects = localizeProjects(cmsProjects, language);
   const homeProjects = mergeHomeProjects(localizedCmsProjects);
   const directoryProjects = mergeDirectoryProjects(localizedCmsProjects);
-  const cliniaProjectOptions = mergeHubProjects(cliniaProjects, localizedCmsProjects, "clinia");
-  const petrobrasProjectOptions = mergeHubProjects(petrobrasProjects, localizedCmsProjects, "petrobras");
+  const cliniaFallback = language === "en" ? cliniaProjectsEn : cliniaProjects;
+  const petrobrasfall = language === "en" ? petrobrasProjectsEn : petrobrasProjects;
+  const cliniaProjectOptions = mergeHubProjects(cliniaFallback, localizedCmsProjects, "clinia");
+  const petrobrasProjectOptions = mergeHubProjects(petrobrasfall, localizedCmsProjects, "petrobras");
   const cmsCases = sanityContent?.caseStudies;
   const localizedCmsCases = localizeCaseStudies(cmsCases, language);
   const cliniaCase = getCaseStudy(localizedCmsCases, "clinia");
