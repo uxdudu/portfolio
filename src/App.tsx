@@ -4062,23 +4062,14 @@ function CliniaCasePage({
               </p>
             </>
           )}
-        </CaseTextSection>
-
-        <motion.section
-          className="flex flex-col gap-4 border-t border-border pt-10"
-          initial={prefersReducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-15% 0px" }}
-          variants={staggerChildren}
-        >
           <CaseLightboxFigure
             image={cliniaShadcnFoundation}
-            title={language === "en" ? "shadcn — The Foundation for your Design System" : "shadcn — The Foundation for your Design System"}
+            title="shadcn — The Foundation for your Design System"
             caption={language === "en" ? "Open source component base used as the starting point for Clinia's design system, adapted to the brand's visual identity." : "Base de componentes open source usada como ponto de partida para o design system da Clinia, adaptada à identidade visual da marca."}
             onOpen={setLightboxImage}
             imageClassName="aspect-[16/10] w-full object-cover"
           />
-        </motion.section>
+        </CaseTextSection>
 
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
