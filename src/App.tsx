@@ -133,14 +133,14 @@ const projects = [
     icon: talquiSymbol,
     href: "/cases/talqui",
   },
-  // {
-  //   id: "petrobras",
-  //   title: "Petrobras",
-  //   tags: ["Institucional", "2022 - 2024"],
-  //   description: "Site, Portal de Conteúdos, Design System",
-  //   href: "/petrobras",
-  //   icon: faviconSymbol,
-  // },
+  {
+    id: "petrobras",
+    title: "Petrobras",
+    tags: ["Institucional", "2022 - 2024"],
+    description: "Site, Portal de Conteúdos, Design System",
+    href: "/petrobras",
+    icon: faviconSymbol,
+  },
   {
     id: "orcamais",
     title: "Orçamais",
@@ -1180,15 +1180,6 @@ function ProjectCover({ project }: { project: HomeProject }) {
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-top opacity-90"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#061308] via-transparent to-[#061308]/20" />
-        <div className="absolute bottom-8 left-8 right-8">
-          <p className="text-[48px] font-medium leading-none tracking-[-2.4px] text-white">
-            Nossa Energia
-          </p>
-          <p className="mt-3 text-[16px] leading-[1.45] tracking-[-0.32px] text-white/70">
-            Portal editorial conectado ao design system Petrobras.
-          </p>
-        </div>
       </div>
     );
   }
@@ -1283,10 +1274,14 @@ function ProjectCard({ project }: { project: HomeProject }) {
           >
             <ProjectCover project={project} />
           </motion.div>
-          <div className="absolute left-4 top-4 rounded-full bg-alpha px-3 py-1 text-[14px] font-normal leading-[1.45] tracking-[-0.42px] text-neutral-400">
+          
+          {/* Top-to-bottom dark gradient to protect contrast of the top tags */}
+          <div className="absolute inset-x-0 top-0 h-[80px] bg-gradient-to-b from-black/40 via-black/8 to-transparent pointer-events-none z-10" />
+
+          <div className="absolute left-4 top-4 z-10 rounded-full border border-white/8 bg-black/40 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white/90 backdrop-blur-md">
             {project.tags[0]}
           </div>
-          <div className="absolute right-4 top-4 rounded-full bg-alpha px-3 py-1 text-[14px] font-normal leading-[1.45] tracking-[-0.42px] text-neutral-400">
+          <div className="absolute right-4 top-4 z-10 rounded-full border border-white/8 bg-black/40 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white/90 backdrop-blur-md">
             {project.tags[1]}
           </div>
         </div>
@@ -1393,6 +1388,326 @@ function SectionLabel({ children, sticky = false }: { children: string; sticky?:
   );
 }
 
+function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const buttonLabel = language === "en" ? "Download CV" : "Baixar CV";
+  const ptLabel = language === "en" ? "Portuguese version" : "Versão em português";
+  const enLabel = language === "en" ? "English version" : "Versão em inglês";
+
+  return (
+    <div className="relative inline-block text-left" ref={dropdownRef}>
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-border bg-card px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary cursor-pointer hover:border-primary transition-colors"
+        whileHover={{ y: -1 }}
+        whileTap={TAP}
+        transition={SPRING}
+      >
+        <span>{buttonLabel}</span>
+        <svg
+          viewBox="0 0 24 24"
+          className={["size-4 stroke-current transition-transform duration-200", isOpen ? "rotate-180" : ""].join(" ")}
+          fill="none"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </motion.button>
+
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 8, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="absolute left-0 mt-2 w-48 origin-top-left rounded-xl border border-border bg-card p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)] z-30"
+        >
+          <a
+            href="/cv/pt"
+            target="_blank"
+            className="block w-full rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            {ptLabel}
+          </a>
+          <a
+            href="/cv/en"
+            target="_blank"
+            className="block w-full rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            {enLabel}
+          </a>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
+  useEffect(() => {
+    document.title = lang === "pt" 
+      ? "Eduardo Amaral - Currículo" 
+      : "Eduardo Amaral - CV";
+  }, [lang]);
+
+  const t = {
+    pt: {
+      print: "Imprimir / Salvar PDF",
+      back: "Voltar para o Portfólio",
+      role: "Senior Product Designer",
+      profile: "Perfil Profissional",
+      skills: "Competências & Ferramentas",
+      experience: "Experiência Profissional",
+      education: "Formação Acadêmica & Cursos",
+      contact: "Contato",
+      aboutText: "Product Designer Sênior com mais de 5 anos de experiência transformando desafios complexos em soluções digitais intuitivas e centradas no usuário. Possuo uma abordagem versátil e ponta a ponta (end-to-end), cobrindo desde a etapa de descoberta (discovery) e pesquisa de UX até a criação de Design Systems avançados, desenvolvimento sem código (Webflow/Framer) e implementação técnica de frontend integrada a fluxos de Inteligência Artificial.",
+    },
+    en: {
+      print: "Print / Save PDF",
+      back: "Back to Portfolio",
+      role: "Senior Product Designer",
+      profile: "Professional Profile",
+      skills: "Skills & Tools",
+      experience: "Professional Experience",
+      education: "Education & Training",
+      contact: "Contact",
+      aboutText: "Senior Product Designer with 5+ years of experience turning complex challenges into intuitive, user-centered digital solutions. Possess a highly versatile, end-to-end approach, covering everything from UX research and discovery to advanced Design Systems, no-code development (Framer/Webflow), and frontend technical implementation integrated with modern AI workflows.",
+    }
+  }[lang];
+
+  const cvExps = lang === "pt" ? [
+    {
+      role: "Senior Product Designer",
+      company: "Clinia",
+      period: "2024 - Presente",
+      description: "Design de produto para saúde digital, conduzindo pesquisas de UX, testes de usabilidade, criação de interfaces escaláveis e design systems baseados em shadcn. Integração com ferramentas de inteligência artificial no fluxo de trabalho técnico de frontend."
+    },
+    {
+      role: "Senior Product Designer",
+      company: "Talqui",
+      period: "2024",
+      description: "Redesign de plataforma SaaS de atendimento com IA, criação de design system escalável com nomenclatura de tokens semânticos, construção de site institucional em Framer e protótipos em código funcional."
+    },
+    {
+      role: "Fundador / UX Designer",
+      company: "Versare Design",
+      period: "2023 - Presente",
+      description: "Liderança de estúdio de produto digital end-to-end, gerenciando discovery, UX/UI, sites em Framer e desenvolvimento de plataformas web/mobile inteligentes com IA. Mais de 50 projetos entregues."
+    },
+    {
+      role: "Head of Product Design",
+      company: "JStack",
+      period: "2022 - 2023",
+      description: "Estratégia de product design, definição de padrões de UX/UI e design systems escaláveis para plataforma de educação tech de alto engajamento."
+    },
+    {
+      role: "Senior UX Designer",
+      company: "Brivia",
+      period: "2022",
+      description: "Redesign do portal da Petrobras com design system aplicado a mais de 100 páginas de conteúdos editoriais. Prototipação funcional para a Escola de Influenciadores do Banco do Brasil."
+    },
+    {
+      role: "UX Designer",
+      company: "Grupo Primo",
+      period: "2021 - 2022",
+      description: "Design de produto para edtechs e finanças (Finclass, Staage, Staart). Condução de co-criação, prototipagem ázil, estruturação de componentes no Figma e acompanhamento de entrega técnica."
+    }
+  ] : [
+    {
+      role: "Senior Product Designer",
+      company: "Clinia",
+      period: "2024 - Present",
+      description: "Product design for digital health, including UX research, usability testing, scalable interfaces, and shadcn-based design systems. Integrated AI-powered workflows into frontend development pipelines."
+    },
+    {
+      role: "Senior Product Designer",
+      company: "Talqui",
+      period: "2024",
+      description: "End-to-end redesign of Talqui's AI support platform, setup of scalable design systems with semantic design tokens, creation of their website in Framer, and functional prototyping."
+    },
+    {
+      role: "Founder / UX Designer",
+      company: "Versare Design",
+      period: "2023 - Present",
+      description: "Led a product studio delivering discovery, end-to-end design, Framer websites, and AI platforms. Managed design pipelines for 50+ projects with exceptional satisfaction."
+    },
+    {
+      role: "Head of Product Design",
+      company: "JStack",
+      period: "2022 - 2023",
+      description: "Formulated product design strategy, set UI/UX guidelines, and implemented scalable design systems for a developer education platform."
+    },
+    {
+      role: "Senior UX Designer",
+      company: "Brivia",
+      period: "2022",
+      description: "Directed the Petrobras portal redesign with design system patterns scaled across 100+ pages. Prototyped the Escola de Influenciadores platform for Banco do Brasil."
+    },
+    {
+      role: "UX Designer",
+      company: "Grupo Primo",
+      period: "2021 - 2022",
+      description: "Created tech education and finance products (Finclass, Staage, Staart). Facilitated co-creation, rapid prototyping, component structures in Figma, and frontend handoff."
+    }
+  ];
+
+  const cvCourses = lang === "pt" ? [
+    "Bacharelado em Administração — Faculdade Adventista do Paraná (2017 - 2020)",
+    "Product Design — Design Circuit (2020 - 2021)",
+    "UI Design — UX Unicórnio (2022)",
+    "UI Design Especializado — UI Expert & uiBoost (2020 - 2024)",
+    "Certificações adicionais em Webflow, Figma avançado e desenvolvimento moderno (OmniStack)"
+  ] : [
+    "Bachelor of Business Administration — Faculdade Adventista do Paraná (2017 - 2020)",
+    "Product Design — Design Circuit (2020 - 2021)",
+    "UI Design — UX Unicórnio (2022)",
+    "Specialized UI Design — UI Expert & uiBoost (2020 - 2024)",
+    "Additional certifications in Webflow, advanced Figma, and modern coding (OmniStack)"
+  ];
+
+  const cvSkills = lang === "pt" ? [
+    "UX/UI Design & Discovery",
+    "Design Systems & Tokens",
+    "Framer & Webflow Development",
+    "Protótipos em Código (AI Workflows)",
+    "Figma MCP & Cursor/Claude",
+    "Pesquisa & Teste de Usabilidade"
+  ] : [
+    "UX/UI Design & Discovery",
+    "Design Systems & Design Tokens",
+    "Framer & Webflow Development",
+    "Code Prototyping (AI Workflows)",
+    "Figma MCP & Cursor/Claude",
+    "UX Research & Usability Testing"
+  ];
+
+  return (
+    <div className="min-h-screen w-full bg-white text-black p-6 sm:p-12 md:py-16 md:px-24 print:p-0 print:text-black print:bg-white font-sans selection:bg-black/10">
+      {/* Action Bar (hidden when printing) */}
+      <div className="flex justify-between items-center mb-12 border-b border-gray-100 pb-6 print:hidden">
+        <a
+          href="/sobre"
+          className="inline-flex items-center gap-1.5 text-[14px] font-medium text-gray-500 hover:text-black transition-colors"
+        >
+          <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          {t.back}
+        </a>
+        <button
+          onClick={() => window.print()}
+          className="inline-flex items-center gap-2 rounded-[8px] bg-black px-4 py-2 text-[14px] font-medium text-white hover:bg-black/90 cursor-pointer transition-colors shadow-sm"
+        >
+          <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          {t.print}
+        </button>
+      </div>
+
+      {/* Main CV Layout */}
+      <div className="max-w-[800px] mx-auto flex flex-col gap-10 print:gap-8">
+        {/* Header Section */}
+        <header className="flex flex-col gap-4 border-b border-gray-200 pb-8 print:pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+            <h1 className="text-[32px] sm:text-[40px] font-bold tracking-tight text-black leading-none">
+              Eduardo Amaral
+            </h1>
+            <p className="text-[16px] font-semibold text-gray-600 tracking-wide uppercase sm:text-right">
+              {t.role}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-gray-500">
+            <span className="flex items-center gap-1.5">
+              📍 Paraná, Brasil
+            </span>
+            <a href="mailto:oi@eduardoamaral.me" className="flex items-center gap-1.5 hover:text-black transition-colors">
+              ✉️ oi@eduardoamaral.me
+            </a>
+            <a href="https://linkedin.com/in/eduardooamaral/" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-black transition-colors">
+              🔗 linkedin.com/in/eduardooamaral
+            </a>
+            <a href="https://eduardoamaral.me" className="flex items-center gap-1.5 hover:text-black transition-colors">
+              🌐 eduardoamaral.me
+            </a>
+          </div>
+        </header>
+
+        {/* Profile Section */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+            {t.profile}
+          </h2>
+          <p className="text-[15px] leading-[1.6] text-gray-700">
+            {t.aboutText}
+          </p>
+        </section>
+
+        {/* Skills Section */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+            {t.skills}
+          </h2>
+          <div className="flex flex-wrap gap-2 pt-1">
+            {cvSkills.map(skill => (
+              <span key={skill} className="rounded-[6px] border border-gray-200 bg-gray-50 px-2.5 py-1 text-[13px] font-medium text-gray-700">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* Experience Section */}
+        <section className="flex flex-col gap-6">
+          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+            {t.experience}
+          </h2>
+          <div className="flex flex-col gap-6 print:gap-5">
+            {cvExps.map(exp => (
+              <article key={exp.company + exp.role} className="flex flex-col gap-1.5">
+                <div className="flex justify-between items-baseline gap-4">
+                  <h3 className="text-[16px] font-bold text-black">
+                    {exp.role} <span className="font-normal text-gray-500">@ {exp.company}</span>
+                  </h3>
+                  <span className="text-[13px] font-medium text-gray-500 shrink-0">
+                    {exp.period}
+                  </span>
+                </div>
+                <p className="text-[14px] leading-[1.5] text-gray-600">
+                  {exp.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Education Section */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+            {t.education}
+          </h2>
+          <ul className="flex flex-col gap-2 list-disc pl-4 text-[14px] leading-[1.5] text-gray-600">
+            {cvCourses.map((course, idx) => (
+              <li key={idx} className="pl-0.5">
+                {course}
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </div>
+  );
+}
+
 function AboutPage({ theme, onThemeChange }: PageProps) {
   const prefersReducedMotion = useReducedMotion();
   const { language } = useTranslation();
@@ -1411,11 +1726,12 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         variants={staggerChildren}
       >
         <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-center lg:gap-20" variants={sectionReveal}>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 items-start">
             <SectionLabel>{language === "en" ? "About" : "Sobre"}</SectionLabel>
             <h1 className="max-w-[720px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "Turning complexity into clarity" : "Transformando complexidade em clareza"}
             </h1>
+            <CvDropdownButton language={language} />
           </div>
           <motion.div
             className="w-full overflow-hidden rounded-[32px] border border-border bg-card p-2"
@@ -1755,11 +2071,12 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
 
         <motion.section className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_360px]" variants={sectionReveal}>
           <form
-            action="mailto:oi@eduardoamaral.me"
-            method="post"
-            encType="text/plain"
+            action="https://formsubmit.co/oi@eduardoamaral.me"
+            method="POST"
             className="flex flex-col gap-6 p-0"
           >
+            <input type="hidden" name="_next" value={window.location.origin + "/contato"} />
+            <input type="hidden" name="_subject" value="Novo contato do Portfólio!" />
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-card-foreground">
                 {language === "en" ? "Name" : "Nome"}
@@ -1795,7 +2112,7 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
 
             <div className="flex items-center justify-between gap-4">
               <p className="max-w-[420px] text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-                {language === "en" ? "Submitting opens your email app with the info pre-filled." : "O envio abre seu aplicativo de email com as informações preenchidas."}
+                {language === "en" ? "Your message will be sent directly to my email." : "Sua mensagem será enviada diretamente para o meu email."}
               </p>
               <motion.button
                 type="submit"
@@ -2025,9 +2342,6 @@ function ProjectOptionCard({ project }: { project: HubProject }) {
         <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
           {project.eyebrow}
         </p>
-        <span className="rounded-full border border-border px-3 py-1 text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-          {project.status}
-        </span>
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="max-w-[320px] text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
@@ -2064,9 +2378,6 @@ function CliniaProjectOptionCard({ project }: { project: CliniaHubProject }) {
         <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
           {project.eyebrow}
         </p>
-        <span className="rounded-full border border-border px-3 py-1 text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-          {project.status}
-        </span>
       </div>
       <div className="flex flex-col gap-4">
         <h2 className="max-w-[320px] text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
@@ -2521,6 +2832,130 @@ function CliniaPrototypeSection({
   );
 }
 
+function NextCaseSection({
+  nextCase,
+  language,
+}: {
+  nextCase: "clinia" | "talqui" | "petrobras-ds" | "petrobras-ne";
+  language: "en" | "pt-BR";
+}) {
+  const data = {
+    clinia: {
+      title: "Clinia",
+      category: language === "en" 
+        ? "Platform 2.0, design system and AI-powered workflow"
+        : "Plataforma 2.0, design system e fluxo com IA",
+      href: "/cases/clinia",
+      coverImage: cliniaCover,
+      bgClass: "bg-[#eef5ff]",
+      gradientClass: "bg-gradient-to-r from-[#eef5ff] via-[#eef5ff]/88 to-[#eef5ff]/20",
+      isDark: false,
+    },
+    talqui: {
+      title: "Talqui",
+      category: language === "en"
+        ? "AI-powered support platform, redesign, and design system"
+        : "Plataforma de atendimento com IA, redesign e design system",
+      href: "/cases/talqui",
+      coverImage: talquiCover,
+      bgClass: "bg-[#49a8ff]",
+      gradientClass: "bg-gradient-to-r from-[#49a8ff] via-[#49a8ff]/88 to-[#49a8ff]/20",
+      isDark: false,
+    },
+    "petrobras-ds": {
+      title: "Petrobras DS v2",
+      category: language === "en"
+        ? "Component library, design tokens and documentation"
+        : "Biblioteca de componentes, design tokens e documentação",
+      href: "/cases/petrobras-design-system",
+      coverImage: petrobrasDsCover,
+      bgClass: "bg-[#061308]",
+      gradientClass: "bg-gradient-to-r from-[#061308] via-[#061308]/92 to-[#061308]/28",
+      isDark: true,
+    },
+    "petrobras-ne": {
+      title: "Nossa Energia",
+      category: language === "en"
+        ? "Editorial content hub connected to the design system"
+        : "Portal editorial de conteúdos conectado ao design system",
+      href: "/cases/petrobras-nossa-energia",
+      coverImage: petrobrasNossaEnergia,
+      bgClass: "bg-[#061308]",
+      gradientClass: "bg-gradient-to-r from-[#061308] via-[#061308]/92 to-[#061308]/28",
+      isDark: true,
+    },
+  }[nextCase];
+
+  const label = language === "en" ? "Next Case Study" : "Próximo Case";
+
+  return (
+    <motion.section
+      className="flex flex-col gap-6 border-t border-border pt-10 lg:pt-16"
+      variants={sectionReveal}
+    >
+      <p className="text-[14px] font-medium uppercase tracking-[0.12em] text-muted">
+        {label}
+      </p>
+      <motion.a
+        href={data.href}
+        className={[
+          "group relative flex min-h-[220px] sm:min-h-[280px] md:min-h-[340px] flex-col justify-between overflow-hidden rounded-[24px] sm:rounded-[32px] border border-border p-6 sm:p-8 md:p-10 transition-colors duration-300",
+          data.bgClass,
+        ].join(" ")}
+        whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
+        whileTap={TAP}
+        transition={SPRING}
+      >
+        {/* Background image container */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <img
+            src={data.coverImage}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+          />
+          <div className={["absolute inset-0 transition-opacity duration-300", data.gradientClass].join(" ")} />
+        </div>
+
+        {/* Content wrapper */}
+        <div className="relative z-10 flex h-full min-h-[160px] sm:min-h-[200px] md:min-h-[240px] flex-col justify-between gap-8">
+          <div className="flex items-start justify-between gap-4">
+            <h3 className={[
+              "text-[32px] font-medium leading-none tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px] transition-colors duration-300",
+              data.isDark ? "text-white" : "text-[#08080c]",
+            ].join(" ")}>
+              {data.title}
+            </h3>
+            <div className={[
+              "grid size-12 place-items-center rounded-full border transition-all duration-300 shrink-0",
+              data.isDark
+                ? "border-white/20 bg-white/10 text-white group-hover:border-white group-hover:bg-white group-hover:text-black"
+                : "border-black/10 bg-black/5 text-[#08080c] group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground",
+            ].join(" ")}>
+              <svg
+                viewBox="0 0 24 24"
+                className="size-5 stroke-current"
+                fill="none"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </div>
+          </div>
+          <p className={[
+            "max-w-[480px] text-[15px] font-medium leading-[1.45] tracking-[-0.3px] sm:text-[17px] sm:tracking-[-0.34px] transition-colors duration-300",
+            data.isDark ? "text-white/76" : "text-[#08080c]/70",
+          ].join(" ")}>
+            {data.category}
+          </p>
+        </div>
+      </motion.a>
+    </motion.section>
+  );
+}
+
 function PetrobrasDesignSystemCasePage({
   theme,
   onThemeChange,
@@ -2825,6 +3260,7 @@ function PetrobrasDesignSystemCasePage({
             </>
           )}
         </CaseTextSection>
+        <NextCaseSection nextCase="petrobras-ne" language={language} />
       </motion.div>
       <Footer />
     </>
@@ -3203,7 +3639,7 @@ function PetrobrasNossaEnergiaCasePage({
             </motion.a>
           </div>
         </motion.section>
-
+        <NextCaseSection nextCase="clinia" language={language} />
       </motion.div>
       <Footer />
     </>
@@ -3572,6 +4008,7 @@ function CliniaCasePage({
             ))}
           </div>
         </motion.section>
+        <NextCaseSection nextCase="talqui" language={language} />
       </motion.div>
       <Footer />
     </>
@@ -3822,6 +4259,7 @@ function TalquiCasePage({
             ))}
           </div>
         </motion.section>
+        <NextCaseSection nextCase="petrobras-ds" language={language} />
       </motion.div>
       <Footer />
     </>
@@ -3987,6 +4425,13 @@ export function App() {
   ) : (
     <HomePage {...pageProps} homeProjects={homeProjects} />
   );
+
+  if (path === "/cv/pt") {
+    return <CvPrintPage lang="pt" />;
+  }
+  if (path === "/cv/en") {
+    return <CvPrintPage lang="en" />;
+  }
 
   return (
     <LanguageContext.Provider value={{ language, onLanguageChange: setLanguage }}>
