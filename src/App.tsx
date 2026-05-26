@@ -1620,26 +1620,6 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
 
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-          initial={prefersReducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-15% 0px" }}
-          variants={staggerChildren}
-        >
-          <div className="flex flex-col gap-4">
-            <SectionLabel>Social</SectionLabel>
-            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-              {language === "en" ? "Instagram, stories and LinkedIn" : "Instagram, stories e LinkedIn"}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {feeds.map((item) => (
-              <SocialFeedCard key={item.title} item={item} />
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           variants={sectionReveal}
         >
           <SectionLabel>Links</SectionLabel>
