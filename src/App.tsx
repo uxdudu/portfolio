@@ -3,6 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import Lenis from "lenis";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import avatar from "./assets/avatar.png";
+import cliniaShadcnFoundation from "./assets/clinia-shadcn-foundation.png";
 import cliniaDsCheckboxLibrary from "./assets/clinia-ds-checkbox-library.png";
 import cliniaDsCheckboxOverview from "./assets/clinia-ds-checkbox-overview.png";
 import cliniaDsCheckboxVariables from "./assets/clinia-ds-checkbox-variables.png";
@@ -340,6 +341,12 @@ const cliniaWorkflow = [
 ];
 
 const cliniaDesignSystemEvidence = [
+  {
+    image: cliniaShadcnFoundation,
+    title: "shadcn — The Foundation for your Design System",
+    caption:
+      "Base de componentes open source usada como ponto de partida para o design system da Clinia, adaptada à identidade visual da marca.",
+  },
   {
     image: cliniaDsCheckboxOverview,
     title: "Clinia DS v2, componente Checkbox",
@@ -684,6 +691,7 @@ const cliniaWorkflowEn = [
 ];
 
 const cliniaDesignSystemEvidenceEn = [
+  { image: cliniaShadcnFoundation, title: "shadcn — The Foundation for your Design System", caption: "Open source component base used as the starting point for Clinia's design system, adapted to the brand's visual identity." },
   { image: cliniaDsCheckboxOverview, title: "Clinia DS v2, Checkbox component", caption: "Customized shadcn adapted to Clinia's identity, with variants, states, and organized properties for use in product." },
   { image: cliniaDsCheckboxLibrary, title: "Component library in Figma", caption: "Component structure in Figma with pages and properties prepared to scale the platform's design system." },
   { image: cliniaDsCheckboxVariables, title: "Clinia tokens and variables", caption: "Variable collections with light and dark modes, connecting Tailwind, theme, customizations, and motion to the design system." },
