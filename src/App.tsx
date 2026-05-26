@@ -1161,7 +1161,7 @@ function ProjectFavicon({ project }: { project: HomeProject }) {
 function ProjectCover({ project }: { project: HomeProject }) {
   if (project.id === "clinia") {
     return (
-      <div className="relative h-full overflow-hidden rounded-2xl bg-[#eef5ff]">
+      <div className="relative h-full overflow-hidden rounded-[20px] bg-[#eef5ff]">
         <img src={cliniaCover} alt="Clinia Plataforma" className="absolute inset-0 h-full w-full object-cover" />
       </div>
     );
@@ -1169,7 +1169,7 @@ function ProjectCover({ project }: { project: HomeProject }) {
 
   if (project.id === "talqui") {
     return (
-      <div className="relative h-full overflow-hidden rounded-2xl bg-[#49a8ff]">
+      <div className="relative h-full overflow-hidden rounded-[20px] bg-[#49a8ff]">
         <img src={talquiCover} alt="Talqui Plataforma" className="absolute inset-0 h-full w-full object-cover" />
       </div>
     );
@@ -1177,7 +1177,7 @@ function ProjectCover({ project }: { project: HomeProject }) {
 
   if (project.id === "petrobras") {
     return (
-      <div className="relative h-full overflow-hidden rounded-2xl bg-media">
+      <div className="relative h-full overflow-hidden rounded-[20px] bg-media">
         <img
           src={petrobrasNossaEnergia}
           alt=""
@@ -1189,7 +1189,7 @@ function ProjectCover({ project }: { project: HomeProject }) {
 
   if (project.id === "orcamais") {
     return (
-      <div className="relative h-full overflow-hidden rounded-2xl bg-[#0b1220]">
+      <div className="relative h-full overflow-hidden rounded-[20px] bg-[#0b1220]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(245,158,11,0.32),transparent_30%),radial-gradient(circle_at_82%_74%,rgba(59,130,246,0.28),transparent_34%)]" />
         <div className="absolute left-8 top-8 flex h-14 items-center rounded-2xl border border-white/10 bg-white px-5 shadow-[0_20px_80px_rgba(0,0,0,0.2)]">
           <img src={project.logo} alt="Orçamais" className="h-7 w-auto" />
@@ -1233,7 +1233,7 @@ function ProjectCover({ project }: { project: HomeProject }) {
   }
 
   return (
-    <div className="relative h-full overflow-hidden rounded-2xl bg-[#08080c]">
+    <div className="relative h-full overflow-hidden rounded-[20px] bg-[#08080c]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,180,60,0.34),transparent_30%),radial-gradient(circle_at_78%_70%,rgba(30,144,255,0.28),transparent_36%)]" />
       <div className="absolute left-8 top-8 flex h-14 items-center rounded-2xl border border-white/10 bg-white px-5">
         <img src={project.logo} alt="Grupo Primo" className="h-7 w-auto" />
@@ -1262,13 +1262,13 @@ function ProjectCard({ project }: { project: HomeProject }) {
   return (
     <Wrapper
       href={project.href}
-      className="overflow-hidden rounded-3xl border border-border p-2 lg:h-[562px]"
+      className="overflow-hidden rounded-[32px] border border-border p-2 lg:h-[562px]"
       variants={sectionReveal}
       whileHover={project.href ? { y: -6, borderColor: "var(--color-primary)" } : undefined}
       whileTap={project.href ? TAP : undefined}
       transition={SPRING}
     >
-      <div className="flex h-full flex-col overflow-hidden rounded-[20px] bg-card">
+      <div className="flex h-full flex-col overflow-hidden rounded-[24px] bg-card">
         <div className="relative h-[260px] shrink-0 overflow-hidden rounded-3xl bg-card p-1 sm:h-[360px] lg:h-[450px]">
           <motion.div
             className="h-full"
@@ -1289,7 +1289,7 @@ function ProjectCard({ project }: { project: HomeProject }) {
           </div>
         </div>
 
-        <div className="flex w-full gap-4 rounded-b-2xl bg-card px-5 pb-5 pt-4">
+        <div className="flex w-full gap-4 rounded-b-[24px] bg-card px-5 pb-5 pt-4">
           <ProjectFavicon project={project} />
           <div className="flex min-w-0 flex-1 flex-col gap-2 leading-[1.45]">
             <div className="flex items-start justify-between gap-4">
