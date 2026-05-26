@@ -342,12 +342,6 @@ const cliniaWorkflow = [
 
 const cliniaDesignSystemEvidence = [
   {
-    image: cliniaShadcnFoundation,
-    title: "shadcn — The Foundation for your Design System",
-    caption:
-      "Base de componentes open source usada como ponto de partida para o design system da Clinia, adaptada à identidade visual da marca.",
-  },
-  {
     image: cliniaDsCheckboxOverview,
     title: "Clinia DS v2, componente Checkbox",
     caption:
@@ -691,7 +685,6 @@ const cliniaWorkflowEn = [
 ];
 
 const cliniaDesignSystemEvidenceEn = [
-  { image: cliniaShadcnFoundation, title: "shadcn — The Foundation for your Design System", caption: "Open source component base used as the starting point for Clinia's design system, adapted to the brand's visual identity." },
   { image: cliniaDsCheckboxOverview, title: "Clinia DS v2, Checkbox component", caption: "Customized shadcn adapted to Clinia's identity, with variants, states, and organized properties for use in product." },
   { image: cliniaDsCheckboxLibrary, title: "Component library in Figma", caption: "Component structure in Figma with pages and properties prepared to scale the platform's design system." },
   { image: cliniaDsCheckboxVariables, title: "Clinia tokens and variables", caption: "Variable collections with light and dark modes, connecting Tailwind, theme, customizations, and motion to the design system." },
@@ -793,7 +786,16 @@ const allProjects = [
     summaryEn: "Construction management platform by Versare with AI in the process.",
     deliverables: ["UI", "UX", "AI", "Design System"],
   },
-  // Petrobras hidden temporarily
+  {
+    name: "Petrobras",
+    type: "Site",
+    status: "Case disponível",
+    statusEn: "Case available",
+    summary: "Portal Nossa Energia, site institucional e Design System Petrobras v2.",
+    summaryEn: "Nossa Energia portal, institutional site and Petrobras Design System v2.",
+    deliverables: ["UI", "UX", "Design System"],
+    href: "/petrobras",
+  },
   {
     name: "Grupo Primo",
     type: "Site",
@@ -2746,6 +2748,82 @@ function CaseTextSection({
   );
 }
 
+const cliniaCaseFallback: SanityCaseStudy = {
+  title: "Clinia — Plataforma 2.0",
+  titleEn: "Clinia — Platform 2.0",
+  slug: "clinia",
+  client: "Clinia",
+  role: "Product Design, Design System e Frontend",
+  summary: "Construção da versão 2.0 da plataforma Clinia, conectando auditoria de UX, design system, shadcn customizado, protótipos reais com IA e fluxo design-to-code.",
+  summaryEn: "Building Clinia platform 2.0, connecting UX audit, design system, custom shadcn, real AI prototypes and design-to-code workflow.",
+  stack: ["Figma", "shadcn", "Cursor", "Claude", "Figma MCP"],
+  sections: [
+    { eyebrow: "Desafio", title: "Reconstruir uma plataforma sem design system e sem perder identidade.", body: ["A versão anterior tinha uma experiência visual desalinhada e uma estrutura que dificultava evolução. A empresa não tinha um design system estruturado — cada decisão era tomada de forma isolada.", "O desafio era criar uma base sólida para a versão 2.0: um DS que respeitasse a identidade da marca, fosse próximo do código e permitisse escalar o produto com consistência."] },
+    { eyebrow: "Solução", title: "Design system em produção, fluxo design-to-code com IA.", body: ["Estruturamos o design system com shadcn customizado no Figma e em código, criando um repositório de frontend alimentado continuamente com componentes e padrões sincronizados.", "Com Claude, Cursor e MCP do Figma no fluxo, a entrega deixou de ser interface estática e passou a incluir código funcional. O projeto está em andamento, com novas áreas da plataforma sendo construídas continuamente."] },
+  ],
+  sectionsEn: [
+    { eyebrow: "Challenge", title: "Rebuilding a platform without a design system without losing identity.", body: ["The previous version had a misaligned visual experience and a structure that made evolution difficult. The company had no structured design system — every decision was made in isolation.", "The challenge was to create a solid foundation for version 2.0: a DS that respected the brand identity, stayed close to the code, and allowed the team to scale the product consistently."] },
+    { eyebrow: "Solution", title: "Design system in production, design-to-code workflow with AI.", body: ["We built the design system with custom shadcn in Figma and in code, creating a frontend repository continuously fed with synchronized components and patterns.", "With Claude, Cursor and Figma MCP in the flow, deliverables stopped being static interfaces and started including functional code. The project is ongoing, with new platform areas being built continuously."] },
+  ],
+};
+
+const talquiCaseFallback: SanityCaseStudy = {
+  title: "Talqui — Plataforma",
+  titleEn: "Talqui — Platform",
+  slug: "talqui",
+  client: "Talqui",
+  role: "Product Design e Design System",
+  summary: "Reconstrução da plataforma Talqui a partir de uma interface antiga criada como fork técnico, criando identidade própria, design system, tokens personalizados e documentação em Storybook.",
+  summaryEn: "Rebuilding the Talqui platform from an old interface created as a technical fork, creating its own identity, design system, custom tokens and Storybook documentation.",
+  stack: ["Figma", "Design Tokens", "Storybook", "IA"],
+  sections: [
+    { eyebrow: "Desafio", title: "Criar identidade e escala em uma plataforma nascida como fork técnico.", body: ["A plataforma havia nascido como uma adaptação de uma interface criada pelo time de desenvolvimento. Funcionava, mas limitava a identidade visual e dificultava o crescimento do produto.", "O desafio era criar uma plataforma com identidade própria: uma experiência que comunicasse a marca, suportasse novas features e tivesse uma base de componentes consistente para evoluir."] },
+    { eyebrow: "Solução", title: "Redesign completo com design system e documentação em Storybook.", body: ["Construí toda a plataforma nova — da identidade visual ao design system com tokens personalizados, componentes e padrões documentados.", "O time criou um repositório dedicado ao DS, sincronizado com Storybook. A plataforma foi redesenhada do zero e segue evoluindo com base nessa fundação."] },
+  ],
+  sectionsEn: [
+    { eyebrow: "Challenge", title: "Creating identity and scale in a platform born as a technical fork.", body: ["The platform had been born as an adaptation of an interface created by the development team. It worked, but limited the visual identity and made product growth difficult.", "The challenge was to create a platform with its own identity: an experience that communicated the brand, supported new features and had a consistent component base to evolve from."] },
+    { eyebrow: "Solution", title: "Full redesign with design system and Storybook documentation.", body: ["I built the entire new platform — from the visual identity to the design system with custom tokens, components and documented patterns.", "The team created a dedicated DS repository, synchronized with Storybook. The platform was redesigned from scratch and continues to evolve on this foundation."] },
+  ],
+};
+
+const petrobrasDsCaseFallback: SanityCaseStudy = {
+  title: "Petrobras — Design System",
+  titleEn: "Petrobras — Design System",
+  slug: "petrobras-design-system",
+  client: "Petrobras",
+  role: "Design System e documentação",
+  summary: "Design System Petrobras v2 com tokens, componentes, seções, templates, motion, acessibilidade e documentação manual de specs para sustentar o ecossistema digital.",
+  summaryEn: "Petrobras Design System v2 with tokens, components, sections, templates, motion, accessibility and manual spec documentation to sustain the digital ecosystem.",
+  stack: ["Figma", "Notion", "Design Tokens", "Specs"],
+  sections: [
+    { eyebrow: "Desafio", title: "Dar consistência a um ecossistema digital diverso e complexo.", body: ["O desafio era organizar uma base grande o suficiente para atender diferentes tipos de páginas e times, mas clara o bastante para ser usada com autonomia em um contexto institucional complexo.", "Também era necessário criar documentação prática que ajudasse a tomar decisões e reduzir ambiguidade durante a implementação."] },
+    { eyebrow: "Solução", title: "Uma biblioteca visual e uma documentação prática.", body: ["O DS v2 conectou tokens, componentes, sections e templates em uma base consultável que sustentou o portal Nossa Energia, o site principal e outras frentes digitais.", "A documentação foi criada manualmente com specs, anatomia, estados e orientações de acessibilidade para manter consistência entre design e desenvolvimento."] },
+  ],
+  sectionsEn: [
+    { eyebrow: "Challenge", title: "Bringing consistency to a diverse and complex digital ecosystem.", body: ["The challenge was to organize a foundation large enough to serve different types of pages and teams, but clear enough to be used autonomously in a complex institutional context.", "It was also necessary to create practical documentation that helped make decisions and reduce ambiguity during implementation."] },
+    { eyebrow: "Solution", title: "A visual library and practical documentation.", body: ["DS v2 connected tokens, components, sections and templates into a consultable foundation that supported the Nossa Energia portal, the main site and other digital fronts.", "Documentation was created manually with specs, anatomy, states and accessibility guidelines to maintain consistency between design and development."] },
+  ],
+};
+
+const petrobrasNossaEnergiaCaseFallback: SanityCaseStudy = {
+  title: "Petrobras — Nossa Energia",
+  titleEn: "Petrobras — Nossa Energia",
+  slug: "petrobras-nossa-energia",
+  client: "Petrobras",
+  role: "Design System, UX, UI e Liferay collaboration",
+  summary: "Portal editorial para centralizar conteúdos institucionais da Petrobras, usando o Design System Petrobras v2 e uma arquitetura de informação mais clara para publicação.",
+  summaryEn: "Editorial portal to centralize Petrobras institutional content, using the Petrobras Design System v2 and a clearer information architecture for publishing.",
+  stack: ["Figma", "Liferay CMS", "Design System", "UX"],
+  sections: [
+    { eyebrow: "Desafio", title: "Centralizar conteúdos sem perder consistência.", body: ["A necessidade era centralizar conteúdos institucionais e artigos da Petrobras porque esses conteúdos estavam dispersos em canais distintos.", "Além disso, a transição tecnológica para CMS Liferay era essencial para oferecer aos publicadores uma experiência mais autônoma e eficiente."] },
+    { eyebrow: "Solução", title: "Um hub editorial conectado ao design system.", body: ["Desenvolvemos um hub que centralizou conteúdos institucionais, integrou informações dos canais Fatos e Dados e do antigo Nossa Energia.", "A solução passou a permitir páginas formadas por componentes integrados de forma modular."] },
+  ],
+  sectionsEn: [
+    { eyebrow: "Challenge", title: "Centralizing content without losing consistency.", body: ["Petrobras had institutional content and articles spread across different channels. The challenge was to centralize them in a cleaner, more governed editorial experience.", "Additionally, the transition to Liferay CMS was essential to give publishers greater autonomy and efficiency."] },
+    { eyebrow: "Solution", title: "An editorial hub connected to the design system.", body: ["We developed a hub that centralized institutional content, integrating information from the Fatos e Dados and the old Nossa Energia channels.", "The solution enabled pages built from modularly integrated components, making publishing more scalable and consistent."] },
+  ],
+};
+
 function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
   const { language, t } = useTranslation();
   if (!caseStudy) return null;
@@ -3130,7 +3208,7 @@ function PetrobrasDesignSystemCasePage({
           </button>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
+        <CmsCaseNarrative caseStudy={cmsCase || petrobrasDsCaseFallback} />
 
         <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "A common language for public products." : "Uma linguagem comum para produtos públicos."}>
           {language === "en" ? (
@@ -3487,7 +3565,7 @@ function PetrobrasNossaEnergiaCasePage({
           </button>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
+        <CmsCaseNarrative caseStudy={cmsCase || petrobrasNossaEnergiaCaseFallback} />
 
         <CaseTextSection
           eyebrow={language === "en" ? "About" : "Sobre"}
@@ -3867,7 +3945,7 @@ function CliniaCasePage({
           </button>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
+        <CmsCaseNarrative caseStudy={cmsCase || cliniaCaseFallback} />
 
         <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "Version 2.0 started with understanding the problem." : "A versão 2.0 começou pelo entendimento do problema."}>
           {language === "en" ? (
@@ -3985,6 +4063,22 @@ function CliniaCasePage({
             </>
           )}
         </CaseTextSection>
+
+        <motion.section
+          className="flex flex-col gap-4 border-t border-border pt-10"
+          initial={prefersReducedMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-15% 0px" }}
+          variants={staggerChildren}
+        >
+          <CaseLightboxFigure
+            image={cliniaShadcnFoundation}
+            title={language === "en" ? "shadcn — The Foundation for your Design System" : "shadcn — The Foundation for your Design System"}
+            caption={language === "en" ? "Open source component base used as the starting point for Clinia's design system, adapted to the brand's visual identity." : "Base de componentes open source usada como ponto de partida para o design system da Clinia, adaptada à identidade visual da marca."}
+            onOpen={setLightboxImage}
+            imageClassName="aspect-[16/10] w-full object-cover"
+          />
+        </motion.section>
 
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
@@ -4217,7 +4311,7 @@ function TalquiCasePage({
           </button>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
+        <CmsCaseNarrative caseStudy={cmsCase || talquiCaseFallback} />
 
         <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "The platform needed to stop looking like a technical fork." : "A plataforma precisava deixar de parecer um fork técnico."}>
           {language === "en" ? (
