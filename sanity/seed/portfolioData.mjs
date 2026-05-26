@@ -298,6 +298,56 @@ export const caseStudies = [
         ],
       },
     ],
+    evidence: [
+      {
+        _key: "talqui-design-tokens",
+        title: "Variáveis e tokens do Talqui DS",
+        caption: "Coleções de variáveis no Figma com grupos Theme, Style, Typography e Extensions organizando os tokens semânticos da plataforma Talqui.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-cb9ebae4699bf882c7c25ee81b88c82b358c0ce9-1484x1748-png",
+          },
+        },
+      },
+      {
+        _key: "talqui-checkbox-component",
+        title: "Componente Checkbox no Figma",
+        caption: "Componente t-field-checkbox documentado com variantes, estados (default, hover, checked, intermediate), modos light e dark, e property table completa.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-07c266b3539588596376bf83ca00d860c2c141b5-2000x1473-png",
+          },
+        },
+      },
+      {
+        _key: "talqui-conversation-menu",
+        title: "Componente Conversation Menu na plataforma",
+        caption: "Componente t-conversation-menu com todas as variações da lista de conversas: empty, padrão, fixadas, com destaque, com notificação e skeleton (long loading).",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-66d4922a8b9fd4dc638f4f1e4a43000a0b1b62a7-2000x1473-png",
+          },
+        },
+      },
+      {
+        _key: "talqui-onboarding-button",
+        title: "Fluxo de onboarding e componente Button",
+        caption: "Tela de cadastro da plataforma Talqui com o componente t-base-button em uso: variante Primary, estilo Filled, tamanho lg (48), com ícone e label personalizada.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-20baa3a2b02fcf13d4ff271b737358bfb521cf53-2000x1206-png",
+          },
+        },
+      },
+    ],
   },
   {
     _id: "caseStudy.petrobras-nossa-energia",
@@ -331,6 +381,92 @@ export const caseStudies = [
         ],
       },
     ],
+    evidence: [
+      {
+        _key: "nossa-energia-process-timeline",
+        title: "Processo do projeto",
+        caption: "Linha do processo: arquitetura de informação, naming, wireframes, conceitos, UI design, testes e lançamento.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-db6a1fd94175a10e867ce809028b52541b843712-1136x319-png",
+          },
+        },
+      },
+      {
+        _key: "nossa-energia-content-structure",
+        title: "Estruturação do hub de conteúdo",
+        caption: "Mapeamento de conteúdo e organização para o hub editorial.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-61bfb117cab536b6e8b0b561c7b959d149b197a7-2367x1332-png",
+          },
+        },
+      },
+      {
+        _key: "nossa-energia-channel-ecosystem",
+        title: "Review do ecossistema de canais",
+        caption: "Mapa do ecossistema de canais antes da reorganização do hub de conteúdo.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-a81d19570eb108c3ef40de47e88d8c1e6e03f01e-2367x1331-png",
+          },
+        },
+      },
+      {
+        _key: "nossa-energia-hub-incorporation",
+        title: "Incorporação de canais ao hub",
+        caption: "Proposta de incorporação dos canais ao hub de conteúdo e ao site institucional.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-f537ee2cb8a7fd98d8e2f5ecadf8c3e30124fa03-2367x1332-png",
+          },
+        },
+      },
+      {
+        _key: "nossa-energia-cover-mockup",
+        title: "Mockup da home Nossa Energia",
+        caption: "Mockup da home do portal Nossa Energia em notebook.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-c3128dce74501d01370318a34c55fdec42b4a076-3000x2250-png",
+          },
+        },
+      },
+      {
+        _key: "nossa-energia-home-desktop",
+        title: "Home Nossa Energia, desktop",
+        caption: "Tela final desktop do portal editorial Nossa Energia.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-1db615c254587bd0aaa32d7aed276012024c7e99-2560x9562-png",
+          },
+        },
+      },
+      {
+        _key: "nossa-energia-home-mobile",
+        title: "Home Nossa Energia, mobile",
+        caption: "Tela final mobile do portal editorial Nossa Energia.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-914b9709d0e693de80a521c0a1079978d58cd6df-720x16232-png",
+          },
+        },
+      },
+    ],
   },
   {
     _id: "caseStudy.petrobras-design-system",
@@ -353,6 +489,68 @@ export const caseStudies = [
           "A documentação foi criada manualmente no Notion, incluindo tokens, componentes, anatomia, specs, estados e regras de uso.",
           "O objetivo era reduzir ambiguidade na implementação e criar uma linguagem comum para times diversos.",
         ],
+      },
+    ],
+    evidence: [
+      {
+        _key: "petro-ds-figma-cover",
+        title: "Arquivo PetroDS v2 no Figma",
+        caption: "Visão da capa do arquivo PetroDS v2 no Figma, com navegação lateral de tokens e componentes.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-2f37b993cd9cb58cdc0d71a59248baa496cf194d-3840x2026-png",
+          },
+        },
+      },
+      {
+        _key: "petro-ds-colors",
+        title: "Tokens de cores",
+        caption: "Documentação dos tokens de cores da marca no PetroDS v2.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-3b0e797f0dae611b733f275dd36b501b6a398400-3840x2026-png",
+          },
+        },
+      },
+      {
+        _key: "petro-ds-template-level-2",
+        title: "Template de página nível 2",
+        caption: "Template nível 2 documentado em variações default e high contrast.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-389c19aae13998380783cdbf2c63e49d6a41734a-3840x2026-png",
+          },
+        },
+      },
+      {
+        _key: "petro-ds-link-component",
+        title: "Componente Link",
+        caption: "Documentação do componente Link em desktop e mobile, com variações default e high contrast.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-c490b14bc4e21b11034fbd6c52bc6d4d91793425-3840x2026-png",
+          },
+        },
+      },
+      {
+        _key: "petro-ds-theme-variables",
+        title: "Variáveis de tema",
+        caption: "Coleções de variáveis do PetroDS v2 organizadas por temas default e high contrast.",
+        image: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: "image-314d20d0601656ccedc30aa3b63fe27192bf0805-3840x2026-png",
+          },
+        },
       },
     ],
   },

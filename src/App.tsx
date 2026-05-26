@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Lenis from "lenis";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import avatar from "./assets/avatar.png";
@@ -18,9 +19,12 @@ import grupoPrimoLogo from "./assets/grupo-primo-logo.svg";
 import orcamaisColorsLogo from "./assets/orcamais-colors.svg";
 import orcamaisLightLogo from "./assets/orcamais-light.svg";
 import petrobrasNossaEnergia from "./assets/case-petrobras-nossa-energia.png";
+import petrobrasNossaEnergiaHomeDesktop from "./assets/petrobras-nossa-energia-home-desktop.png";
+import petrobrasNossaEnergiaHomeMobile from "./assets/petrobras-nossa-energia-home-mobile.png";
 import petrobrasDsBulletSpec from "./assets/petrobras-ds-bullet-spec.png";
 import petrobrasDsCardSpec from "./assets/petrobras-ds-card-spec.png";
 import petrobrasDsComponents from "./assets/petrobras-ds-components.png";
+import petrobrasDsCover from "./assets/petrobras-ds-cover.png";
 import petrobrasDsTokens from "./assets/petrobras-ds-tokens.png";
 import talquiCover from "./assets/talqui-cover.png";
 import talquiLogo from "./assets/talqui-logo.svg";
@@ -367,14 +371,6 @@ const cliniaProjects = [
     href: "/cases/clinia",
     status: "Case disponível",
   },
-  {
-    title: "Site",
-    category: "Site",
-    eyebrow: "Pricing",
-    description:
-      "Frente do site institucional, incluindo a página de Pricing para comunicar planos, valor e conversão comercial.",
-    status: "Em andamento",
-  },
 ];
 
 const cliniaProjectsEn = [
@@ -386,14 +382,6 @@ const cliniaProjectsEn = [
       "New foundation of the Clinia platform: v2.0, onboarding, statistics, CRM, design system and design-to-code workflow with Cursor and Claude.",
     href: "/cases/clinia",
     status: "Case available",
-  },
-  {
-    title: "Website",
-    category: "Site",
-    eyebrow: "Pricing",
-    description:
-      "Institutional website front, including the Pricing page to communicate plans, value and commercial conversion.",
-    status: "In progress",
   },
 ];
 
@@ -435,6 +423,29 @@ const talquiFoundations = [
   {
     title: "Novas telas",
     description: "A plataforma foi reconstruída com novas telas e fluxos apoiados por essa fundação visual e técnica.",
+  },
+];
+
+const talquiEvidenceFallback = [
+  {
+    title: "Variáveis e tokens do Talqui DS",
+    caption: "Coleções de variáveis no Figma com grupos Theme, Style, Typography e Extensions organizando os tokens semânticos da plataforma Talqui.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/cb9ebae4699bf882c7c25ee81b88c82b358c0ce9-1484x1748.png",
+  },
+  {
+    title: "Componente Checkbox no Figma",
+    caption: "Componente t-field-checkbox documentado com variantes, estados, modos light e dark, e property table completa.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/07c266b3539588596376bf83ca00d860c2c141b5-2000x1473.png",
+  },
+  {
+    title: "Componente Conversation Menu na plataforma",
+    caption: "Componente t-conversation-menu com variações da lista de conversas: empty, padrão, fixadas, com destaque, notificação e skeleton.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/66d4922a8b9fd4dc638f4f1e4a43000a0b1b62a7-2000x1473.png",
+  },
+  {
+    title: "Fluxo de onboarding e componente Button",
+    caption: "Tela de cadastro da plataforma Talqui com o componente t-base-button em uso.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/20baa3a2b02fcf13d4ff271b737358bfb521cf53-2000x1206.png",
   },
 ];
 
@@ -614,6 +625,34 @@ const petrobrasDsEvidenceEn = [
   { title: "Layout specs", description: "Example of horizontal variant with measurements, properties, and tokens like padding, radius, gaps, width, and height.", image: petrobrasDsCardSpec },
 ];
 
+const petrobrasDsCmsEvidenceFallback = [
+  {
+    title: "Arquivo PetroDS v2 no Figma",
+    caption: "Visão da capa do arquivo PetroDS v2 no Figma, com navegação lateral de tokens e componentes.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/2f37b993cd9cb58cdc0d71a59248baa496cf194d-3840x2026.png",
+  },
+  {
+    title: "Tokens de cores",
+    caption: "Documentação dos tokens de cores da marca no PetroDS v2.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/3b0e797f0dae611b733f275dd36b501b6a398400-3840x2026.png",
+  },
+  {
+    title: "Template de página nível 2",
+    caption: "Template nível 2 documentado em variações default e high contrast.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/389c19aae13998380783cdbf2c63e49d6a41734a-3840x2026.png",
+  },
+  {
+    title: "Componente Link",
+    caption: "Documentação do componente Link em desktop e mobile, com variações default e high contrast.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/c490b14bc4e21b11034fbd6c52bc6d4d91793425-3840x2026.png",
+  },
+  {
+    title: "Variáveis de tema",
+    caption: "Coleções de variáveis do PetroDS v2 organizadas por temas default e high contrast.",
+    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/314d20d0601656ccedc30aa3b63fe27192bf0805-3840x2026.png",
+  },
+];
+
 const cliniaProcessEn = [
   "Understanding the pain points and reasons for building a 2.0 even with an existing platform.",
   "Audit of the current experience to map inconsistencies, missing foundations, and bottlenecks blocking scale.",
@@ -706,7 +745,7 @@ const trainingEn = [
 
 const projectTypeFilters = ["Todos", "Web app", "App", "Blog", "Site"] as const;
 const deliverableFilters = ["Todos", "UI", "UX", "Design System", "Motion", "No code", "AI", "Research"] as const;
-const hiddenProjectIds = new Set(["orcamais", "grupo-primo"]);
+const hiddenProjectIds = new Set(["orcamais", "grupo-primo", "clinia-site"]);
 const hiddenProjectNames = new Set(["Orçamais", "Grupo Primo"]);
 
 const allProjects = [
@@ -836,7 +875,7 @@ function mergeHubProjects<T extends HubProject | CliniaHubProject>(
   cmsProjects: SanityProject[] | undefined,
   group: "clinia" | "petrobras",
 ): T[] {
-  const groupProjects = cmsProjects?.filter((project) => project.group === group);
+  const groupProjects = cmsProjects?.filter((project) => project.group === group && !hiddenProjectIds.has(project.id));
   if (!groupProjects?.length) return fallbackProjects;
 
   return groupProjects.map((project) => ({
@@ -1355,9 +1394,14 @@ function HomePage({
   );
 }
 
-function SectionLabel({ children }: { children: string }) {
+function SectionLabel({ children, sticky = false }: { children: string; sticky?: boolean }) {
   return (
-    <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
+    <p
+      className={[
+        "text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary",
+        sticky ? "sticky top-[72px] z-20 w-fit rounded-xl bg-background/88 px-2 py-1 backdrop-blur-md lg:top-[112px]" : "",
+      ].join(" ")}
+    >
       {children}
     </p>
   );
@@ -1388,10 +1432,14 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
             </h1>
           </div>
           <motion.div
-            className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
+            className="w-full overflow-hidden rounded-[32px] border border-border bg-card p-2"
           >
-            <div className="h-[200px] overflow-hidden rounded-[24px] bg-media sm:h-[280px] lg:h-[344px]">
-              <img src={avatar} alt="Eduardo Amaral" className="h-full w-full object-cover" />
+            <div className="aspect-square overflow-hidden rounded-[24px] bg-media">
+              <img
+                src={avatar}
+                alt="Eduardo Amaral"
+                className="h-full w-full object-cover object-[50%_34%]"
+              />
             </div>
           </motion.div>
         </motion.section>
@@ -1433,10 +1481,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
 
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-          initial={prefersReducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-15% 0px" }}
-          variants={staggerChildren}
+          variants={sectionReveal}
         >
           <SectionLabel>{language === "en" ? "Experience" : "Experiência"}</SectionLabel>
           <div className="flex flex-col gap-4">
@@ -2237,10 +2282,12 @@ function ImageLightbox({
 
 function CaseImage({
   label,
+  image = petrobrasNossaEnergiaHomeDesktop,
   position = "top",
   onOpen,
 }: {
   label: string;
+  image?: string;
   position?: "top" | "center" | "bottom";
   onOpen?: (image: LightboxImage) => void;
 }) {
@@ -2256,12 +2303,12 @@ function CaseImage({
       <div className="overflow-hidden rounded-3xl border border-border bg-card p-2">
         <button
           type="button"
-          onClick={() => onOpen?.({ src: petrobrasNossaEnergia, alt: label, caption: label })}
+          onClick={() => onOpen?.({ src: image, alt: label, caption: label })}
           className="group relative block h-[240px] w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-media text-left sm:h-[360px] lg:h-[460px]"
           aria-label={`${t.zoom}: ${label}`}
         >
           <img
-            src={petrobrasNossaEnergia}
+            src={image}
             alt={label}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
             style={{ objectPosition }}
@@ -2281,10 +2328,12 @@ function CaseImage({
 function CaseTextSection({
   eyebrow,
   title,
+  stickyLabel = false,
   children,
 }: {
   eyebrow: string;
   title: string;
+  stickyLabel?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -2292,7 +2341,7 @@ function CaseTextSection({
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
-      <SectionLabel>{eyebrow}</SectionLabel>
+      <SectionLabel sticky={stickyLabel}>{eyebrow}</SectionLabel>
       <div className="flex max-w-[640px] flex-col gap-5">
         <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           {title}
@@ -2481,11 +2530,13 @@ function CaseLightboxFigure({
   title,
   caption,
   onOpen,
+  imageClassName = "h-auto w-full object-cover",
 }: {
   image: string;
   title: string;
   caption: string;
   onOpen: (image: LightboxImage) => void;
+  imageClassName?: string;
 }) {
   const { t } = useTranslation();
   return (
@@ -2500,7 +2551,7 @@ function CaseLightboxFigure({
           <img
             src={image}
             alt={title}
-            className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+            className={`${imageClassName} transition-transform duration-500 group-hover:scale-[1.01]`}
           />
           <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
             {t.zoom}
@@ -2515,18 +2566,13 @@ function CaseLightboxFigure({
 }
 
 function CliniaPrototypeSection({
-  prefersReducedMotion,
   onOpen,
 }: {
-  prefersReducedMotion: boolean | null;
   onOpen: (image: LightboxImage) => void;
 }) {
   return (
     <motion.section
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-      initial={prefersReducedMotion ? false : "hidden"}
-      whileInView="visible"
-      viewport={{ once: true, margin: "-15% 0px" }}
       variants={sectionReveal}
     >
       <div className="flex flex-col gap-4">
@@ -2541,6 +2587,7 @@ function CliniaPrototypeSection({
           title="Claude, Cursor e Figma MCP aplicados na Clinia"
           caption="Uso do Claude, Cursor e MCP do Figma para criar protótipos reais e sincronizados com as interfaces do Figma."
           onOpen={onOpen}
+          imageClassName="aspect-[16/9] w-full object-cover"
         />
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
           Usamos Claude, Cursor e MCP do Figma para criar protótipos reais sincronizados com
@@ -2564,6 +2611,10 @@ function PetrobrasDesignSystemCasePage({
   const process = language === "en" ? petrobrasDsProcessEn : petrobrasDsProcess;
   const outcomes = language === "en" ? petrobrasDsOutcomesEn : petrobrasDsOutcomes;
   const evidence = language === "en" ? petrobrasDsEvidenceEn : petrobrasDsEvidence;
+  const cmsEvidence = (cmsCase?.evidence?.length ? cmsCase.evidence : petrobrasDsCmsEvidenceFallback).filter((item) => {
+    const text = `${item.title || ""} ${item.caption || ""}`.toLowerCase();
+    return !text.includes("capa do petrods");
+  });
 
   return (
     <>
@@ -2595,6 +2646,33 @@ function PetrobrasDesignSystemCasePage({
               <CaseMeta label="Stack" value={language === "en" ? (cmsCase?.stackEn?.join(", ") || cmsCase?.stack?.join(", ") || "Library, specs and governance") : (cmsCase?.stack?.join(", ") || "Biblioteca, specs e governança")} />
             </div>
           </div>
+        </motion.section>
+
+        <motion.section
+          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
+          variants={sectionReveal}
+        >
+          <button
+            type="button"
+            onClick={() =>
+              setLightboxImage({
+                src: petrobrasDsCover,
+                alt: "Capa do projeto Petrobras Design System",
+                caption: language === "en" ? "Cover image for the Petrobras Design System case." : "Imagem de capa do case Petrobras Design System.",
+              })
+            }
+            className="group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#e4f6ed] text-left"
+            aria-label={language === "en" ? "Zoom in: Petrobras Design System case cover" : "Ampliar imagem: capa do case Petrobras Design System"}
+          >
+            <img
+              src={petrobrasDsCover}
+              alt="Capa do projeto Petrobras Design System"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+            />
+            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+              {t.zoom}
+            </span>
+          </button>
         </motion.section>
 
         <CmsCaseNarrative caseStudy={cmsCase} />
@@ -2651,6 +2729,17 @@ function PetrobrasDesignSystemCasePage({
             </h2>
           </div>
           <div className="flex flex-col gap-10">
+            {cmsEvidence.map((item) =>
+              item.imageUrl ? (
+                <CaseLightboxFigure
+                  key={item.title}
+                  image={item.imageUrl}
+                  title={item.title || ""}
+                  caption={item.caption || ""}
+                  onOpen={setLightboxImage}
+                />
+              ) : null
+            )}
             <DsEvidenceFigure item={evidence[0]} onOpen={setLightboxImage} />
             <DsEvidenceFigure item={evidence[1]} onOpen={setLightboxImage} />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -2723,6 +2812,9 @@ function PetrobrasDesignSystemCasePage({
         >
           <SectionLabel>{language === "en" ? "Process" : "Processo"}</SectionLabel>
           <div className="flex flex-col gap-6">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+              {language === "en" ? "From mapping to reusable editorial sections." : "Do mapeamento às seções editoriais reutilizáveis."}
+            </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {process.map((item) => (
                 <motion.p
@@ -2829,6 +2921,58 @@ function PetrobrasNossaEnergiaCasePage({
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
   const process = language === "en" ? caseProcessEn : caseProcess;
   const outcomes = language === "en" ? caseOutcomesEn : caseOutcomes;
+  const localEvidence = [
+    {
+      title: language === "en" ? "Nossa Energia home, desktop" : "Home Nossa Energia, desktop",
+      caption: language === "en"
+        ? "Final desktop screen for the Nossa Energia editorial portal."
+        : "Tela final desktop do portal editorial Nossa Energia.",
+      imageUrl: petrobrasNossaEnergiaHomeDesktop,
+    },
+    {
+      title: language === "en" ? "Nossa Energia home, mobile" : "Home Nossa Energia, mobile",
+      caption: language === "en"
+        ? "Final mobile screen for the Nossa Energia editorial portal."
+        : "Tela final mobile do portal editorial Nossa Energia.",
+      imageUrl: petrobrasNossaEnergiaHomeMobile,
+    },
+  ];
+  const hiddenEvidenceKeywords = ["composição", "composition"];
+  const hiddenEvidenceTitleKeywords = ["post", "article", "artigo"];
+  const evidence = (cmsCase?.evidence?.length ? cmsCase.evidence : localEvidence).filter((item) => {
+    const title = (item.title || "").toLowerCase();
+    const text = `${title} ${item.caption || ""}`.toLowerCase();
+    return !hiddenEvidenceKeywords.some((keyword) => text.includes(keyword))
+      && !hiddenEvidenceTitleKeywords.some((keyword) => title.includes(keyword));
+  });
+  const homeDesktopEvidence = evidence.find((item) => item.title?.toLowerCase().includes("desktop"));
+  const homeMobileEvidence = evidence.find((item) => item.title?.toLowerCase().includes("mobile"));
+  const evidenceOrder = [
+    "processo",
+    "process",
+    "mapeamento",
+    "estrutura",
+    "conteúdo",
+    "content",
+    "structure",
+    "ecossistema",
+    "ecosystem",
+    "review",
+    "incorporação",
+    "incorporation",
+    "mockup",
+  ];
+  const orderedEvidence = evidence
+    .filter((item) => item !== homeDesktopEvidence && item !== homeMobileEvidence)
+    .sort((first, second) => {
+      const firstTitle = first.title?.toLowerCase() || "";
+      const secondTitle = second.title?.toLowerCase() || "";
+      const firstIndex = evidenceOrder.findIndex((keyword) => firstTitle.includes(keyword));
+      const secondIndex = evidenceOrder.findIndex((keyword) => secondTitle.includes(keyword));
+      const normalizedFirstIndex = firstIndex === -1 ? Number.MAX_SAFE_INTEGER : firstIndex;
+      const normalizedSecondIndex = secondIndex === -1 ? Number.MAX_SAFE_INTEGER : secondIndex;
+      return normalizedFirstIndex - normalizedSecondIndex;
+    });
 
   return (
     <>
@@ -2862,8 +3006,6 @@ function PetrobrasNossaEnergiaCasePage({
           </div>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
-
         <motion.section
           className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           variants={sectionReveal}
@@ -2883,7 +3025,7 @@ function PetrobrasNossaEnergiaCasePage({
             <img
               src={petrobrasNossaEnergia}
               alt="Nossa Energia Petrobras"
-              className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.015]"
+              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.015]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
             <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
@@ -2892,7 +3034,13 @@ function PetrobrasNossaEnergiaCasePage({
           </button>
         </motion.section>
 
-        <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "A hub to centralize institutional content." : "Um hub para centralizar conteúdo institucional."}>
+        <CmsCaseNarrative caseStudy={cmsCase} />
+
+        <CaseTextSection
+          eyebrow={language === "en" ? "About" : "Sobre"}
+          title={language === "en" ? "A hub to centralize institutional content." : "Um hub para centralizar conteúdo institucional."}
+          stickyLabel
+        >
           {language === "en" ? (
             <>
               <p>
@@ -2930,7 +3078,11 @@ function PetrobrasNossaEnergiaCasePage({
           )}
         </CaseTextSection>
 
-        <CaseTextSection eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "Organizing content without losing consistency." : "Organizar conteúdo sem perder consistência."}>
+        <CaseTextSection
+          eyebrow={language === "en" ? "Challenge" : "Desafio"}
+          title={language === "en" ? "Organizing content without losing consistency." : "Organizar conteúdo sem perder consistência."}
+          stickyLabel
+        >
           {language === "en" ? (
             <>
               <p>
@@ -2958,6 +3110,53 @@ function PetrobrasNossaEnergiaCasePage({
           )}
         </CaseTextSection>
 
+        {evidence.length > 0 && (
+          <motion.section
+            className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
+            initial={prefersReducedMotion ? false : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, margin: "-15% 0px" }}
+            variants={staggerChildren}
+          >
+            <SectionLabel sticky>Nossa Energia</SectionLabel>
+            <div className="flex flex-col gap-8">
+              <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+                {language === "en" ? "Process maps first, final screens after." : "Mapas de processo primeiro, telas finais depois."}
+              </h2>
+              {orderedEvidence.map((item) =>
+                item.imageUrl ? (
+                  <CaseLightboxFigure
+                    key={item.title}
+                    image={item.imageUrl}
+                    title={item.title || ""}
+                    caption={item.caption || ""}
+                    onOpen={setLightboxImage}
+                  />
+                ) : null
+              )}
+              {homeDesktopEvidence?.imageUrl && homeMobileEvidence?.imageUrl ? (
+                <motion.div
+                  className="grid grid-cols-[minmax(0,1fr)_minmax(96px,0.36fr)] gap-4"
+                  variants={sectionReveal}
+                >
+                  <CaseLightboxFigure
+                    image={homeDesktopEvidence.imageUrl}
+                    title={homeDesktopEvidence.title || ""}
+                    caption={homeDesktopEvidence.caption || ""}
+                    onOpen={setLightboxImage}
+                  />
+                  <CaseLightboxFigure
+                    image={homeMobileEvidence.imageUrl}
+                    title={homeMobileEvidence.title || ""}
+                    caption={homeMobileEvidence.caption || ""}
+                    onOpen={setLightboxImage}
+                  />
+                </motion.div>
+              ) : null}
+            </div>
+          </motion.section>
+        )}
+
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
@@ -2965,7 +3164,7 @@ function PetrobrasNossaEnergiaCasePage({
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
-          <SectionLabel>{language === "en" ? "Process" : "Processo"}</SectionLabel>
+          <SectionLabel sticky>{language === "en" ? "Process" : "Processo"}</SectionLabel>
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {process.map((item) => (
@@ -2978,11 +3177,6 @@ function PetrobrasNossaEnergiaCasePage({
                 </motion.p>
               ))}
             </div>
-            <CaseImage
-              label={language === "en" ? "Overview of the case and proposed portal structure." : "Visão geral do case e da estrutura proposta para o portal."}
-              position="center"
-              onOpen={setLightboxImage}
-            />
           </div>
         </motion.section>
 
@@ -2993,8 +3187,11 @@ function PetrobrasNossaEnergiaCasePage({
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
-          <SectionLabel>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
+          <SectionLabel sticky>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
           <div className="flex flex-col gap-6">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+              {language === "en" ? "A modular portal built from the design system." : "Um portal modular construído a partir do design system."}
+            </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {outcomes.map((item) => (
                 <motion.p
@@ -3006,15 +3203,14 @@ function PetrobrasNossaEnergiaCasePage({
                 </motion.p>
               ))}
             </div>
-            <CaseImage
-              label={language === "en" ? "The portal uses reusable components for pages, lists, cards, and editorial calls." : "O portal usa componentes reutilizáveis para páginas, listas, cards e chamadas editoriais."}
-              position="bottom"
-              onOpen={setLightboxImage}
-            />
           </div>
         </motion.section>
 
-        <CaseTextSection eyebrow={language === "en" ? "Connection" : "Relação"} title={language === "en" ? "Portal, design system and main site are the same ecosystem." : "Portal, design system e site principal são o mesmo ecossistema."}>
+        <CaseTextSection
+          eyebrow={language === "en" ? "Connection" : "Relação"}
+          title={language === "en" ? "Portal, design system and main site are the same ecosystem." : "Portal, design system e site principal são o mesmo ecossistema."}
+          stickyLabel
+        >
           {language === "en" ? (
             <>
               <p>
@@ -3063,35 +3259,32 @@ function PetrobrasNossaEnergiaCasePage({
           )}
         </CaseTextSection>
 
-        {cmsCase?.evidence && cmsCase.evidence.length > 0 && (
-          <motion.section
-            className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-            initial={prefersReducedMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, margin: "-15% 0px" }}
-            variants={staggerChildren}
-          >
-            <div className="flex flex-col gap-4">
-              <SectionLabel>Nossa Energia</SectionLabel>
-              <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-                {language === "en" ? "Interface screens and design exploration." : "Telas de interface e exploração de design."}
-              </h2>
-            </div>
-            <div className="flex flex-col gap-8">
-              {cmsCase.evidence.map((item) =>
-                item.imageUrl ? (
-                  <CaseLightboxFigure
-                    key={item.title}
-                    image={item.imageUrl}
-                    title={item.title || ""}
-                    caption={item.caption || ""}
-                    onOpen={setLightboxImage}
-                  />
-                ) : null
-              )}
-            </div>
-          </motion.section>
-        )}
+        <motion.section
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
+          initial={prefersReducedMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-15% 0px" }}
+          variants={staggerChildren}
+        >
+          <SectionLabel>{language === "en" ? "Live" : "No ar"}</SectionLabel>
+          <div className="flex flex-col items-start gap-5">
+            <h2 className="max-w-[640px] text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+              {language === "en" ? "See the published Nossa Energia portal." : "Veja o portal Nossa Energia publicado."}
+            </h2>
+            <motion.a
+              href="https://nossaenergia.petrobras.com.br/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-12 items-center justify-center rounded-[10px] bg-primary px-5 text-[15px] font-medium leading-[1.45] tracking-[-0.45px] text-primary-foreground shadow-[0_12px_32px_rgba(0,0,0,0.12)] transition-colors hover:bg-primary/90"
+              whileHover={{ y: -2 }}
+              whileTap={TAP}
+              transition={SPRING}
+            >
+              {language === "en" ? "View live project" : "Ver projeto no ar"}
+            </motion.a>
+          </div>
+        </motion.section>
+
       </motion.div>
       <Footer />
     </>
@@ -3110,6 +3303,29 @@ function CliniaCasePage({
   const outcomes = language === "en" ? cliniaOutcomesEn : cliniaOutcomes;
   const workflow = language === "en" ? cliniaWorkflowEn : cliniaWorkflow;
   const dsEvidence = language === "en" ? cliniaDesignSystemEvidenceEn : cliniaDesignSystemEvidence;
+  const v1Screens = [
+    {
+      image: cliniaV1Inbox,
+      title: language === "en" ? "Clinia v1, inbox screen" : "Versão 1 da Clinia, tela de inbox",
+      caption: language === "en"
+        ? "Inbox screen from the previous version of Clinia. This foundation helped map bottlenecks, scaling limitations, and opportunities for the new platform."
+        : "Tela de inbox da versão anterior da Clinia. Essa base ajudou a mapear gargalos, limitações de escala e oportunidades para a nova plataforma.",
+    },
+    {
+      image: cliniaV1Settings,
+      title: language === "en" ? "Clinia v1, settings screen" : "Versão 1 da Clinia, tela de configurações",
+      caption: language === "en"
+        ? "Settings screen from the previous version, used in the audit to understand density, preferences organization, and navigation patterns."
+        : "Tela de configurações da versão anterior, usada na auditoria para entender densidade, organização de preferências e padrões de navegação.",
+    },
+    {
+      image: cliniaV1Login,
+      title: language === "en" ? "Clinia v1, login screen" : "Versão 1 da Clinia, tela de login",
+      caption: language === "en"
+        ? "Login screen from the previous version, useful for understanding the original visual language, brand hierarchy, and platform entry patterns."
+        : "Tela de login da versão anterior, útil para entender a linguagem visual original, hierarquia de marca e padrões de entrada na plataforma.",
+    },
+  ];
 
   return (
     <>
@@ -3143,24 +3359,34 @@ function CliniaCasePage({
           </div>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
-
         <motion.section
           className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           variants={sectionReveal}
         >
-          <div className="relative min-h-[300px] overflow-hidden rounded-[24px] sm:min-h-[440px] lg:min-h-[600px] bg-[#eef5ff]">
-            <img src={cliniaCover} alt="Capa do projeto Clinia Plataforma" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#10255f]/82 via-transparent to-transparent" />
-            <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-2">
-              {["Figma", "shadcn", "Cursor", "Claude"].map((item) => (
-                <span key={item} className="rounded-full border border-white/18 bg-white/12 px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-white backdrop-blur">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={() =>
+              setLightboxImage({
+                src: cliniaCover,
+                alt: "Capa do projeto Clinia Plataforma",
+                caption: language === "en" ? "Cover image for the Clinia case." : "Imagem de capa do case Clinia.",
+              })
+            }
+            className="group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#eef5ff] text-left"
+            aria-label={language === "en" ? "Zoom in: Clinia case cover" : "Ampliar imagem: capa do case Clinia"}
+          >
+            <img
+              src={cliniaCover}
+              alt="Capa do projeto Clinia Plataforma"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+            />
+            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+              {t.zoom}
+            </span>
+          </button>
         </motion.section>
+
+        <CmsCaseNarrative caseStudy={cmsCase} />
 
         <CaseTextSection eyebrow={language === "en" ? "Context" : "Contexto"} title={language === "en" ? "Version 2.0 started with understanding the problem." : "A versão 2.0 começou pelo entendimento do problema."}>
           {language === "en" ? (
@@ -3206,10 +3432,7 @@ function CliniaCasePage({
 
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-          initial={prefersReducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-15% 0px" }}
-          variants={staggerChildren}
+          variants={sectionReveal}
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Version 1" : "Versão 1"}</SectionLabel>
@@ -3218,24 +3441,37 @@ function CliniaCasePage({
             </h2>
           </div>
           <div className="flex flex-col gap-8">
-            <CaseLightboxFigure
-              image={cliniaV1Inbox}
-              title={language === "en" ? "Clinia v1, inbox screen" : "Versão 1 da Clinia, tela de inbox"}
-              caption={language === "en" ? "Inbox screen from the previous version of Clinia. This foundation helped map bottlenecks, scaling limitations, and opportunities for the new platform." : "Tela de inbox da versão anterior da Clinia. Essa base ajudou a mapear gargalos, limitações de escala e oportunidades para a nova plataforma."}
-              onOpen={setLightboxImage}
-            />
-            <CaseLightboxFigure
-              image={cliniaV1Settings}
-              title={language === "en" ? "Clinia v1, settings screen" : "Versão 1 da Clinia, tela de configurações"}
-              caption={language === "en" ? "Settings screen from the previous version, used in the audit to understand density, preferences organization, and navigation patterns." : "Tela de configurações da versão anterior, usada na auditoria para entender densidade, organização de preferências e padrões de navegação."}
-              onOpen={setLightboxImage}
-            />
-            <CaseLightboxFigure
-              image={cliniaV1Login}
-              title={language === "en" ? "Clinia v1, login screen" : "Versão 1 da Clinia, tela de login"}
-              caption={language === "en" ? "Login screen from the previous version, useful for understanding the original visual language, brand hierarchy, and platform entry patterns." : "Tela de login da versão anterior, útil para entender a linguagem visual original, hierarquia de marca e padrões de entrada na plataforma."}
-              onOpen={setLightboxImage}
-            />
+            {v1Screens.map((item, index) => (
+              <motion.figure
+                key={item.title}
+                className="flex flex-col gap-4"
+                variants={sectionReveal}
+              >
+                <div className="overflow-hidden rounded-3xl border border-border bg-card p-2">
+                  <button
+                    type="button"
+                    onClick={() => setLightboxImage({ src: item.image, alt: item.title, caption: item.caption })}
+                    className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-white text-left"
+                    aria-label={`${t.zoom}: ${item.title}`}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className={[
+                        "w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]",
+                        index === 0 ? "aspect-[16/8] lg:aspect-[16/7]" : "aspect-[16/8]",
+                      ].join(" ")}
+                    />
+                    <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                      {t.zoom}
+                    </span>
+                  </button>
+                </div>
+                <figcaption className="text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
+                  {item.caption}
+                </figcaption>
+              </motion.figure>
+            ))}
           </div>
         </motion.section>
 
@@ -3288,6 +3524,7 @@ function CliniaCasePage({
               title={dsEvidence[0].title}
               caption={dsEvidence[0].caption}
               onOpen={setLightboxImage}
+              imageClassName="aspect-[16/10] w-full object-cover"
             />
             <div className="flex flex-col gap-8">
               {dsEvidence.slice(1).map((item) => (
@@ -3297,13 +3534,14 @@ function CliniaCasePage({
                   title={item.title}
                   caption={item.caption}
                   onOpen={setLightboxImage}
+                  imageClassName="aspect-[16/10] w-full object-cover"
                 />
               ))}
             </div>
           </div>
         </motion.section>
 
-        <CliniaPrototypeSection prefersReducedMotion={prefersReducedMotion} onOpen={setLightboxImage} />
+        <CliniaPrototypeSection onOpen={setLightboxImage} />
 
         <motion.section
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
@@ -3432,6 +3670,11 @@ function TalquiCasePage({
   const foundations = language === "en" ? talquiFoundationsEn : talquiFoundations;
   const process = language === "en" ? talquiProcessEn : talquiProcess;
   const outcomes = language === "en" ? talquiOutcomesEn : talquiOutcomes;
+  const hiddenTalquiEvidenceKeywords = ["mockup da plataforma talqui", "modelos de mensagem"];
+  const evidence = (cmsCase?.evidence?.length ? cmsCase.evidence : talquiEvidenceFallback).filter((item) => {
+    const text = `${item.title || ""} ${item.caption || ""}`.toLowerCase();
+    return !hiddenTalquiEvidenceKeywords.some((keyword) => text.includes(keyword));
+  });
 
   return (
     <>
@@ -3465,24 +3708,34 @@ function TalquiCasePage({
           </div>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase} />
-
         <motion.section
           className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           variants={sectionReveal}
         >
-          <div className="relative min-h-[300px] overflow-hidden rounded-[24px] sm:min-h-[440px] lg:min-h-[600px] bg-[#49a8ff]">
-            <img src={talquiCover} alt="Capa do projeto Talqui Plataforma" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#061925]/78 via-transparent to-transparent" />
-            <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-2">
-              {["Tokens", "Components", "Storybook", "AI"].map((item) => (
-                <span key={item} className="rounded-full border border-white/18 bg-white/12 px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-white backdrop-blur">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={() =>
+              setLightboxImage({
+                src: talquiCover,
+                alt: "Capa do projeto Talqui Plataforma",
+                caption: language === "en" ? "Cover image for the Talqui case." : "Imagem de capa do case Talqui.",
+              })
+            }
+            className="group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#49a8ff] text-left"
+            aria-label={language === "en" ? "Zoom in: Talqui case cover" : "Ampliar imagem: capa do case Talqui"}
+          >
+            <img
+              src={talquiCover}
+              alt="Capa do projeto Talqui Plataforma"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+            />
+            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+              {t.zoom}
+            </span>
+          </button>
         </motion.section>
+
+        <CmsCaseNarrative caseStudy={cmsCase} />
 
         <CaseTextSection eyebrow={language === "en" ? "Context" : "Contexto"} title={language === "en" ? "The platform needed to stop looking like a technical fork." : "A plataforma precisava deixar de parecer um fork técnico."}>
           {language === "en" ? (
@@ -3553,7 +3806,7 @@ function TalquiCasePage({
           )}
         </CaseTextSection>
 
-        {cmsCase?.evidence && cmsCase.evidence.length > 0 && (
+        {evidence.length > 0 && (
           <motion.section
             className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
             initial={prefersReducedMotion ? false : "hidden"}
@@ -3568,7 +3821,7 @@ function TalquiCasePage({
               </h2>
             </div>
             <div className="flex flex-col gap-8">
-              {cmsCase.evidence.map((item) =>
+              {evidence.map((item) =>
                 item.imageUrl ? (
                   <CaseLightboxFigure
                     key={item.title}
@@ -3818,7 +4071,7 @@ export function App() {
 
   return (
     <LanguageContext.Provider value={{ language, onLanguageChange: setLanguage }}>
-      <main className="mx-auto flex w-[1200px] flex-col items-center overflow-hidden bg-background">
+      <main className="mx-auto flex w-[1200px] flex-col items-center overflow-x-clip bg-background">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={path}
@@ -3833,6 +4086,7 @@ export function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+      <SpeedInsights />
     </LanguageContext.Provider>
   );
 }
