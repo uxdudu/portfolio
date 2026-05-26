@@ -177,13 +177,6 @@ const petrobrasProjects = [
     href: "/cases/petrobras-design-system",
     status: "Case disponível",
   },
-  {
-    title: "Site principal",
-    eyebrow: "petrobras.com.br",
-    description:
-      "Experiência institucional principal conectada ao mesmo sistema visual e aos mesmos padrões de componentes.",
-    status: "Em breve",
-  },
 ];
 
 const petrobrasProjectsEn = [
@@ -202,13 +195,6 @@ const petrobrasProjectsEn = [
       "Manually documented library with tokens, components, sections, templates, motion and specs to sustain the digital ecosystem.",
     href: "/cases/petrobras-design-system",
     status: "Case available",
-  },
-  {
-    title: "Main website",
-    eyebrow: "petrobras.com.br",
-    description:
-      "Main institutional experience connected to the same visual system and component patterns.",
-    status: "Coming soon",
   },
 ];
 
@@ -745,7 +731,7 @@ const trainingEn = [
 
 const projectTypeFilters = ["Todos", "Web app", "App", "Blog", "Site"] as const;
 const deliverableFilters = ["Todos", "UI", "UX", "Design System", "Motion", "No code", "AI", "Research"] as const;
-const hiddenProjectIds = new Set(["orcamais", "grupo-primo", "clinia-site"]);
+const hiddenProjectIds = new Set(["orcamais", "grupo-primo", "clinia-site", "petrobras-main-site"]);
 const hiddenProjectNames = new Set(["Orçamais", "Grupo Primo"]);
 
 const allProjects = [
@@ -2422,70 +2408,6 @@ function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
   );
 }
 
-function PetrobrasDsPreview() {
-  return (
-    <motion.section
-      className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
-      variants={sectionReveal}
-    >
-      <div className="relative min-h-[560px] overflow-hidden rounded-[24px] bg-[#061308] p-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(0,133,66,0.48),transparent_32%),radial-gradient(circle_at_82%_18%,rgba(253,208,35,0.32),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),transparent_48%)]" />
-        <div className="relative flex h-full min-h-[496px] flex-col justify-between rounded-[28px] border border-white/10 bg-white/8 p-8 backdrop-blur">
-          <div className="flex items-start justify-between gap-8">
-            <div className="flex max-w-[560px] flex-col gap-4">
-              <p className="text-[14px] font-medium uppercase tracking-[0.12em] text-[#fdd023]">
-                Petro DS v2
-              </p>
-              <h2 className="text-[52px] font-medium leading-none tracking-[-2.6px] text-white">
-                Uma biblioteca para escalar o ecossistema digital.
-              </h2>
-            </div>
-            <div className="grid size-16 place-items-center rounded-2xl bg-white">
-              <img src={faviconSymbol} alt="" className="size-7" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            {petrobrasDsFoundations.slice(0, 3).map((item) => (
-              <div key={item.title} className="rounded-3xl border border-white/10 bg-black/24 p-5">
-                <p className="text-[20px] font-medium leading-[1.15] tracking-[-0.6px] text-white">
-                  {item.title}
-                </p>
-                <div className="mt-5 flex flex-col gap-2">
-                  <div className="h-3 rounded-full bg-white/24" />
-                  <div className="h-3 w-2/3 rounded-full bg-white/16" />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.4fr]">
-            <div className="rounded-3xl bg-[#008542] p-5">
-              <p className="text-[14px] font-medium text-white/76">Primary</p>
-              <p className="mt-12 text-[28px] font-medium leading-none tracking-[-1.4px] text-white">#008542</p>
-            </div>
-            <div className="rounded-3xl bg-[#fdd023] p-5">
-              <p className="text-[14px] font-medium text-[#061308]/70">Accent</p>
-              <p className="mt-12 text-[28px] font-medium leading-none tracking-[-1.4px] text-[#061308]">#FDD023</p>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-white p-5">
-              <div className="mb-5 flex items-center justify-between">
-                <div className="h-4 w-24 rounded-full bg-[#e7eee8]" />
-                <div className="h-9 w-24 rounded-full bg-[#008542]" />
-              </div>
-              <div className="space-y-3">
-                <div className="h-12 rounded-2xl bg-[#f4f7f4]" />
-                <div className="h-12 rounded-2xl bg-[#f4f7f4]" />
-                <div className="h-12 rounded-2xl bg-[#f4f7f4]" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.section>
-  );
-}
-
 function DsEvidenceFigure({
   item,
   onOpen,
@@ -2676,8 +2598,6 @@ function PetrobrasDesignSystemCasePage({
         </motion.section>
 
         <CmsCaseNarrative caseStudy={cmsCase} />
-
-        <PetrobrasDsPreview />
 
         <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "A common language for public products." : "Uma linguagem comum para produtos públicos."}>
           {language === "en" ? (
@@ -2937,7 +2857,7 @@ function PetrobrasNossaEnergiaCasePage({
       imageUrl: petrobrasNossaEnergiaHomeMobile,
     },
   ];
-  const hiddenEvidenceKeywords = ["composição", "composition"];
+  const hiddenEvidenceKeywords = ["composição", "composition", "mockup da home", "notebook"];
   const hiddenEvidenceTitleKeywords = ["post", "article", "artigo"];
   const evidence = (cmsCase?.evidence?.length ? cmsCase.evidence : localEvidence).filter((item) => {
     const title = (item.title || "").toLowerCase();
@@ -2960,7 +2880,6 @@ function PetrobrasNossaEnergiaCasePage({
     "review",
     "incorporação",
     "incorporation",
-    "mockup",
   ];
   const orderedEvidence = evidence
     .filter((item) => item !== homeDesktopEvidence && item !== homeMobileEvidence)
@@ -3275,8 +3194,8 @@ function PetrobrasNossaEnergiaCasePage({
               href="https://nossaenergia.petrobras.com.br/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex min-h-12 items-center justify-center rounded-[10px] bg-primary px-5 text-[15px] font-medium leading-[1.45] tracking-[-0.45px] text-primary-foreground shadow-[0_12px_32px_rgba(0,0,0,0.12)] transition-colors hover:bg-primary/90"
-              whileHover={{ y: -2 }}
+              className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+              whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
               whileTap={TAP}
               transition={SPRING}
             >

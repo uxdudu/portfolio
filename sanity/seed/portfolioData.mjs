@@ -209,18 +209,6 @@ export const portfolioProjects = [
     status: "Case disponível",
     type: "Site",
   },
-  {
-    _id: "portfolioProject.petrobras-main-site",
-    _type: "portfolioProject",
-    title: "Site principal",
-    id: { _type: "slug", current: "petrobras-main-site" },
-    group: "petrobras",
-    order: 30,
-    eyebrow: "petrobras.com.br",
-    description: "Experiência institucional principal conectada ao mesmo sistema visual e aos mesmos padrões de componentes.",
-    status: "Em breve",
-    type: "Site",
-  },
 ];
 
 export const caseStudies = [
@@ -427,18 +415,6 @@ export const caseStudies = [
           asset: {
             _type: "reference",
             _ref: "image-f537ee2cb8a7fd98d8e2f5ecadf8c3e30124fa03-2367x1332-png",
-          },
-        },
-      },
-      {
-        _key: "nossa-energia-cover-mockup",
-        title: "Mockup da home Nossa Energia",
-        caption: "Mockup da home do portal Nossa Energia em notebook.",
-        image: {
-          _type: "image",
-          asset: {
-            _type: "reference",
-            _ref: "image-c3128dce74501d01370318a34c55fdec42b4a076-3000x2250-png",
           },
         },
       },
