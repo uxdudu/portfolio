@@ -15,6 +15,7 @@ import faviconSymbol from "./assets/favicon-symbol.svg";
 import logo from "./assets/logo.svg";
 import navState from "./assets/nav-state.svg";
 import cliniaLogoBlue from "./assets/clinia-logo-blue.svg";
+import cliniaLogoPng from "./assets/clinia-logo.png";
 import grupoPrimoLogo from "./assets/grupo-primo-logo.svg";
 import orcamaisColorsLogo from "./assets/orcamais-colors.svg";
 import orcamaisLightLogo from "./assets/orcamais-light.svg";
@@ -120,8 +121,8 @@ const projects = [
     title: "Clinia",
     tags: ["AI, Saúde, CRM", "Em andamento"],
     description: "Site, Plataforma, Design System",
-    logo: cliniaLogoBlue,
-    icon: cliniaLogoBlue,
+    logo: cliniaLogoPng,
+    icon: cliniaLogoPng,
     href: "/clinia",
   },
   {
@@ -2047,6 +2048,18 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
     ? "https://api.whatsapp.com/send?phone=5544988593038&text=Hi%20Eduardo%2C%20I%20came%20from%20your%20portfolio%20and%20would%20like%20to%20talk%20about%20a%20project."
     : "https://api.whatsapp.com/send?phone=5544988593038&text=Oi%20Eduardo%2C%20vim%20pelo%20seu%20portf%C3%B3lio%20e%20quero%20conversar%20sobre%20um%20projeto.";
 
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success") === "true") {
+      setShowToast(true);
+      const timer = setTimeout(() => setShowToast(false), 5000);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <>
       <Header activePage="contact" theme={theme} onThemeChange={onThemeChange} />
@@ -2076,7 +2089,7 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
             method="POST"
             className="flex flex-col gap-6 p-0"
           >
-            <input type="hidden" name="_next" value={window.location.origin + "/contato"} />
+            <input type="hidden" name="_next" value={window.location.origin + "/contato?success=true"} />
             <input type="hidden" name="_subject" value="Novo contato do Portfólio!" />
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-card-foreground">
@@ -2166,6 +2179,42 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
       </motion.div>
       <Footer />
+
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed bottom-6 right-6 z-50 flex max-w-md items-center gap-3 rounded-2xl border border-border bg-card/90 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.12)] backdrop-blur-md"
+          >
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
+              <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div className="flex flex-col gap-0.5 pr-2">
+              <p className="text-[14px] font-semibold tracking-[-0.28px] text-foreground">
+                {language === "en" ? "Message sent!" : "Mensagem enviada!"}
+              </p>
+              <p className="text-[12px] leading-[1.4] tracking-[-0.24px] text-muted">
+                {language === "en"
+                  ? "Thanks for reaching out. I'll get back to you soon."
+                  : "Obrigado pelo contato. Responderei o quanto antes."}
+              </p>
+            </div>
+            <button
+              onClick={() => setShowToast(false)}
+              className="ml-auto rounded-lg p-1 text-muted hover:bg-card-foreground/5 hover:text-foreground transition-colors"
+            >
+              <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
