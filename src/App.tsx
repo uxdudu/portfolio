@@ -30,6 +30,7 @@ import petrobrasDsCover from "./assets/petrobras-ds-cover.png";
 import petrobrasDsTokens from "./assets/petrobras-ds-tokens.png";
 import talquiCover from "./assets/talqui-cover.png";
 import talquiLogo from "./assets/talqui-logo.svg";
+import talquiLogoPng from "./assets/talqui-logo.png";
 import talquiSymbol from "./assets/talqui-symbol.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
@@ -130,9 +131,9 @@ const projects = [
     title: "Talqui",
     tags: ["AI, Provedores, Chat", "Em andamento"],
     description: "Site, Plataforma, Design System",
-    logo: talquiLogo,
+    logo: talquiLogoPng,
     symbol: talquiSymbol,
-    icon: talquiLogo,
+    icon: talquiLogoPng,
     href: "/cases/talqui",
   },
   {
@@ -1151,8 +1152,8 @@ function ProjectFavicon({ project }: { project: HomeProject }) {
   }
 
   return (
-    <div className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-background p-1.5">
-      <img src={project.icon} alt="" className="max-h-full max-w-full object-contain" />
+    <div className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-background">
+      <img src={project.icon} alt="" className="h-full w-full object-cover" />
     </div>
   );
 }
