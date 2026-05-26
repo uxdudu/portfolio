@@ -124,7 +124,7 @@ const projects = [
     description: "Site, Plataforma, Design System",
     logo: cliniaLogoPng,
     icon: cliniaLogoPng,
-    href: "/clinia",
+    href: "/cases/clinia",
   },
   {
     id: "talqui",
@@ -744,7 +744,7 @@ const allProjects = [
     status: "Em andamento",
     summary: "Produto de saúde digital com CRM, experiências com IA e design system.",
     deliverables: ["UI", "UX", "Design System", "AI", "Research"],
-    href: "/clinia",
+    href: "/cases/clinia",
   },
   {
     name: "Talqui",
@@ -3745,10 +3745,10 @@ function CliniaCasePage({
       >
         <motion.section className="flex flex-col items-center gap-8 text-center" variants={sectionReveal}>
           <a
-            href="/clinia"
+            href="/projetos"
             className="self-start text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
-            {t.backToClinia}
+            {t.backToProjects}
           </a>
           <div className="flex flex-col items-center gap-4">
             <SectionLabel>Clinia</SectionLabel>
@@ -4311,7 +4311,7 @@ function TalquiCasePage({
               ))}
             </div>
             <motion.a
-              href="https://talqui-design-system.vercel.app/?path=/docs/introduction--docs"
+              href="https://design-system.talqui.dev/"
               target="_blank"
               rel="noreferrer"
               className="w-fit rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
@@ -4481,9 +4481,7 @@ export function App() {
 
   const page = isTalquiCase ? (
     <TalquiCasePage {...pageProps} cmsCase={talquiCase} />
-  ) : isCliniaHub ? (
-    <CliniaHubPage {...pageProps} projectOptions={cliniaProjectOptions} />
-  ) : isCliniaCase ? (
+  ) : (isCliniaHub || isCliniaCase) ? (
     <CliniaCasePage {...pageProps} cmsCase={cliniaCase} />
   ) : isPetrobrasDesignSystemCase ? (
     <PetrobrasDesignSystemCasePage {...pageProps} cmsCase={petrobrasDesignSystemCase} />
