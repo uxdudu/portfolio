@@ -2825,11 +2825,11 @@ function CaseLightboxFigure({
   const { t } = useTranslation();
   return (
     <motion.figure className="flex flex-col gap-4" variants={sectionReveal}>
-      <div className="overflow-hidden rounded-3xl border border-border bg-card p-2">
+      <div className="overflow-hidden rounded-[32px] border border-border bg-card p-2">
         <button
           type="button"
           onClick={() => onOpen({ src: image, alt: title, caption })}
-          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-white text-left"
+          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-white text-left"
           aria-label={`${t.zoom}: ${title}`}
         >
           <img
@@ -3853,11 +3853,11 @@ function CliniaCasePage({
                 className="flex flex-col gap-4"
                 variants={sectionReveal}
               >
-                <div className="overflow-hidden rounded-3xl border border-border bg-card p-2">
+                <div className="overflow-hidden rounded-[32px] border border-border bg-card p-2">
                   <button
                     type="button"
                     onClick={() => setLightboxImage({ src: item.image, alt: item.title, caption: item.caption })}
-                    className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-white text-left"
+                    className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-white text-left"
                     aria-label={`${t.zoom}: ${item.title}`}
                   >
                     <img
@@ -4298,16 +4298,29 @@ function TalquiCasePage({
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Results" : "Resultado"}</SectionLabel>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {outcomes.map((item) => (
-              <motion.p
-                key={item}
-                className="rounded-3xl border border-border bg-card p-6 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground"
-                variants={sectionReveal}
-              >
-                {item}
-              </motion.p>
-            ))}
+          <div className="flex flex-col gap-8">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {outcomes.map((item) => (
+                <motion.p
+                  key={item}
+                  className="rounded-3xl border border-border bg-card p-6 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground"
+                  variants={sectionReveal}
+                >
+                  {item}
+                </motion.p>
+              ))}
+            </div>
+            <motion.a
+              href="https://talqui-design-system.vercel.app/?path=/docs/introduction--docs"
+              target="_blank"
+              rel="noreferrer"
+              className="w-fit rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+              whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
+              whileTap={TAP}
+              transition={SPRING}
+            >
+              {language === "en" ? "View Storybook" : "Ver Storybook no ar"}
+            </motion.a>
           </div>
         </motion.section>
         <NextCaseSection nextCase="petrobras-ds" language={language} />
