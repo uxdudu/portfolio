@@ -159,3 +159,62 @@ p, li, figcaption, blockquote {
     justify-content: center !important;
   }
 }
+
+@media print {
+  html, body, #root, main, main > div {
+    background: white !important;
+    color: black !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  header, footer, .print-hidden, button, [class*="print:hidden"] {
+    display: none !important;
+  }
+
+  .border, [class*="border-"], .bg-card, .bg-background {
+    border-color: transparent !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .rounded-full.border {
+    border: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    padding: 2px 8px !important;
+    margin-right: 4px !important;
+    margin-bottom: 4px !important;
+    display: inline-block !important;
+  }
+
+  .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  
+  .border-t {
+    border-top: 1px solid #e2e8f0 !important;
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+  }
+
+  .text-foreground, .text-card-foreground, .text-primary, h1, h2, h3 {
+    color: black !important;
+  }
+  
+  .text-muted, p, li, span {
+    color: #475569 !important;
+  }
+
+  [class*="min-h-"] {
+    min-height: auto !important;
+  }
+}

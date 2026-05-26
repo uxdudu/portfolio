@@ -1456,12 +1456,18 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
   );
 }
 
-function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
+function CvPrintPage({
+  theme,
+  onThemeChange,
+  lang,
+}: PageProps & { lang: "pt" | "en" }) {
   useEffect(() => {
     document.title = lang === "pt" 
       ? "Eduardo Amaral - Currículo" 
       : "Eduardo Amaral - CV";
   }, [lang]);
+
+  const prefersReducedMotion = useReducedMotion();
 
   const t = {
     pt: {
@@ -1523,7 +1529,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       role: "UX Designer",
       company: "Grupo Primo",
       period: "2021 - 2022",
-      description: "Design de produto para edtechs e finanças (Finclass, Staage, Staart). Condução de co-criação, prototipagem ázil, estruturação de componentes no Figma e acompanhamento de entrega técnica."
+      description: "Design de produto para edtechs e finanças (Finclass, Staage, Staart). Condução de co-criação, prototipagem ágil, estruturação de componentes no Figma e acompanhamento de entrega técnica."
     }
   ] : [
     {
@@ -1595,116 +1601,145 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-white text-black p-6 sm:p-12 md:py-16 md:px-24 print:p-0 print:text-black print:bg-white font-sans selection:bg-black/10">
-      {/* Action Bar (hidden when printing) */}
-      <div className="flex justify-between items-center mb-12 border-b border-gray-100 pb-6 print:hidden">
-        <a
-          href="/sobre"
-          className="inline-flex items-center gap-1.5 text-[14px] font-medium text-gray-500 hover:text-black transition-colors"
-        >
-          <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-          {t.back}
-        </a>
-        <button
-          onClick={() => window.print()}
-          className="inline-flex items-center gap-2 rounded-[8px] bg-black px-4 py-2 text-[14px] font-medium text-white hover:bg-black/90 cursor-pointer transition-colors shadow-sm"
-        >
-          <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-          {t.print}
-        </button>
-      </div>
-
-      {/* Main CV Layout */}
-      <div className="max-w-[800px] mx-auto flex flex-col gap-10 print:gap-8">
+    <>
+      <Header activePage="about" theme={theme} onThemeChange={onThemeChange} />
+      <motion.div
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20 print:p-0"
+        initial={prefersReducedMotion ? false : "hidden"}
+        animate="visible"
+        variants={staggerChildren}
+      >
         {/* Header Section */}
-        <header className="flex flex-col gap-4 border-b border-gray-200 pb-8 print:pb-6">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
-            <h1 className="text-[32px] sm:text-[40px] font-bold tracking-tight text-black leading-none">
+        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-center lg:gap-20" variants={sectionReveal}>
+          <div className="flex flex-col gap-4 items-start">
+            <SectionLabel>CV</SectionLabel>
+            <h1 className="font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               Eduardo Amaral
             </h1>
-            <p className="text-[16px] font-semibold text-gray-600 tracking-wide uppercase sm:text-right">
+            <p className="text-[18px] font-medium text-primary">
               {t.role}
             </p>
           </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-gray-500">
-            <span className="flex items-center gap-1.5">
-              📍 Paraná, Brasil
-            </span>
-            <a href="mailto:oi@eduardoamaral.me" className="flex items-center gap-1.5 hover:text-black transition-colors">
-              ✉️ oi@eduardoamaral.me
+          <div className="flex flex-row gap-3 print:hidden w-full lg:justify-end items-center self-start lg:self-end">
+            <a
+              href="/sobre"
+              className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-border bg-card px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground cursor-pointer hover:border-primary transition-colors shadow-sm"
+            >
+              <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              {t.back}
             </a>
-            <a href="https://linkedin.com/in/eduardooamaral/" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-black transition-colors">
-              🔗 linkedin.com/in/eduardooamaral
-            </a>
-            <a href="https://eduardoamaral.me" className="flex items-center gap-1.5 hover:text-black transition-colors">
-              🌐 eduardoamaral.me
-            </a>
+            <button
+              onClick={() => window.print()}
+              className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-foreground px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-background cursor-pointer hover:bg-foreground/90 transition-colors shadow-sm"
+            >
+              <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              {t.print}
+            </button>
           </div>
-        </header>
+        </motion.section>
+
+        {/* Contact Info Cards */}
+        <motion.section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 border-t border-border pt-10" variants={sectionReveal}>
+          <div className="rounded-3xl border border-border bg-card p-6">
+            <p className="text-[12px] font-medium uppercase tracking-[0.1em] text-muted">📍 Local</p>
+            <p className="mt-2 text-[15px] font-medium text-foreground">Paraná, Brasil</p>
+          </div>
+          <motion.a
+            href="mailto:oi@eduardoamaral.me"
+            className="rounded-3xl border border-border bg-card p-6"
+            whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
+            whileTap={TAP}
+            transition={SPRING}
+          >
+            <p className="text-[12px] font-medium uppercase tracking-[0.1em] text-muted">✉️ Email</p>
+            <p className="mt-2 text-[15px] font-medium text-foreground break-all">oi@eduardoamaral.me</p>
+          </motion.a>
+          <motion.a
+            href="https://linkedin.com/in/eduardooamaral/"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-3xl border border-border bg-card p-6"
+            whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
+            whileTap={TAP}
+            transition={SPRING}
+          >
+            <p className="text-[12px] font-medium uppercase tracking-[0.1em] text-muted">🔗 LinkedIn</p>
+            <p className="mt-2 text-[15px] font-medium text-foreground">in/eduardooamaral</p>
+          </motion.a>
+          <motion.a
+            href="/"
+            className="rounded-3xl border border-border bg-card p-6"
+            whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
+            whileTap={TAP}
+            transition={SPRING}
+          >
+            <p className="text-[12px] font-medium uppercase tracking-[0.1em] text-muted">🌐 Website</p>
+            <p className="mt-2 text-[15px] font-medium text-foreground">eduardoamaral.me</p>
+          </motion.a>
+        </motion.section>
 
         {/* Profile Section */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
-            {t.profile}
-          </h2>
-          <p className="text-[15px] leading-[1.6] text-gray-700">
-            {t.aboutText}
-          </p>
-        </section>
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{t.profile}</SectionLabel>
+          <div className="rounded-3xl border border-border bg-card p-6">
+            <p className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
+              {t.aboutText}
+            </p>
+          </div>
+        </motion.section>
 
         {/* Skills Section */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
-            {t.skills}
-          </h2>
-          <div className="flex flex-wrap gap-2 pt-1">
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{t.skills}</SectionLabel>
+          <div className="flex flex-wrap gap-2">
             {cvSkills.map(skill => (
-              <span key={skill} className="rounded-[6px] border border-gray-200 bg-gray-50 px-2.5 py-1 text-[13px] font-medium text-gray-700">
+              <span key={skill} className="rounded-full border border-border bg-card px-3.5 py-1.5 text-[14px] font-medium text-card-foreground">
                 {skill}
               </span>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* Experience Section */}
-        <section className="flex flex-col gap-6">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
-            {t.experience}
-          </h2>
-          <div className="flex flex-col gap-6 print:gap-5">
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{t.experience}</SectionLabel>
+          <div className="flex flex-col gap-4">
             {cvExps.map(exp => (
-              <article key={exp.company + exp.role} className="flex flex-col gap-1.5">
-                <div className="flex justify-between items-baseline gap-4">
-                  <h3 className="text-[16px] font-bold text-black">
-                    {exp.role} <span className="font-normal text-gray-500">@ {exp.company}</span>
+              <article key={exp.company + exp.role} className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:grid sm:grid-cols-[1fr_1.2fr] sm:gap-8" variants={sectionReveal}>
+                <div>
+                  <h3 className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
+                    {exp.role}
                   </h3>
-                  <span className="text-[13px] font-medium text-gray-500 shrink-0">
-                    {exp.period}
-                  </span>
+                  <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+                    {exp.company} | {exp.period}
+                  </p>
                 </div>
-                <p className="text-[14px] leading-[1.5] text-gray-600">
+                <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
                   {exp.description}
                 </p>
               </article>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* Education Section */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
-            {t.education}
-          </h2>
-          <ul className="flex flex-col gap-2 list-disc pl-4 text-[14px] leading-[1.5] text-gray-600">
-            {cvCourses.map((course, idx) => (
-              <li key={idx} className="pl-0.5">
-                {course}
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
-    </div>
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{t.education}</SectionLabel>
+          <div className="rounded-3xl border border-border bg-card p-2 w-full">
+            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] bg-border sm:grid-cols-2">
+              {cvCourses.map((course, idx) => (
+                <div key={idx} className="bg-card p-6 min-h-[132px]">
+                  <p className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
+                    {course}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+      </motion.div>
+      <Footer />
+    </>
   );
 }
 
@@ -4289,6 +4324,8 @@ export function App() {
   const isPetrobrasHub = path === "/petrobras";
   const isPetrobrasCase = path === "/cases/petrobras-nossa-energia";
   const isPetrobrasDesignSystemCase = path === "/cases/petrobras-design-system";
+  const isCvPt = path === "/cv/pt";
+  const isCvEn = path === "/cv/en";
 
   useEffect(() => {
     if (theme === "system") {
@@ -4323,6 +4360,26 @@ export function App() {
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
+
+  // Synchronize language when CV path is visited directly or via browser history
+  useEffect(() => {
+    if (path === "/cv/pt" && language !== "pt-BR") {
+      setLanguage("pt-BR");
+    } else if (path === "/cv/en" && language !== "en") {
+      setLanguage("en");
+    }
+  }, [path]);
+
+  // Synchronize path/URL when language is changed via switcher on CV pages
+  useEffect(() => {
+    if (path === "/cv/pt" && language === "en") {
+      window.history.pushState({}, "", "/cv/en");
+      setPath("/cv/en");
+    } else if (path === "/cv/en" && language === "pt-BR") {
+      window.history.pushState({}, "", "/cv/pt");
+      setPath("/cv/pt");
+    }
+  }, [language]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -4402,7 +4459,11 @@ export function App() {
   const petrobrasNossaEnergiaCase = getCaseStudy(localizedCmsCases, "petrobras-nossa-energia");
   const petrobrasDesignSystemCase = getCaseStudy(localizedCmsCases, "petrobras-design-system");
 
-  const page = isTalquiCase ? (
+  const page = isCvPt ? (
+    <CvPrintPage {...pageProps} lang="pt" />
+  ) : isCvEn ? (
+    <CvPrintPage {...pageProps} lang="en" />
+  ) : isTalquiCase ? (
     <TalquiCasePage {...pageProps} cmsCase={talquiCase} />
   ) : isCliniaHub ? (
     <CliniaHubPage {...pageProps} projectOptions={cliniaProjectOptions} />
@@ -4425,13 +4486,6 @@ export function App() {
   ) : (
     <HomePage {...pageProps} homeProjects={homeProjects} />
   );
-
-  if (path === "/cv/pt") {
-    return <CvPrintPage lang="pt" />;
-  }
-  if (path === "/cv/en") {
-    return <CvPrintPage lang="en" />;
-  }
 
   return (
     <LanguageContext.Provider value={{ language, onLanguageChange: setLanguage }}>
