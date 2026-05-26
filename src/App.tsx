@@ -3630,14 +3630,28 @@ function PetrobrasNossaEnergiaCasePage({
                 Templates, Motion, and Accessibility. This material was created manually and served
                 as a reference to reduce implementation ambiguity and facilitate ecosystem evolution.
               </p>
-              <a
+            <div className="flex flex-wrap gap-3 pt-2">
+              <motion.a
                 href="https://uxdudu.notion.site/Petro-DS-v2-2d88fb2f824449078175f0599d7b0b92?pvs=73"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
+                whileTap={TAP}
+                transition={SPRING}
               >
                 {t.viewPetroDs}
-              </a>
+              </motion.a>
+              <motion.a
+                href="/cases/petrobras-design-system"
+                className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
+                whileTap={TAP}
+                transition={SPRING}
+              >
+                View PetroDS v2 Case
+              </motion.a>
+            </div>
             </>
           ) : (
             <>
@@ -3653,14 +3667,28 @@ function PetrobrasNossaEnergiaCasePage({
                 como referência para reduzir ambiguidade na implementação e facilitar evolução do
                 ecossistema.
               </p>
-              <a
+            <div className="flex flex-wrap gap-3 pt-2">
+              <motion.a
                 href="https://uxdudu.notion.site/Petro-DS-v2-2d88fb2f824449078175f0599d7b0b92?pvs=73"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
+                whileTap={TAP}
+                transition={SPRING}
               >
                 Ver documentação do Petro DS v2
-              </a>
+              </motion.a>
+              <motion.a
+                href="/cases/petrobras-design-system"
+                className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
+                whileTap={TAP}
+                transition={SPRING}
+              >
+                Ver case PetroDS v2
+              </motion.a>
+            </div>
             </>
           )}
         </CaseTextSection>
