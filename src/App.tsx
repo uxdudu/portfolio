@@ -18,6 +18,7 @@ import cliniaLogoBlue from "./assets/clinia-logo-blue.svg";
 import grupoPrimoLogo from "./assets/grupo-primo-logo.svg";
 import orcamaisColorsLogo from "./assets/orcamais-colors.svg";
 import orcamaisLightLogo from "./assets/orcamais-light.svg";
+import petrobrasLogo from "./assets/petrobras-logo.png";
 import petrobrasNossaEnergia from "./assets/case-petrobras-nossa-energia.png";
 import petrobrasNossaEnergiaHomeDesktop from "./assets/petrobras-nossa-energia-home-desktop.png";
 import petrobrasNossaEnergiaHomeMobile from "./assets/petrobras-nossa-energia-home-mobile.png";
@@ -139,7 +140,7 @@ const projects = [
     tags: ["Institucional", "2022 - 2024"],
     description: "Site, Portal de Conteúdos, Design System",
     href: "/petrobras",
-    icon: faviconSymbol,
+    icon: petrobrasLogo,
   },
   {
     id: "orcamais",
