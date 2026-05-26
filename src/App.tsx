@@ -989,7 +989,7 @@ function Header({
 
   return (
     <motion.header
-      className="flex h-[88px] w-full items-center justify-between bg-background px-20 py-6"
+      className="flex w-full items-center justify-between bg-background px-5 py-4 lg:h-[88px] lg:px-20 lg:py-6"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -998,7 +998,7 @@ function Header({
         <Logo linked />
       </div>
 
-      <nav className="flex shrink-0 items-center justify-center rounded-[14px] p-1">
+      <nav className="hidden shrink-0 items-center justify-center rounded-[14px] p-1 lg:flex">
         <div className="flex items-center justify-center gap-4 rounded-[44px]">
           <NavItem label={navLabels.home} href="/" active={activePage === "home"} />
           <NavItem label={navLabels.projects} href="/projetos" active={activePage === "projects"} />
@@ -1007,12 +1007,12 @@ function Header({
         </div>
       </nav>
 
-      <div className="flex min-w-0 flex-1 items-center justify-end gap-3">
+      <div className="flex min-w-0 flex-1 items-center justify-end gap-2 lg:gap-3">
         <LanguageSwitcher />
         <ThemeSwitcher theme={theme} onThemeChange={onThemeChange} />
         <motion.a
           href="/contato"
-          className="rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+          className="hidden rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary lg:block"
           whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
           whileTap={TAP}
           transition={SPRING}
@@ -1036,25 +1036,25 @@ function Hero() {
       variants={staggerChildren}
     >
       <motion.h1
-        className="flex w-[657px] flex-wrap items-baseline justify-center gap-x-2 text-center"
+        className="flex w-full max-w-[657px] flex-wrap items-baseline justify-center gap-x-2 text-center"
         variants={sectionReveal}
         transition={{ ...SPRING, delay: 0.08 }}
       >
-        <span className="font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+        <span className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
           {language === "en" ? "Hi, I'm" : "Olá, eu sou"}
         </span>
         <motion.span
-          className="relative top-[3px] h-[45px] w-[81px] shrink-0 overflow-hidden rounded-[32px]"
+          className="relative top-[2px] h-[36px] w-[65px] shrink-0 overflow-hidden rounded-[24px] sm:top-[3px] sm:h-[45px] sm:w-[81px] sm:rounded-[32px]"
           initial={prefersReducedMotion ? false : { width: 0, opacity: 0 }}
-          animate={{ width: 81, opacity: 1 }}
+          animate={{ width: "auto", opacity: 1 }}
           transition={{ ...SPRING, delay: 0.2 }}
         >
           <img src={avatar} alt="" className="h-full w-full object-cover" />
         </motion.span>
-        <em className="font-serif text-[56px] font-medium italic leading-none tracking-[-0.56px] text-foreground">
+        <em className="font-serif text-[32px] font-medium italic leading-none tracking-[-0.32px] text-foreground sm:text-[44px] sm:tracking-[-0.44px] lg:text-[56px] lg:tracking-[-0.56px]">
           Eduardo
         </em>
-        <span className="font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+        <span className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
           Product Designer
         </span>
       </motion.h1>
@@ -1204,14 +1204,14 @@ function ProjectCard({ project }: { project: HomeProject }) {
   return (
     <Wrapper
       href={project.href}
-      className="h-[562px] overflow-hidden rounded-3xl border border-border p-2"
+      className="overflow-hidden rounded-3xl border border-border p-2 lg:h-[562px]"
       variants={sectionReveal}
       whileHover={project.href ? { y: -6, borderColor: "var(--color-primary)" } : undefined}
       whileTap={project.href ? TAP : undefined}
       transition={SPRING}
     >
       <div className="flex h-full flex-col overflow-hidden rounded-[20px] bg-card">
-        <div className="relative h-[450px] shrink-0 overflow-hidden rounded-3xl bg-card p-1">
+        <div className="relative h-[260px] shrink-0 overflow-hidden rounded-3xl bg-card p-1 sm:h-[360px] lg:h-[450px]">
           <motion.div
             className="h-full"
             whileHover={project.href ? { scale: 1.015 } : undefined}
@@ -1227,20 +1227,20 @@ function ProjectCard({ project }: { project: HomeProject }) {
           </div>
         </div>
 
-        <div className="flex w-[488px] gap-4 rounded-b-2xl bg-card px-5 pb-5 pt-4">
+        <div className="flex w-full gap-4 rounded-b-2xl bg-card px-5 pb-5 pt-4">
           <ProjectFavicon project={project} />
           <div className="flex min-w-0 flex-1 flex-col gap-2 leading-[1.45]">
             <div className="flex items-start justify-between gap-4">
-              <h2 className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
+              <h2 className="text-[18px] font-medium leading-[1.45] tracking-[-0.54px] text-card-foreground lg:text-[20px] lg:tracking-[-0.6px]">
                 {project.title}
               </h2>
               {project.href ? (
-                <span className="pt-1 text-[14px] leading-[1.45] tracking-[-0.42px] text-primary">
+                <span className="shrink-0 pt-1 text-[14px] leading-[1.45] tracking-[-0.42px] text-primary">
                   {t.seeProjects}
                 </span>
               ) : null}
             </div>
-            <p className="text-[16px] font-normal leading-[1.45] tracking-[-0.32px] text-muted">
+            <p className="text-[15px] font-normal leading-[1.45] tracking-[-0.30px] text-muted lg:text-[16px] lg:tracking-[-0.32px]">
               {project.description}
             </p>
           </div>
@@ -1252,8 +1252,8 @@ function ProjectCard({ project }: { project: HomeProject }) {
 
 function Footer() {
   return (
-    <footer className="flex h-[88px] w-full items-center justify-between px-20 py-6">
-      <div className="flex min-w-[300px] items-center gap-2">
+    <footer className="flex w-full flex-col items-center gap-4 px-5 py-6 lg:h-[88px] lg:flex-row lg:justify-between lg:px-20">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         {socialLinks.map((item) => (
           <motion.a
             href={item.href}
@@ -1272,7 +1272,7 @@ function Footer() {
 
       <Logo className="shrink-0" />
 
-      <div className="flex min-w-[300px] justify-end px-4 py-2">
+      <div className="flex justify-center px-4 py-2 lg:min-w-[300px] lg:justify-end">
         <p className="whitespace-nowrap text-[14px] font-normal leading-[1.45] tracking-[-0.42px] text-muted">
           Copyright Eduardo Amaral © 2026
         </p>
@@ -1296,11 +1296,11 @@ function HomePage({
   return (
     <>
       <Header activePage="home" theme={theme} onThemeChange={onThemeChange} />
-      <div className="flex w-full flex-col gap-20 p-20">
+      <div className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20">
         <Hero />
         <motion.section
           id="projetos"
-          className="grid w-full grid-cols-2 gap-6"
+          className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-12% 0px" }}
@@ -1336,30 +1336,30 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
     <>
       <Header activePage="about" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="grid grid-cols-[1fr_360px] items-center gap-20" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-center lg:gap-20" variants={sectionReveal}>
           <div className="flex flex-col gap-8">
             <SectionLabel>{language === "en" ? "About" : "Sobre"}</SectionLabel>
-            <h1 className="max-w-[720px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[720px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "Turning complexity into clarity" : "Transformando complexidade em clareza"}
             </h1>
           </div>
           <motion.div
             className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           >
-            <div className="h-[344px] overflow-hidden rounded-[24px] bg-media">
+            <div className="h-[200px] overflow-hidden rounded-[24px] bg-media sm:h-[280px] lg:h-[344px]">
               <img src={avatar} alt="Eduardo Amaral" className="h-full w-full object-cover" />
             </div>
           </motion.div>
         </motion.section>
 
-        <motion.section className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
           <SectionLabel>{language === "en" ? "Overview" : "Resumo"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {highlights.map((item) => (
               <motion.p
                 key={item}
@@ -1372,16 +1372,16 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           </div>
         </motion.section>
 
-        <motion.section className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
           <SectionLabel>{language === "en" ? "Impact" : "Impacto"}</SectionLabel>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {stats.map((item) => (
               <motion.div
                 key={item.label}
                 className="rounded-3xl border border-border bg-card p-6"
                 variants={sectionReveal}
               >
-                <p className="font-display text-[48px] font-medium leading-none tracking-[-2.4px] text-card-foreground">
+                <p className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground lg:text-[48px] lg:tracking-[-2.4px]">
                   {item.value}
                 </p>
                 <p className="mt-3 text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -1393,7 +1393,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -1404,7 +1404,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
             {exps.map((item) => (
               <motion.article
                 key={`${item.role}-${item.company}`}
-                className="grid grid-cols-[1fr_1.2fr] gap-8 rounded-3xl border border-border bg-card p-6"
+                className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:grid sm:grid-cols-[1fr_1.2fr] sm:gap-8"
                 variants={sectionReveal}
               >
                 <div>
@@ -1424,7 +1424,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -1432,7 +1432,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         >
           <SectionLabel>{language === "en" ? "Courses & training" : "Cursos e treinamentos"}</SectionLabel>
           <div className="rounded-3xl border border-border bg-card p-2">
-            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[20px] bg-border">
+            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] bg-border sm:grid-cols-2">
               {courses.map((item) => (
                 <div key={item} className="min-h-[132px] bg-card p-6">
                   <p className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
@@ -1457,7 +1457,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
   if (featured) {
     return (
       <motion.article
-        className="grid grid-cols-[1.35fr_0.65fr] gap-6 rounded-[32px] border border-border bg-card p-2"
+        className="flex flex-col gap-6 rounded-[32px] border border-border bg-card p-2 lg:grid lg:grid-cols-[1.35fr_0.65fr]"
         variants={sectionReveal}
       >
         <div className="aspect-video overflow-hidden rounded-[24px] bg-media">
@@ -1472,7 +1472,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
         <div className="flex flex-col justify-between p-4">
           <div className="flex flex-col gap-4">
             <SectionLabel>{t.latestVideo}</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {video.title}
             </h2>
             <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -1551,7 +1551,7 @@ function SocialFeedCard({ item }: { item: (typeof socialFeedSections)[number] })
         </span>
       </div>
       <div className="flex flex-col gap-4">
-        <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+        <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           {item.title}
         </h2>
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -1575,15 +1575,15 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
     <>
       <Header activePage="content" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="grid grid-cols-[1fr_360px] items-end gap-20" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20" variants={sectionReveal}>
           <div className="flex flex-col gap-8">
             <SectionLabel>{language === "en" ? "Content" : "Conteúdos"}</SectionLabel>
-            <h1 className="max-w-[760px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "Design, AI, product and career across multiple channels." : "Design, IA, produto e carreira em múltiplos canais."}
             </h1>
           </div>
@@ -1604,7 +1604,7 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
           <div className="flex items-end justify-between gap-10">
             <div className="flex flex-col gap-3">
               <SectionLabel>YouTube</SectionLabel>
-              <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+              <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                 {language === "en" ? "Latest videos from @uxdudu" : "Últimos vídeos do canal @uxdudu"}
               </h2>
             </div>
@@ -1618,7 +1618,7 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
             </a>
           </div>
           <VideoCard video={featuredVideo} featured />
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {moreVideos.map((video) => (
               <VideoCard key={video.id} video={video} />
             ))}
@@ -1626,7 +1626,7 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -1634,11 +1634,11 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>Social</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Instagram, stories and LinkedIn" : "Instagram, stories e LinkedIn"}
             </h2>
           </div>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {feeds.map((item) => (
               <SocialFeedCard key={item.title} item={item} />
             ))}
@@ -1646,11 +1646,11 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           variants={sectionReveal}
         >
           <SectionLabel>Links</SectionLabel>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {contentLinks.map((item) => (
               <motion.a
                 key={item.label}
@@ -1684,15 +1684,15 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
     <>
       <Header activePage="contact" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="grid grid-cols-[1fr_360px] items-end gap-20" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20" variants={sectionReveal}>
           <div className="flex flex-col gap-8">
             <SectionLabel>{language === "en" ? "Contact" : "Contato"}</SectionLabel>
-            <h1 className="max-w-[760px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "Let's talk about product, design or AI." : "Vamos conversar sobre produto, design ou IA."}
             </h1>
           </div>
@@ -1703,14 +1703,14 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
           </p>
         </motion.section>
 
-        <motion.section className="grid grid-cols-[1fr_360px] gap-6" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_360px]" variants={sectionReveal}>
           <form
             action="mailto:oi@eduardoamaral.me"
             method="post"
             encType="text/plain"
             className="flex flex-col gap-6 p-0"
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-card-foreground">
                 {language === "en" ? "Name" : "Nome"}
                 <input
@@ -1771,7 +1771,7 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
             >
               <div className="flex flex-col gap-3">
                 <SectionLabel>WhatsApp</SectionLabel>
-                <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+                <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                   {language === "en" ? "Prefer to cut straight to it?" : "Prefere ir direto ao ponto?"}
                 </h2>
                 <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -1850,7 +1850,7 @@ function ProjectListCard({ project }: { project: DirectoryProject }) {
         </span>
       </div>
       <div className="flex flex-col gap-4">
-        <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+        <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           {project.name}
         </h2>
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -1893,15 +1893,15 @@ function ProjectsPage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="grid grid-cols-[1fr_360px] items-end gap-20" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20" variants={sectionReveal}>
           <div className="flex flex-col gap-8">
             <SectionLabel>{language === "en" ? "Projects" : "Projetos"}</SectionLabel>
-            <h1 className="max-w-[760px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "A catalog of the products, sites and experiences I've built." : "Um catálogo dos produtos, sites e experiências que construí."}
             </h1>
           </div>
@@ -1941,7 +1941,7 @@ function ProjectsPage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-3 gap-6"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           initial={prefersReducedMotion ? false : "hidden"}
           animate="visible"
           variants={staggerChildren}
@@ -1979,7 +1979,7 @@ function ProjectOptionCard({ project }: { project: HubProject }) {
         </span>
       </div>
       <div className="flex flex-col gap-4">
-        <h2 className="max-w-[320px] text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+        <h2 className="max-w-[320px] text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           {project.title}
         </h2>
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -2018,7 +2018,7 @@ function CliniaProjectOptionCard({ project }: { project: CliniaHubProject }) {
         </span>
       </div>
       <div className="flex flex-col gap-4">
-        <h2 className="max-w-[320px] text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+        <h2 className="max-w-[320px] text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           {project.title}
         </h2>
         <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -2046,7 +2046,7 @@ function CliniaHubPage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
@@ -2058,10 +2058,10 @@ function CliniaHubPage({
           >
             {t.backToProjects}
           </a>
-          <div className="grid grid-cols-[1fr_360px] items-end gap-20">
+          <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20">
             <div className="flex flex-col gap-6">
               <SectionLabel>Clinia</SectionLabel>
-              <h1 className="max-w-[760px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+              <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
                 {language === "en" ? "An evolving product with multiple connected fronts." : "Um produto em evolução com múltiplas frentes conectadas."}
               </h1>
             </div>
@@ -2091,7 +2091,7 @@ function CliniaHubPage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -2099,11 +2099,11 @@ function CliniaHubPage({
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Projects" : "Projetos"}</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Platform and Site" : "Plataforma e Site"}
             </h2>
           </div>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {projectOptions.map((project) => (
               <CliniaProjectOptionCard key={project.title} project={project} />
             ))}
@@ -2145,7 +2145,7 @@ function PetrobrasHubPage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
@@ -2157,10 +2157,10 @@ function PetrobrasHubPage({
           >
             {t.backToProjects}
           </a>
-          <div className="grid grid-cols-[1fr_360px] items-end gap-20">
+          <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20">
             <div className="flex flex-col gap-6">
               <SectionLabel>{language === "en" ? "Petrobras Ecosystem" : "Ecossistema Petrobras"}</SectionLabel>
-              <h1 className="max-w-[760px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+              <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
                 {language === "en"
                   ? "Three fronts connected by the same design system."
                   : "Três frentes conectadas pelo mesmo design system."}
@@ -2174,14 +2174,14 @@ function PetrobrasHubPage({
           </div>
         </motion.section>
 
-        <motion.section className="grid grid-cols-3 gap-6" variants={staggerChildren}>
+        <motion.section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" variants={staggerChildren}>
           {projectOptions.map((project) => (
             <ProjectOptionCard key={project.title} project={project} />
           ))}
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           variants={sectionReveal}
         >
           <div className="flex flex-col gap-4">
@@ -2197,7 +2197,7 @@ function PetrobrasHubPage({
           </div>
           <div className="rounded-[32px] border border-border bg-card p-8">
             <div className="flex flex-col gap-6">
-              <h2 className="max-w-[680px] text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+              <h2 className="max-w-[680px] text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                 {language === "en"
                   ? "Before the products, there was a hand-documented foundation."
                   : "Antes dos produtos, havia uma base documentada à mão."}
@@ -2225,7 +2225,7 @@ function PetrobrasHubPage({
           className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           variants={sectionReveal}
         >
-          <div className="relative h-[520px] overflow-hidden rounded-[24px] bg-media">
+          <div className="relative h-[280px] overflow-hidden rounded-[24px] bg-media sm:h-[400px] lg:h-[520px]">
             <img
               src={petrobrasNossaEnergia}
               alt="Preview do case Nossa Energia Petrobras"
@@ -2356,7 +2356,7 @@ function CaseImage({
         <button
           type="button"
           onClick={() => onOpen?.({ src: petrobrasNossaEnergia, alt: label, caption: label })}
-          className="group relative block h-[460px] w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-media text-left"
+          className="group relative block h-[240px] w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-media text-left sm:h-[360px] lg:h-[460px]"
           aria-label={`${t.zoom}: ${label}`}
         >
           <img
@@ -2388,12 +2388,12 @@ function CaseTextSection({
 }) {
   return (
     <motion.section
-      className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+      className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
       <SectionLabel>{eyebrow}</SectionLabel>
       <div className="flex max-w-[640px] flex-col gap-5">
-        <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+        <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           {title}
         </h2>
         <div className="flex flex-col gap-4 text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -2415,7 +2415,7 @@ function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
 
   return (
     <motion.section
-      className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+      className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
       <SectionLabel>{t.summary}</SectionLabel>
@@ -2426,7 +2426,7 @@ function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
               <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
                 {caseStudy.client}
               </p>
-              <h2 className="mt-2 text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+              <h2 className="mt-2 text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                 {title}
               </h2>
             </div>
@@ -2451,7 +2451,7 @@ function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
         </div>
 
         {sections?.length ? (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {sections.map((section) => (
               <article key={`${section.eyebrow}-${section.title}`} className="rounded-3xl border border-border bg-card p-6">
                 <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
@@ -2509,7 +2509,7 @@ function PetrobrasDsPreview() {
             ))}
           </div>
 
-          <div className="grid grid-cols-[1fr_1fr_1.4fr] gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.4fr]">
             <div className="rounded-3xl bg-[#008542] p-5">
               <p className="text-[14px] font-medium text-white/76">Primary</p>
               <p className="mt-12 text-[28px] font-medium leading-none tracking-[-1.4px] text-white">#008542</p>
@@ -2622,7 +2622,7 @@ function CliniaPrototypeSection({
 }) {
   return (
     <motion.section
-      className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+      className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       initial={prefersReducedMotion ? false : "hidden"}
       whileInView="visible"
       viewport={{ once: true, margin: "-15% 0px" }}
@@ -2630,7 +2630,7 @@ function CliniaPrototypeSection({
     >
       <div className="flex flex-col gap-4">
         <SectionLabel>Prototipação real</SectionLabel>
-        <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+        <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
           Claude, Cursor e MCP do Figma no fluxo.
         </h2>
       </div>
@@ -2669,7 +2669,7 @@ function PetrobrasDesignSystemCasePage({
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
@@ -2683,7 +2683,7 @@ function PetrobrasDesignSystemCasePage({
           </a>
           <div className="flex flex-col items-center gap-4">
             <SectionLabel>Petrobras</SectionLabel>
-            <h1 className="max-w-[860px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[860px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en"
                 ? "Petrobras Design System, the foundation of the digital ecosystem."
                 : "Design System Petrobras, a base do ecossistema digital."}
@@ -2737,7 +2737,7 @@ function PetrobrasDesignSystemCasePage({
         </CaseTextSection>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -2745,14 +2745,14 @@ function PetrobrasDesignSystemCasePage({
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Evidence" : "Evidências"}</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "The living documentation of Petro DS v2." : "A documentação viva do Petro DS v2."}
             </h2>
           </div>
           <div className="flex flex-col gap-10">
             <DsEvidenceFigure item={evidence[0]} onOpen={setLightboxImage} />
             <DsEvidenceFigure item={evidence[1]} onOpen={setLightboxImage} />
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <DsEvidenceFigure item={evidence[2]} onOpen={setLightboxImage} />
               <DsEvidenceFigure item={evidence[3]} onOpen={setLightboxImage} />
             </div>
@@ -2788,14 +2788,14 @@ function PetrobrasDesignSystemCasePage({
         </CaseTextSection>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Foundations" : "Fundações"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {foundations.map((item) => (
               <motion.article
                 key={item.title}
@@ -2814,7 +2814,7 @@ function PetrobrasDesignSystemCasePage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -2822,7 +2822,7 @@ function PetrobrasDesignSystemCasePage({
         >
           <SectionLabel>{language === "en" ? "Process" : "Processo"}</SectionLabel>
           <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {process.map((item) => (
                 <motion.p
                   key={item}
@@ -2834,10 +2834,10 @@ function PetrobrasDesignSystemCasePage({
               ))}
             </div>
             <div className="rounded-[32px] border border-border bg-card p-8">
-              <div className="grid grid-cols-[1fr_1.2fr] gap-8">
+              <div className="flex flex-col gap-4 sm:grid sm:grid-cols-[1fr_1.2fr] sm:gap-8">
                 <div>
                   <SectionLabel>{language === "en" ? "Manual documentation" : "Documentação manual"}</SectionLabel>
-                  <h2 className="mt-4 text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground">
+                  <h2 className="mt-4 text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                     {language === "en" ? "Specs as an alignment tool." : "Specs como ferramenta de alinhamento."}
                   </h2>
                 </div>
@@ -2852,7 +2852,7 @@ function PetrobrasDesignSystemCasePage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -2860,7 +2860,7 @@ function PetrobrasDesignSystemCasePage({
         >
           <SectionLabel>{language === "en" ? "Results" : "Resultado"}</SectionLabel>
           <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {outcomes.map((item) => (
                 <motion.p
                   key={item}
@@ -2934,7 +2934,7 @@ function PetrobrasNossaEnergiaCasePage({
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
@@ -2948,7 +2948,7 @@ function PetrobrasNossaEnergiaCasePage({
           </a>
           <div className="flex flex-col items-center gap-4">
             <SectionLabel>Petrobras</SectionLabel>
-            <h1 className="max-w-[820px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[820px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en"
                 ? "Nossa Energia, Petrobras's content portal."
                 : "Nossa Energia, o portal de conteúdos da Petrobras."}
@@ -2976,7 +2976,7 @@ function PetrobrasNossaEnergiaCasePage({
                 caption: language === "en" ? "Main image of the Nossa Energia Petrobras case." : "Imagem principal do case Nossa Energia Petrobras.",
               })
             }
-            className="group relative block h-[600px] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-media text-left"
+            className="group relative block h-[260px] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-media text-left sm:h-[420px] lg:h-[600px]"
             aria-label={language === "en" ? "Zoom in: Nossa Energia Petrobras" : "Ampliar imagem: Nossa Energia Petrobras"}
           >
             <img
@@ -3058,7 +3058,7 @@ function PetrobrasNossaEnergiaCasePage({
         </CaseTextSection>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -3066,7 +3066,7 @@ function PetrobrasNossaEnergiaCasePage({
         >
           <SectionLabel>{language === "en" ? "Process" : "Processo"}</SectionLabel>
           <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {process.map((item) => (
                 <motion.p
                   key={item}
@@ -3086,7 +3086,7 @@ function PetrobrasNossaEnergiaCasePage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -3094,7 +3094,7 @@ function PetrobrasNossaEnergiaCasePage({
         >
           <SectionLabel>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
           <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {outcomes.map((item) => (
                 <motion.p
                   key={item}
@@ -3185,7 +3185,7 @@ function CliniaCasePage({
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
@@ -3199,7 +3199,7 @@ function CliniaCasePage({
           </a>
           <div className="flex flex-col items-center gap-4">
             <SectionLabel>Clinia</SectionLabel>
-            <h1 className="max-w-[880px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[880px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en"
                 ? "Platform 2.0, design system and AI-powered design-to-code workflow."
                 : "Plataforma 2.0, design system e fluxo design-to-code com IA."}
@@ -3218,7 +3218,7 @@ function CliniaCasePage({
           className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           variants={sectionReveal}
         >
-          <div className="relative min-h-[600px] overflow-hidden rounded-[24px] bg-[#eef5ff]">
+          <div className="relative min-h-[300px] overflow-hidden rounded-[24px] sm:min-h-[440px] lg:min-h-[600px] bg-[#eef5ff]">
             <img src={cliniaCover} alt="Capa do projeto Clinia Plataforma" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#10255f]/82 via-transparent to-transparent" />
             <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-2">
@@ -3274,7 +3274,7 @@ function CliniaCasePage({
         </CaseTextSection>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -3282,7 +3282,7 @@ function CliniaCasePage({
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Version 1" : "Versão 1"}</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Interfaces before the rebuild." : "Interfaces antes da reconstrução."}
             </h2>
           </div>
@@ -3339,7 +3339,7 @@ function CliniaCasePage({
         </CaseTextSection>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -3347,7 +3347,7 @@ function CliniaCasePage({
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Custom shadcn" : "shadcn customizado"}</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Components and tokens adapted for Clinia." : "Componentes e tokens adaptados para a Clinia."}
             </h2>
           </div>
@@ -3375,14 +3375,14 @@ function CliniaCasePage({
         <CliniaPrototypeSection prefersReducedMotion={prefersReducedMotion} onOpen={setLightboxImage} />
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Process" : "Processo"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {process.map((item) => (
               <motion.p
                 key={item}
@@ -3396,7 +3396,7 @@ function CliniaCasePage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
@@ -3404,11 +3404,11 @@ function CliniaCasePage({
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>Workflow</SectionLabel>
-            <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+            <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Designers also ship code." : "Designers também entregam código."}
             </h2>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {workflow.map((item) => (
               <motion.article
                 key={item.title}
@@ -3465,14 +3465,14 @@ function CliniaCasePage({
         </CaseTextSection>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Partial results" : "Resultado parcial"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {outcomes.map((item) => (
               <motion.p
                 key={item}
@@ -3507,7 +3507,7 @@ function TalquiCasePage({
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-20 p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
@@ -3521,7 +3521,7 @@ function TalquiCasePage({
           </a>
           <div className="flex flex-col items-center gap-4">
             <SectionLabel>Talqui</SectionLabel>
-            <h1 className="max-w-[880px] font-display text-[56px] font-medium leading-none tracking-[-2.8px] text-foreground">
+            <h1 className="max-w-[880px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en"
                 ? "A new platform with its own identity and a scalable design system."
                 : "Uma nova plataforma com identidade própria e design system escalável."}
@@ -3540,7 +3540,7 @@ function TalquiCasePage({
           className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
           variants={sectionReveal}
         >
-          <div className="relative min-h-[600px] overflow-hidden rounded-[24px] bg-[#49a8ff]">
+          <div className="relative min-h-[300px] overflow-hidden rounded-[24px] sm:min-h-[440px] lg:min-h-[600px] bg-[#49a8ff]">
             <img src={talquiCover} alt="Capa do projeto Talqui Plataforma" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#061925]/78 via-transparent to-transparent" />
             <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-2">
@@ -3624,7 +3624,7 @@ function TalquiCasePage({
 
         {cmsCase?.evidence && cmsCase.evidence.length > 0 && (
           <motion.section
-            className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+            className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
             initial={prefersReducedMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-15% 0px" }}
@@ -3632,7 +3632,7 @@ function TalquiCasePage({
           >
             <div className="flex flex-col gap-4">
               <SectionLabel>Design System</SectionLabel>
-              <h2 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground">
+              <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                 {language === "en" ? "Tokens, components and platform in practice." : "Tokens, componentes e plataforma em prática."}
               </h2>
             </div>
@@ -3653,14 +3653,14 @@ function TalquiCasePage({
         )}
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Foundations" : "Fundações"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {foundations.map((item) => (
               <motion.article
                 key={item.title}
@@ -3679,14 +3679,14 @@ function TalquiCasePage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Process" : "Processo"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {process.map((item) => (
               <motion.p
                 key={item}
@@ -3700,14 +3700,14 @@ function TalquiCasePage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-[320px_1fr] gap-20 border-t border-border pt-10"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={staggerChildren}
         >
           <SectionLabel>{language === "en" ? "Results" : "Resultado"}</SectionLabel>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {outcomes.map((item) => (
               <motion.p
                 key={item}
