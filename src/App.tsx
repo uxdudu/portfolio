@@ -39,6 +39,8 @@ import talquiCover from "./assets/talqui-cover.webp";
 import talquiLogo from "./assets/talqui-logo.svg";
 import talquiLogoPng from "./assets/talqui-logo.png";
 import talquiSymbol from "./assets/talqui-symbol.svg";
+import brFlag from "./assets/br.svg";
+import usFlag from "./assets/us.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
 import {
@@ -1212,9 +1214,9 @@ function ThemeSwitcher({
 function LanguageSwitcher() {
   const { language, onLanguageChange } = useContext(LanguageContext);
   const posthog = usePostHog();
-  const options: Array<{ value: LanguagePreference; label: string }> = [
-    { value: "pt-BR", label: "PT" },
-    { value: "en", label: "EN" },
+  const options: Array<{ value: LanguagePreference; label: string; flag: string }> = [
+    { value: "pt-BR", label: "PT", flag: brFlag },
+    { value: "en", label: "EN", flag: usFlag },
   ];
 
   return (
@@ -1229,14 +1231,15 @@ function LanguageSwitcher() {
           }}
           aria-label={option.value === "pt-BR" ? "Usar português" : "Use English"}
           title={option.value === "pt-BR" ? "Português" : "English"}
-          className={`h-8 rounded-full px-3 text-[12px] font-medium leading-[1.45] tracking-[-0.24px] transition-colors ${
+          className={`flex h-8 items-center gap-1.5 rounded-full px-3 text-[12px] font-medium leading-[1.45] tracking-[-0.24px] transition-colors ${
             language === option.value ? "bg-background text-foreground" : "text-muted"
           }`}
           whileHover={{ y: -1 }}
           whileTap={TAP}
           transition={SPRING}
         >
-          {option.label}
+          <img src={option.flag} alt="" aria-hidden="true" className="size-4 shrink-0" />
+          <span>{option.label}</span>
         </motion.button>
       ))}
     </div>
@@ -1719,23 +1722,25 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
         <motion.div
           initial={{ opacity: 0, y: 8, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="absolute left-0 mt-2 w-48 origin-top-left rounded-xl border border-border bg-card p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)] z-30"
+          className="absolute left-0 mt-2 w-max min-w-[12rem] origin-top-left rounded-xl border border-border bg-card p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)] z-30"
         >
           <a
             href="/cv/pt"
             target="_blank"
-            className="block w-full rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
+            className="flex w-full items-center gap-2.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
             onClick={() => { posthog?.capture("cv_downloaded", { cv_language: "pt-BR" }); setIsOpen(false); }}
           >
-            {ptLabel}
+            <img src={brFlag} alt="" aria-hidden="true" className="size-[18px] shrink-0" />
+            <span>{ptLabel}</span>
           </a>
           <a
             href="/cv/en"
             target="_blank"
-            className="block w-full rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
+            className="flex w-full items-center gap-2.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
             onClick={() => { posthog?.capture("cv_downloaded", { cv_language: "en" }); setIsOpen(false); }}
           >
-            {enLabel}
+            <img src={usFlag} alt="" aria-hidden="true" className="size-[18px] shrink-0" />
+            <span>{enLabel}</span>
           </a>
         </motion.div>
       )}
@@ -2975,6 +2980,102 @@ function PetrobrasHubPage({
   );
 }
 
+const SITE_NAME = "Eduardo Amaral";
+
+function getRouteMeta(path: string, en: boolean): { title: string; description: string } {
+  const t = (pt: string, eng: string) => (en ? eng : pt);
+  switch (path) {
+    case "/sobre":
+      return {
+        title: `${t("Sobre", "About")} — ${SITE_NAME} | Product Designer`,
+        description: t(
+          "Conheça Eduardo Amaral (uxdudu), Senior Product Designer com foco em UX/UI, Design Systems e Design com IA.",
+          "Meet Eduardo Amaral (uxdudu), Senior Product Designer focused on UX/UI, Design Systems and AI for UX.",
+        ),
+      };
+    case "/projetos":
+      return {
+        title: `${t("Projetos", "Projects")} — ${SITE_NAME}`,
+        description: t(
+          "Projetos e cases de UX/UI, Design Systems e produtos digitais por Eduardo Amaral.",
+          "UX/UI, Design Systems and digital product cases by Eduardo Amaral.",
+        ),
+      };
+    case "/conteudos":
+      return {
+        title: `${t("Conteúdos", "Content")} — ${SITE_NAME}`,
+        description: t(
+          "Conteúdos sobre UX, UI, Product Design e Design com IA por Eduardo Amaral (uxdudu).",
+          "Content about UX, UI, Product Design and AI for UX by Eduardo Amaral (uxdudu).",
+        ),
+      };
+    case "/contato":
+      return {
+        title: `${t("Contato", "Contact")} — ${SITE_NAME}`,
+        description: t(
+          "Fale com Eduardo Amaral, Senior Product Designer — UX/UI, Design Systems e Design com IA.",
+          "Get in touch with Eduardo Amaral, Senior Product Designer — UX/UI, Design Systems and AI for UX.",
+        ),
+      };
+    case "/clinia":
+      return {
+        title: `Clinia — ${SITE_NAME} | Product Design & Design System`,
+        description: t(
+          "Cases da Clinia: Design System, UX/UI e produto, por Eduardo Amaral.",
+          "Clinia cases: Design System, UX/UI and product, by Eduardo Amaral.",
+        ),
+      };
+    case "/petrobras":
+      return {
+        title: `Petrobras — ${SITE_NAME} | Design System`,
+        description: t(
+          "Cases da Petrobras: Design System e produto digital, por Eduardo Amaral.",
+          "Petrobras cases: Design System and digital product, by Eduardo Amaral.",
+        ),
+      };
+    case "/cases/clinia":
+      return {
+        title: `Case Clinia — Design System & UX/UI | ${SITE_NAME}`,
+        description: t(
+          "Case da Clinia: construção de Design System, UX/UI e Design com IA, por Eduardo Amaral.",
+          "Clinia case study: Design System, UX/UI and AI for UX, by Eduardo Amaral.",
+        ),
+      };
+    case "/cases/talqui":
+      return {
+        title: `Case Talqui — Product Design & UX/UI | ${SITE_NAME}`,
+        description: t(
+          "Case da Talqui: UX/UI e produto digital, por Eduardo Amaral.",
+          "Talqui case study: UX/UI and digital product, by Eduardo Amaral.",
+        ),
+      };
+    case "/cases/petrobras-nossa-energia":
+      return {
+        title: `Case Petrobras Nossa Energia — UX/UI | ${SITE_NAME}`,
+        description: t(
+          "Case Petrobras Nossa Energia: UX/UI e produto digital em escala, por Eduardo Amaral.",
+          "Petrobras Nossa Energia case study: UX/UI and digital product at scale, by Eduardo Amaral.",
+        ),
+      };
+    case "/cases/petrobras-design-system":
+      return {
+        title: `Case Petrobras Design System — Design System com IA | ${SITE_NAME}`,
+        description: t(
+          "Case do Design System da Petrobras: tokens, componentes e Design System com IA, por Eduardo Amaral.",
+          "Petrobras Design System case study: tokens, components and AI-assisted Design System, by Eduardo Amaral.",
+        ),
+      };
+    default:
+      return {
+        title: `${SITE_NAME} — Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
+        description: t(
+          "Portfólio de Eduardo Amaral (uxdudu), Senior Product Designer especializado em UX/UI, Design Systems e Design com IA.",
+          "Portfolio of Eduardo Amaral (uxdudu), Senior Product Designer specializing in UX/UI, Design Systems and AI for UX.",
+        ),
+      };
+  }
+}
+
 export function App() {
   const prefersReducedMotion = useReducedMotion();
   const { content: sanityContent } = useSanityPortfolioContent();
@@ -3043,6 +3144,42 @@ export function App() {
       setLanguage("en");
     }
   }, [path]);
+
+  // Título + meta por rota (title, description, Open Graph, Twitter, canonical)
+  // — ajuda o Google a indexar cada página com contexto próprio e o prerender a capturar tudo.
+  useEffect(() => {
+    if (path === "/cv/pt" || path === "/cv/en") return; // CvPrintPage define o próprio título
+    const en = language === "en";
+    const meta = getRouteMeta(path, en);
+    const canonical = `https://eduardoamaral.me${path === "/" ? "" : path}`;
+
+    document.title = meta.title;
+
+    const setMeta = (selector: string, attr: string, key: string, content: string) => {
+      let tag = document.head.querySelector(selector);
+      if (!tag) {
+        tag = document.createElement("meta");
+        tag.setAttribute(attr, key);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute("content", content);
+    };
+
+    setMeta('meta[name="description"]', "name", "description", meta.description);
+    setMeta('meta[property="og:title"]', "property", "og:title", meta.title);
+    setMeta('meta[property="og:description"]', "property", "og:description", meta.description);
+    setMeta('meta[property="og:url"]', "property", "og:url", canonical);
+    setMeta('meta[name="twitter:title"]', "name", "twitter:title", meta.title);
+    setMeta('meta[name="twitter:description"]', "name", "twitter:description", meta.description);
+
+    let link = document.head.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "canonical");
+      document.head.appendChild(link);
+    }
+    link.setAttribute("href", canonical);
+  }, [path, language]);
 
 
 
