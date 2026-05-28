@@ -37,10 +37,19 @@ async function run() {
   const server = createServer((req, res) => serve(req, res));
   await new Promise((resolve) => server.listen(PORT, resolve));
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+  } catch (err) {
+    // Sem Chromium disponível (ex.: ambiente de CI sem o binário): não derruba o
+    // build — o site é servido como SPA e a meta por rota é aplicada via JS.
+    console.warn("⚠ Prerender pulado: não foi possível iniciar o Chromium.\n", err?.message || err);
+    server.close();
+    return;
+  }
 
   // Renderiza TODAS as rotas em memória primeiro (servindo o dist intacto),
   // depois grava — assim sobrescrever index.html não afeta o fallback SPA.
