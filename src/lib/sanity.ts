@@ -55,6 +55,14 @@ export type SanityCaseStudy = {
     caption?: string;
     imageUrl?: string;
   }>;
+  testimonials?: Array<{
+    quote?: string;
+    quoteEn?: string;
+    author?: string;
+    role?: string;
+    roleEn?: string;
+    company?: string;
+  }>;
 };
 
 export type SanityPortfolioContent = {
@@ -112,21 +120,33 @@ export const portfolioContentQuery = `
       title,
       caption,
       "imageUrl": image.asset->url
+    },
+    testimonials[] {
+      quote,
+      quoteEn,
+      author,
+      role,
+      roleEn,
+      company
     }
   }
 }`;
 
-export async function getPortfolioContent() {
+export async function getPortfolioContent(): Promise<SanityPortfolioContent | null> {
   if (!isSanityConfigured) return null;
 
-  const { createClient } = await import("@sanity/client");
-  const sanityClient = createClient({
-    projectId,
-    dataset,
-    apiVersion,
-    token,
-    useCdn: !token,
-  });
+  // Query direto na API HTTP do Sanity (sem o SDK @sanity/client, ~29KB gzip).
+  // CDN quando não há token (leitura pública e cacheável); api autenticada quando há token.
+  const host = token ? "api.sanity.io" : "apicdn.sanity.io";
+  const url = `https://${projectId}.${host}/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(
+    portfolioContentQuery,
+  )}`;
 
-  return sanityClient.fetch<SanityPortfolioContent>(portfolioContentQuery);
+  const response = await fetch(url, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
+  if (!response.ok) {
+    throw new Error(`Sanity query failed: ${response.status} ${response.statusText}`);
+  }
+
+  const { result } = (await response.json()) as { result: SanityPortfolioContent };
+  return result;
 }
