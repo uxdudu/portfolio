@@ -49,6 +49,14 @@ import petrobrasDsComponents from "./assets/petrobras-ds-components.webp";
 import petrobrasDsCover from "./assets/petrobras-ds-cover.webp";
 import petrobrasDsTokens from "./assets/petrobras-ds-tokens.webp";
 import talquiCover from "./assets/talqui-cover.webp";
+import talquiFigmaVariables from "./assets/talqui-figma-variables.png";
+import talquiFigmaDoc from "./assets/talqui-figma-doc.webp";
+import talquiStorybook from "./assets/talqui-storybook.webp";
+import talquiOnboarding from "./assets/talqui-figma0interface.webp";
+import petrodsCover from "./assets/petrods-cover.webp";
+import petrodsColors from "./assets/petrods-colors.webp";
+import petrodsTemplate from "./assets/petrods-template-pagina.webp";
+import petrodsVariables from "./assets/petrods-variables.webp";
 import talquiLogo from "./assets/talqui-logo.svg";
 import talquiLogoPng from "./assets/talqui-logo.png";
 import talquiSymbol from "./assets/talqui-symbol.svg";
@@ -449,22 +457,22 @@ const talquiEvidenceFallback = [
   {
     title: "Variáveis e tokens do Talqui DS",
     caption: "Coleções de variáveis no Figma com grupos Theme, Style, Typography e Extensions organizando os tokens semânticos da plataforma Talqui.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/cb9ebae4699bf882c7c25ee81b88c82b358c0ce9-1484x1748.png",
+    imageUrl: talquiFigmaVariables,
   },
   {
-    title: "Componente Checkbox no Figma",
-    caption: "Componente t-field-checkbox documentado com variantes, estados, modos light e dark, e property table completa.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/07c266b3539588596376bf83ca00d860c2c141b5-2000x1473.png",
+    title: "Componente Badge documentado no Figma",
+    caption: "Componente Base Badge documentado no Figma com property table, variantes e exemplos de uso da plataforma Talqui.",
+    imageUrl: talquiFigmaDoc,
   },
   {
-    title: "Componente Conversation Menu na plataforma",
-    caption: "Componente t-conversation-menu com variações da lista de conversas: empty, padrão, fixadas, com destaque, notificação e skeleton.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/66d4922a8b9fd4dc638f4f1e4a43000a0b1b62a7-2000x1473.png",
+    title: "Documentação no Storybook",
+    caption: "Storybook do Talqui DS em design-system.talqui.dev com variantes do componente Badge: cores, outline e ícones.",
+    imageUrl: talquiStorybook,
   },
   {
     title: "Fluxo de onboarding e componente Button",
     caption: "Tela de cadastro da plataforma Talqui com o componente t-base-button em uso.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/20baa3a2b02fcf13d4ff271b737358bfb521cf53-2000x1206.png",
+    imageUrl: talquiOnboarding,
   },
 ];
 
@@ -788,27 +796,22 @@ const petrobrasDsCmsEvidenceFallback = [
   {
     title: "Arquivo PetroDS v2 no Figma",
     caption: "Visão da capa do arquivo PetroDS v2 no Figma, com navegação lateral de tokens e componentes.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/2f37b993cd9cb58cdc0d71a59248baa496cf194d-3840x2026.png",
+    imageUrl: petrodsCover,
   },
   {
     title: "Tokens de cores",
     caption: "Documentação dos tokens de cores da marca no PetroDS v2.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/3b0e797f0dae611b733f275dd36b501b6a398400-3840x2026.png",
+    imageUrl: petrodsColors,
   },
   {
-    title: "Template de página nível 2",
-    caption: "Template nível 2 documentado em variações default e high contrast.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/389c19aae13998380783cdbf2c63e49d6a41734a-3840x2026.png",
-  },
-  {
-    title: "Componente Link",
-    caption: "Documentação do componente Link em desktop e mobile, com variações default e high contrast.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/c490b14bc4e21b11034fbd6c52bc6d4d91793425-3840x2026.png",
+    title: "Template de página",
+    caption: "Template de página do PetroDS v2 documentado em variações default e high contrast.",
+    imageUrl: petrodsTemplate,
   },
   {
     title: "Variáveis de tema",
     caption: "Coleções de variáveis do PetroDS v2 organizadas por temas default e high contrast.",
-    imageUrl: "https://cdn.sanity.io/images/f08gavsi/production/314d20d0601656ccedc30aa3b63fe27192bf0805-3840x2026.png",
+    imageUrl: petrodsVariables,
   },
 ];
 

@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender.mjs",
+    "build": "node scripts/fetch-sanity-content.mjs && vite build && node scripts/prerender.mjs",
     "build:client": "vite build",
+    "sanity:content": "node scripts/fetch-sanity-content.mjs",
     "prerender": "node scripts/prerender.mjs",
     "preview": "vite preview",
     "studio": "sanity dev",

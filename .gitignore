@@ -10,3 +10,4 @@ dist
 feedbacks/
 skills-lock.json
 posthog-setup-report.md
+.codex-plugins/

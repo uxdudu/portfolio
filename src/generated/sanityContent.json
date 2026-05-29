@@ -1,0 +1,171 @@
+{
+  "caseStudies": [
+    {
+      "client": "Talqui",
+      "evidence": [
+        {
+          "caption": "Coleções de variáveis no Figma com grupos Theme, Style, Typography e Extensions organizando os tokens semânticos da plataforma Talqui.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/adf3be627189da4dd76f0fd461ab19fbdba840fc-647x693.png",
+          "title": "Variáveis e tokens do Talqui DS"
+        },
+        {
+          "caption": "Componente Base Badge documentado no Figma com property table, variantes e exemplos de uso da plataforma Talqui.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/6ae9def494ac3682bd82c386c33286c47217ae19-3840x2102.webp",
+          "title": "Componente Badge documentado no Figma"
+        },
+        {
+          "caption": "Storybook do Talqui DS em design-system.talqui.dev com variantes do componente Badge: cores, outline e ícones.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/d9c4e67d82ed24c66de4934426c03f82ec2db9c7-3840x2100.webp",
+          "title": "Documentação no Storybook"
+        },
+        {
+          "caption": "Tela de cadastro da plataforma Talqui com o componente t-base-button em uso.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/bfe91d3a5491828f5a839b4cdff5d786db1474fb-1472x860.webp",
+          "title": "Fluxo de onboarding e componente Button"
+        }
+      ],
+      "role": "Product Design e Design System",
+      "roleEn": "Product Design and Design System",
+      "sections": [
+        {
+          "body": [
+            "A plataforma havia nascido como uma adaptação de uma interface criada pelo time de desenvolvimento. Funcionava, mas limitava a identidade visual e dificultava o crescimento do produto.",
+            "O desafio era criar uma plataforma com identidade própria: uma experiência que comunicasse a marca, suportasse novas features e tivesse uma base de componentes consistente para evoluir."
+          ],
+          "eyebrow": "Desafio",
+          "title": "Criar identidade e escala em uma plataforma nascida como fork técnico."
+        },
+        {
+          "body": [
+            "Construí toda a plataforma nova, da identidade visual ao design system com tokens personalizados, componentes e padrões documentados.",
+            "O time criou um repositório dedicado ao DS, sincronizado com Storybook. A plataforma foi redesenhada do zero e segue evoluindo com base nessa fundação."
+          ],
+          "eyebrow": "Solução",
+          "title": "Redesign completo com design system e documentação em Storybook."
+        }
+      ],
+      "sectionsEn": [
+        {
+          "body": [
+            "The platform had been born as an adaptation of an interface created by the development team. It worked, but limited the visual identity and made product growth difficult.",
+            "The challenge was to create a platform with its own identity: an experience that communicated the brand, supported new features and had a consistent component base to evolve from."
+          ],
+          "eyebrow": "Challenge",
+          "title": "Creating identity and scale in a platform born as a technical fork."
+        },
+        {
+          "body": [
+            "I built the new platform from the visual identity to the design system, with custom tokens, components and documented patterns.",
+            "The team created a dedicated DS repository, synchronized with Storybook. The platform was redesigned from scratch and continues to evolve on this foundation."
+          ],
+          "eyebrow": "Solution",
+          "title": "Full redesign with design system and Storybook documentation."
+        }
+      ],
+      "slug": "talqui",
+      "stack": [
+        "Figma",
+        "Design Tokens",
+        "Storybook",
+        "IA"
+      ],
+      "stackEn": [
+        "Figma",
+        "Design Tokens",
+        "Storybook",
+        "AI"
+      ],
+      "status": "Projeto em andamento",
+      "statusEn": "Ongoing project",
+      "summary": "Reconstrução da plataforma Talqui a partir de uma interface antiga criada como fork técnico, criando identidade própria, design system, tokens personalizados e documentação em Storybook.",
+      "summaryEn": "Rebuilding the Talqui platform from an old interface created as a technical fork, creating its own identity, design system, custom tokens and Storybook documentation.",
+      "testimonials": null,
+      "title": "Talqui: Plataforma",
+      "titleEn": "Talqui: Platform"
+    },
+    {
+      "client": "Petrobras",
+      "evidence": [
+        {
+          "caption": "Visão da capa do arquivo PetroDS v2 no Figma, com navegação lateral de tokens e componentes.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/b19d36f9c9b463eee47e80e92f7a553b541ec634-1920x1013.webp",
+          "title": "Arquivo PetroDS v2 no Figma"
+        },
+        {
+          "caption": "Documentação dos tokens de cores da marca no PetroDS v2.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/67953256d60ea3d6ec74dadd1e004fafe369b1e9-1920x1013.webp",
+          "title": "Tokens de cores"
+        },
+        {
+          "caption": "Template de página do PetroDS v2 documentado em variações default e high contrast.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/f71c030d81880842f1415268ea4ce65c1580d545-1920x1013.webp",
+          "title": "Template de página"
+        },
+        {
+          "caption": "Coleções de variáveis do PetroDS v2 organizadas por temas default e high contrast.",
+          "imageUrl": "https://cdn.sanity.io/images/i63tkihc/production/c9598a99667e23594c4621de05f4a76ac987e26f-921x687.webp",
+          "title": "Variáveis de tema"
+        }
+      ],
+      "role": "Design System e documentação",
+      "roleEn": "Design System and documentation",
+      "sections": [
+        {
+          "body": [
+            "O desafio era organizar uma base grande o suficiente para atender diferentes tipos de páginas e times, mas clara o bastante para ser usada com autonomia em um contexto institucional complexo.",
+            "Também era necessário criar documentação prática que ajudasse a tomar decisões e reduzir ambiguidade durante a implementação."
+          ],
+          "eyebrow": "Desafio",
+          "title": "Dar consistência a um ecossistema digital diverso e complexo."
+        },
+        {
+          "body": [
+            "O DS v2 conectou tokens, componentes, sections e templates em uma base consultável que sustentou o portal Nossa Energia, o site principal e outras frentes digitais.",
+            "A documentação foi criada manualmente com specs, anatomia, estados e orientações de acessibilidade para manter consistência entre design e desenvolvimento."
+          ],
+          "eyebrow": "Solução",
+          "title": "Uma biblioteca visual e uma documentação prática."
+        }
+      ],
+      "sectionsEn": [
+        {
+          "body": [
+            "The challenge was to organize a foundation large enough to serve different types of pages and teams, but clear enough to be used autonomously in a complex institutional context.",
+            "It was also necessary to create practical documentation that helped make decisions and reduce ambiguity during implementation."
+          ],
+          "eyebrow": "Challenge",
+          "title": "Bringing consistency to a diverse and complex digital ecosystem."
+        },
+        {
+          "body": [
+            "DS v2 connected tokens, components, sections and templates into a consultable foundation that supported the Nossa Energia portal, the main site and other digital fronts.",
+            "Documentation was created manually with specs, anatomy, states and accessibility guidelines to maintain consistency between design and development."
+          ],
+          "eyebrow": "Solution",
+          "title": "A visual library and practical documentation."
+        }
+      ],
+      "slug": "petrobras-design-system",
+      "stack": [
+        "Figma",
+        "Notion",
+        "Design Tokens",
+        "Specs"
+      ],
+      "stackEn": [
+        "Figma",
+        "Notion",
+        "Design Tokens",
+        "Specs"
+      ],
+      "status": "Finalizado",
+      "statusEn": "Completed",
+      "summary": "Design System Petrobras v2 com tokens, componentes, seções, templates, motion, acessibilidade e documentação manual de specs para sustentar o ecossistema digital.",
+      "summaryEn": "Petrobras Design System v2 with tokens, components, sections, templates, motion, accessibility and manual spec documentation to sustain the digital ecosystem.",
+      "testimonials": null,
+      "title": "Petrobras: Design System",
+      "titleEn": "Petrobras: Design System"
+    }
+  ],
+  "projects": []
+}
