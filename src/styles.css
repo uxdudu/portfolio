@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* Logos da tela Sobre que trocam de versão por tema (Asimov, JStack, Brivia):
+   mostra a versão light por padrão e a dark quando o tema é escuro.
+   Cobre tema explícito (data-theme) e tema system (prefers-color-scheme). */
+.about-logo-dark {
+  display: none;
+}
+:root[data-theme="dark"] .about-logo-light {
+  display: none;
+}
+:root[data-theme="dark"] .about-logo-dark {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .about-logo-light {
+    display: none;
+  }
+  :root:not([data-theme]) .about-logo-dark {
+    display: block;
+  }
+}
+
 /* Fontes self-hosted (latin + latin-ext) — substitui o Google Fonts render-blocking */
 @font-face {
   font-family: "Geist";

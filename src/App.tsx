@@ -4,11 +4,24 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import Lenis from "lenis";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import avatar from "./assets/avatar.webp";
-import companyBancoDoBrasilLogo from "./assets/company-banco-do-brasil-symbol.png";
-import companyBriviaLogo from "./assets/company-brivia-symbol.png";
-import companyCliniaLogo from "./assets/company-clinia-symbol.png";
-import companyGranaAiLogo from "./assets/company-grana-ai-symbol.png";
-import companyPetrobrasLogo from "./assets/company-petrobras-symbol.png";
+import companyApogeuTechLogo from "./assets/company-apogeu-tech-symbol.svg";
+import companyArkuspayLogo from "./assets/company-arkuspay-symbol.svg";
+import companyAsimovLogo from "./assets/company-asimov-symbol.svg";
+import companyAsimovInvertedLogo from "./assets/company-asimov-inverted-symbol.svg";
+import companyBancoDoBrasilLogo from "./assets/company-banco-do-brasil-symbol.svg";
+import companyBriviaLogo from "./assets/company-brivia-symbol.svg";
+import companyBriviaInvertedLogo from "./assets/company-brivia-inverted-symbol.svg";
+import companyCliniaLogo from "./assets/company-clinia-symbol.svg";
+import companyGennioLogo from "./assets/company-gennio-symbol.svg";
+import companyGranaAiLogo from "./assets/company-grana-ai-symbol.svg";
+import companyJStackLogo from "./assets/company-jstack-symbol.svg";
+import companyJStackInvertedLogo from "./assets/company-jstack-inverted-symbol.svg";
+import companyMarmarisLogo from "./assets/company-marmaris-symbol.svg";
+import companyMundpayLogo from "./assets/company-mundpay-symbol.svg";
+import companyOrcamaisLogo from "./assets/company-orcamais-symbol.svg";
+import companyPetrobrasLogo from "./assets/company-petrobras-symbol.svg";
+import companyTalquiLogo from "./assets/company-talqui-symbol.svg";
+import companyVellooLogo from "./assets/company-velloo-symbol.svg";
 import cliniaShadcnFoundation from "./assets/clinia-shadcn-foundation.webp";
 import cliniaDsCheckboxLibrary from "./assets/clinia-ds-checkbox-library.webp";
 import cliniaDsCheckboxOverview from "./assets/clinia-ds-checkbox-overview.webp";
@@ -653,34 +666,34 @@ const testimonialsEn = [
 ];
 
 const knownCompanies = [
-  { name: "Grupo Primo", href: "https://www.grupo-primo.com/", iconUrl: faviconUrl("https://www.grupo-primo.com/") },
-  { name: "Brivia", href: "https://www.brivia.com.br/", logo: companyBriviaLogo },
-  { name: "Petrobras", href: "https://petrobras.com.br/", logo: companyPetrobrasLogo },
+  { name: "Arkuspay", href: "https://arkushq.com/", logo: companyArkuspayLogo },
+  { name: "Asimov", href: "http://asimov.academy/", logo: companyAsimovLogo, logoLight: companyAsimovInvertedLogo, logoDark: companyAsimovLogo },
   { name: "Banco do Brasil", href: "https://www.bb.com.br/", logo: companyBancoDoBrasilLogo },
-  { name: "Grana.ai", href: "http://grana.ai/", logo: companyGranaAiLogo },
+  { name: "Brivia", href: "https://www.brivia.com.br/", logo: companyBriviaLogo, logoLight: companyBriviaLogo, logoDark: companyBriviaInvertedLogo },
   { name: "Clinia", href: "https://clinia.io/", logo: companyCliniaLogo },
-  { name: "Gennio", href: "http://gennio.io/", iconUrl: faviconUrl("http://gennio.io/") },
-  { name: "Asimov", href: "http://asimov.academy/", iconUrl: faviconUrl("http://asimov.academy/") },
-  { name: "Apogeu Tech", href: "https://apogeu.tech/", iconUrl: faviconUrl("https://apogeu.tech/") },
-  { name: "JStack", href: "https://jstack.com.br/", iconUrl: faviconUrl("https://jstack.com.br/") },
-  { name: "Orçamais", href: "https://orcamais.com/", iconUrl: faviconUrl("https://orcamais.com/") },
-  { name: "Mundpay", href: "https://mundpay.com/", iconUrl: faviconUrl("https://mundpay.com/") },
-  { name: "Arkuspay", href: "https://arkushq.com/", iconUrl: faviconUrl("https://arkushq.com/") },
-  { name: "Velloo", href: "https://velloo.app/", iconUrl: faviconUrl("https://velloo.app/") },
-  { name: "Marmaris", href: "https://marmaristurismo.com/", iconUrl: faviconUrl("https://marmaristurismo.com/") },
+  { name: "Gennio", href: "http://gennio.io/", logo: companyGennioLogo },
+  { name: "JStack", href: "https://jstack.com.br/", logo: companyJStackLogo, logoLight: companyJStackInvertedLogo, logoDark: companyJStackLogo },
+  { name: "Marmaris", href: "https://marmaristurismo.com/", logo: companyMarmarisLogo },
+  { name: "Mundpay", href: "https://mundpay.com/", logo: companyMundpayLogo },
+  { name: "Orçamais", href: "https://orcamais.com/", logo: companyOrcamaisLogo },
+  { name: "Petrobras", href: "https://petrobras.com.br/", logo: companyPetrobrasLogo },
+  { name: "Talqui", href: "https://talqui.com.br/", logo: companyTalquiLogo },
+  { name: "Velloo", href: "https://velloo.app/", logo: companyVellooLogo },
+  { name: "Apogeu Tech", href: "https://apogeu.tech/", logo: companyApogeuTechLogo },
+  { name: "Grana.ai", href: "http://grana.ai/", logo: companyGranaAiLogo },
 ];
 
 const projectCompanyVisuals: Record<string, { logo?: string; iconUrl?: string }> = {
   Clinia: { logo: companyCliniaLogo },
-  Talqui: { logo: talquiSymbol },
+  Talqui: { logo: companyTalquiLogo },
   Petrobras: { logo: companyPetrobrasLogo },
   "Grupo Primo": { iconUrl: faviconUrl("https://www.grupo-primo.com/") },
   "Grana.ai": { logo: companyGranaAiLogo },
-  Gennio: { iconUrl: faviconUrl("http://gennio.io/") },
-  JStack: { iconUrl: faviconUrl("https://jstack.com.br/") },
-  Orçamais: { iconUrl: faviconUrl("https://orcamais.com/") },
-  Velloo: { iconUrl: faviconUrl("https://velloo.app/") },
-  Marmaris: { iconUrl: faviconUrl("https://marmaristurismo.com/") },
+  Gennio: { logo: companyGennioLogo },
+  JStack: { logo: companyJStackLogo },
+  Orçamais: { logo: companyOrcamaisLogo },
+  Velloo: { logo: companyVellooLogo },
+  Marmaris: { logo: companyMarmarisLogo },
 };
 
 const experiences = [
@@ -2143,10 +2156,23 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
                 whileTap={TAP}
                 transition={SPRING}
               >
-                {company.logo || company.iconUrl ? (
+                {company.logoLight || company.logoDark ? (
                   <span className="flex h-9 items-center">
                     <img loading="lazy" decoding="async"
-                      src={company.logo || company.iconUrl}
+                      src={company.logoLight}
+                      alt=""
+                      className="about-logo-light size-9 rounded-lg object-contain object-left"
+                    />
+                    <img loading="lazy" decoding="async"
+                      src={company.logoDark}
+                      alt=""
+                      className="about-logo-dark size-9 rounded-lg object-contain object-left"
+                    />
+                  </span>
+                ) : company.logo ? (
+                  <span className="flex h-9 items-center">
+                    <img loading="lazy" decoding="async"
+                      src={company.logo}
                       alt=""
                       className="size-9 rounded-lg object-contain object-left"
                     />
