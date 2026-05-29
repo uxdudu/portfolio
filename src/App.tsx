@@ -85,6 +85,7 @@ const PetrobrasNossaEnergiaCasePage = lazy(() =>
 );
 const CliniaCasePage = lazy(() => import("./CasePages").then((m) => ({ default: m.CliniaCasePage })));
 const TalquiCasePage = lazy(() => import("./CasePages").then((m) => ({ default: m.TalquiCasePage })));
+const PlaygroundPage = lazy(() => import("./PlaygroundPage").then((m) => ({ default: m.PlaygroundPage })));
 
 const SPRING = { type: "spring" as const, stiffness: 180, damping: 24, mass: 0.9 };
 const TAP = { scale: 0.96 };
@@ -1412,6 +1413,7 @@ function Header({
           <NavItem label={navLabels.projects} href="/projetos" active={activePage === "projects"} />
           <NavItem label={navLabels.content} href="/conteudos" active={activePage === "content"} />
           <NavItem label={navLabels.about} href="/sobre" active={activePage === "about"} />
+          <NavItem label="Playground" href="/playground" />
         </div>
       </nav>
 
@@ -3370,6 +3372,14 @@ export function App() {
   ) : (
     <HomePage {...pageProps} homeProjects={homeProjects} />
   );
+
+  if (path === "/playground") {
+    return (
+      <Suspense fallback={<div className="fixed inset-0 bg-[#0a0a0a]" />}>
+        <PlaygroundPage />
+      </Suspense>
+    );
+  }
 
   if (path === "/cv/pt") {
     return <CvPrintPage lang="pt" />;

@@ -21,6 +21,7 @@ const ROUTES = [
   "/contato",
   "/clinia",
   "/petrobras",
+  "/playground",
   "/cases/clinia",
   "/cases/talqui",
   "/cases/petrobras-nossa-energia",
