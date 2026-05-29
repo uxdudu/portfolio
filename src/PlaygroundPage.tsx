@@ -34,33 +34,38 @@ const items: PlaygroundItem[] = [
   { src: dietaryHome, label: "DIETARY" },
 ];
 
-// ── Geometria do bloco que se repete ──────────────────────────────────────────
-const CELL_W = 320;
-const IMG_H = 280;
-const LABEL_H = 44;
-const CELL_H = IMG_H + LABEL_H;
-const GAP = 56;
+// Largura fixa de coluna; a altura de cada imagem é a natural (mantém proporção).
+const COL_W = 300;
+const GAP_X = 48;
+const GAP_Y = 48;
 const COLS = 4;
-const STEP_X = CELL_W + GAP;
-const STEP_Y = CELL_H + GAP;
-const ROWS = Math.ceil(items.length / COLS);
+const STEP_X = COL_W + GAP_X;
 const BLOCK_W = COLS * STEP_X;
-const BLOCK_H = ROWS * STEP_Y;
-
-const wrapX = gsap.utils.wrap(-BLOCK_W, 0);
-const wrapY = gsap.utils.wrap(-BLOCK_H, 0);
 
 export function PlaygroundPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const surfaceRef = useRef<HTMLDivElement>(null);
+  const tileRef = useRef<HTMLDivElement>(null);
+
+  const [blockH, setBlockH] = useState(900);
   const [copies, setCopies] = useState({ x: 3, y: 3 });
 
-  // alvo (para onde estamos indo) e posição atual (suavizada)
+  // Distribui os itens em colunas (round-robin) — alturas variam naturalmente.
+  const columns = useMemo(() => {
+    const cols: PlaygroundItem[][] = Array.from({ length: COLS }, () => []);
+    items.forEach((item, i) => cols[i % COLS].push(item));
+    return cols;
+  }, []);
+
+  // alvo (para onde vamos) e posição atual (suavizada)
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
   const velocity = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
+  const moved = useRef(false);
   const lastPointer = useRef({ x: 0, y: 0 });
+  const blockHRef = useRef(blockH);
+  blockHRef.current = blockH;
 
   const prefersReduced = useMemo(
     () =>
@@ -69,22 +74,60 @@ export function PlaygroundPage() {
     [],
   );
 
-  // Quantas cópias do bloco precisamos para cobrir a viewport + buffer
+  // Mede a altura natural do bloco (coluna mais alta) depois das imagens carregarem.
+  useLayoutEffect(() => {
+    const tile = tileRef.current;
+    if (!tile) return;
+
+    const measure = () => {
+      const colEls = tile.querySelectorAll<HTMLElement>("[data-col]");
+      let max = 0;
+      colEls.forEach((c) => (max = Math.max(max, c.offsetHeight)));
+      if (max > 0) setBlockH(max + GAP_Y);
+    };
+
+    const imgs = Array.from(tile.querySelectorAll("img"));
+    let pending = imgs.length;
+    if (pending === 0) measure();
+    imgs.forEach((img) => {
+      if (img.complete && img.naturalWidth > 0) {
+        if (--pending === 0) measure();
+      } else {
+        img.addEventListener(
+          "load",
+          () => {
+            if (--pending === 0) measure();
+          },
+          { once: true },
+        );
+        img.addEventListener(
+          "error",
+          () => {
+            if (--pending === 0) measure();
+          },
+          { once: true },
+        );
+      }
+    });
+
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [columns]);
+
+  // Quantas cópias do bloco cobrem a viewport + buffer.
   useLayoutEffect(() => {
     const recompute = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
       setCopies({
-        x: Math.ceil(vw / BLOCK_W) + 2,
-        y: Math.ceil(vh / BLOCK_H) + 2,
+        x: Math.ceil(window.innerWidth / BLOCK_W) + 2,
+        y: Math.ceil(window.innerHeight / blockH) + 2,
       });
     };
     recompute();
     window.addEventListener("resize", recompute);
     return () => window.removeEventListener("resize", recompute);
-  }, []);
+  }, [blockH]);
 
-  // Loop de animação + interação
+  // Loop de animação + interação.
   useEffect(() => {
     const surface = surfaceRef.current;
     if (!surface) return;
@@ -93,11 +136,9 @@ export function PlaygroundPage() {
 
     const setX = gsap.quickSetter(surface, "x", "px");
     const setY = gsap.quickSetter(surface, "y", "px");
-
     const ease = prefersReduced ? 1 : 0.12;
 
     const tick = () => {
-      // momentum quando não está arrastando
       if (!dragging.current && !prefersReduced) {
         target.current.x += velocity.current.x;
         target.current.y += velocity.current.y;
@@ -110,15 +151,15 @@ export function PlaygroundPage() {
       current.current.x += (target.current.x - current.current.x) * ease;
       current.current.y += (target.current.y - current.current.y) * ease;
 
-      setX(wrapX(current.current.x));
-      setY(wrapY(current.current.y));
+      setX(gsap.utils.wrap(-BLOCK_W, 0, current.current.x));
+      setY(gsap.utils.wrap(-blockHRef.current, 0, current.current.y));
     };
 
     gsap.ticker.add(tick);
 
-    // ── Pointer (drag) ──
     const onPointerDown = (e: PointerEvent) => {
       dragging.current = true;
+      moved.current = false;
       velocity.current = { x: 0, y: 0 };
       lastPointer.current = { x: e.clientX, y: e.clientY };
       surface.setPointerCapture?.(e.pointerId);
@@ -129,6 +170,7 @@ export function PlaygroundPage() {
       if (!dragging.current) return;
       const dx = e.clientX - lastPointer.current.x;
       const dy = e.clientY - lastPointer.current.y;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved.current = true;
       target.current.x += dx;
       target.current.y += dy;
       velocity.current = { x: dx, y: dy };
@@ -141,7 +183,6 @@ export function PlaygroundPage() {
       document.body.style.cursor = "";
     };
 
-    // ── Wheel / trackpad pan ──
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       target.current.x -= e.deltaX;
@@ -149,10 +190,19 @@ export function PlaygroundPage() {
       velocity.current = { x: -e.deltaX * 0.2, y: -e.deltaY * 0.2 };
     };
 
+    // Evita que um drag dispare navegação ao soltar sobre um link.
+    const onClickCapture = (e: MouseEvent) => {
+      if (moved.current) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
     surface.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
     surface.addEventListener("wheel", onWheel, { passive: false });
+    surface.addEventListener("click", onClickCapture, true);
 
     return () => {
       gsap.ticker.remove(tick);
@@ -160,12 +210,13 @@ export function PlaygroundPage() {
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
       surface.removeEventListener("wheel", onWheel);
+      surface.removeEventListener("click", onClickCapture, true);
       document.body.style.overflow = "";
       document.body.style.cursor = "";
     };
   }, [prefersReduced]);
 
-  // Entrada suave do conteúdo
+  // Entrada suave do conteúdo.
   useEffect(() => {
     if (prefersReduced || !containerRef.current) return;
     const figures = containerRef.current.querySelectorAll("[data-figure]");
@@ -182,16 +233,51 @@ export function PlaygroundPage() {
     );
   }, [prefersReduced, copies]);
 
-  // Monta as cópias do bloco
   const blockOffsets = useMemo(() => {
     const offsets: { ox: number; oy: number; key: string }[] = [];
     for (let i = 0; i < copies.x; i++) {
       for (let j = 0; j < copies.y; j++) {
-        offsets.push({ ox: (i - 1) * BLOCK_W, oy: (j - 1) * BLOCK_H, key: `${i}-${j}` });
+        offsets.push({ ox: (i - 1) * BLOCK_W, oy: (j - 1) * blockH, key: `${i}-${j}` });
       }
     }
     return offsets;
-  }, [copies]);
+  }, [copies, blockH]);
+
+  const renderColumns = (blockKey: string, withRef: boolean) => (
+    <div
+      ref={withRef ? tileRef : undefined}
+      className="absolute left-0 top-0"
+      style={{ width: BLOCK_W, height: blockH }}
+    >
+      {columns.map((col, c) => (
+        <div
+          key={c}
+          data-col
+          className="absolute top-0 flex flex-col"
+          style={{ left: c * STEP_X, width: COL_W, gap: GAP_Y }}
+        >
+          {col.map((item, idx) => (
+            <figure key={`${blockKey}-${c}-${idx}`} data-figure className="group m-0">
+              <div className="overflow-hidden rounded-[6px] bg-white/5">
+                <img
+                  src={item.src}
+                  alt={item.label}
+                  draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: COL_W, height: "auto" }}
+                  className="block transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+              </div>
+              <figcaption className="pt-3 text-[11px] font-medium uppercase tracking-[0.26em] text-white/45 transition-colors duration-300 group-hover:text-white">
+                {item.label}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div
@@ -199,59 +285,30 @@ export function PlaygroundPage() {
       className="fixed inset-0 z-50 overflow-hidden bg-[#0a0a0a] text-white select-none"
       style={{ touchAction: "none" }}
     >
-      {/* Superfície arrastável */}
       <div
         ref={surfaceRef}
         className="absolute left-0 top-0 h-full w-full cursor-grab"
         style={{ willChange: "transform" }}
       >
-        {blockOffsets.map(({ ox, oy, key }) => (
+        {blockOffsets.map(({ ox, oy, key }, index) => (
           <div
             key={key}
             className="absolute left-0 top-0"
-            style={{ transform: `translate(${ox}px, ${oy}px)`, width: BLOCK_W, height: BLOCK_H }}
+            style={{ transform: `translate(${ox}px, ${oy}px)` }}
           >
-            {items.map((item, index) => {
-              const col = index % COLS;
-              const row = Math.floor(index / COLS);
-              return (
-                <figure
-                  key={`${key}-${index}`}
-                  data-figure
-                  className="group absolute m-0"
-                  style={{ left: col * STEP_X, top: row * STEP_Y, width: CELL_W }}
-                >
-                  <div
-                    className="overflow-hidden rounded-[4px] bg-white/5"
-                    style={{ height: IMG_H }}
-                  >
-                    <img
-                      src={item.src}
-                      alt={item.label}
-                      draggable={false}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <figcaption className="pt-4 text-[12px] font-medium uppercase tracking-[0.28em] text-white/45 transition-colors duration-300 group-hover:text-white">
-                    {item.label}
-                  </figcaption>
-                </figure>
-              );
-            })}
+            {renderColumns(key, index === 0)}
           </div>
         ))}
       </div>
 
       {/* Título central fixo */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <h1 className="text-[clamp(2rem,6vw,4.5rem)] font-semibold tracking-[-0.02em] text-white drop-shadow-[0_2px_40px_rgba(0,0,0,0.8)]">
+        <h1 className="text-[clamp(2rem,6vw,4.5rem)] font-semibold tracking-[-0.02em] text-white drop-shadow-[0_2px_40px_rgba(0,0,0,0.85)]">
           Playground
         </h1>
       </div>
 
-      {/* Logo / voltar */}
+      {/* Voltar */}
       <a
         href="/"
         aria-label="Voltar para a home"
