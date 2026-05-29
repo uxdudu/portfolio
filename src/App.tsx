@@ -1,4 +1,4 @@
-import { Children, Fragment, Suspense, createContext, isValidElement, lazy, useContext, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { Children, Fragment, Suspense, createContext, isValidElement, lazy, useContext, useEffect, useLayoutEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { usePostHog } from "@posthog/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Lenis from "lenis";
@@ -66,7 +66,7 @@ const CliniaCasePage = lazy(() => import("./CasePages").then((m) => ({ default: 
 const TalquiCasePage = lazy(() => import("./CasePages").then((m) => ({ default: m.TalquiCasePage })));
 
 const SPRING = { type: "spring" as const, stiffness: 180, damping: 24, mass: 0.9 };
-const TAP = { scale: 0.98 };
+const TAP = { scale: 0.96 };
 type LanguagePreference = "pt-BR" | "en";
 
 const LanguageContext = createContext<{
@@ -314,7 +314,7 @@ const cliniaProcess = [
 
 const cliniaOutcomes = [
   "Figma e código passaram a falar a mesma língua, com componentes mais próximos da implementação real.",
-  "Designers começaram a entregar não apenas telas, mas também componentes e código em um repositório dedicado.",
+  "Designers passaram a entregar telas, componentes e código em um repositório dedicado.",
   "Devs conseguem consumir o design do Figma e acelerar implementação com apoio de ferramentas de IA.",
   "A próxima etapa é aproximar esse fluxo do repositório oficial de frontend da plataforma.",
 ];
@@ -457,6 +457,7 @@ const talquiEvidenceFallback = [
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/eduardooamaral/" },
+  { label: "Instagram", href: "https://www.instagram.com/ux.dudu/" },
   { label: "YouTube", href: "https://www.youtube.com/@uxdudu" },
   { label: "Dribbble", href: "https://dribbble.com/eduardooamaral" },
 ];
@@ -807,7 +808,7 @@ const cliniaProcessEn = [
 
 const cliniaOutcomesEn = [
   "Figma and code started speaking the same language, with components closer to the real implementation.",
-  "Designers began delivering not just screens, but also components and code in a dedicated repository.",
+  "Designers began delivering screens, components and code in a dedicated repository.",
   "Devs can consume the Figma design and accelerate implementation with AI tool support.",
   "The next step is to bring this workflow closer to the platform's official frontend repository.",
 ];
@@ -996,18 +997,32 @@ type DirectoryProject = (typeof allProjects)[number];
 type HubProject = (typeof petrobrasProjects)[number];
 type CliniaHubProject = (typeof cliniaProjects)[number];
 
+const deliverableDisplayOrder = ["AI", "UI/UX", "Design System", "No Code", "Motion"] as const;
+const deliverableAliases: Record<string, string> = {
+  "No code": "No Code",
+};
+
 function normalizeDeliverables(deliverables: string[] = []) {
   const nextDeliverables: string[] = [];
-  const hasUiUx = deliverables.some((item) => item === "UI" || item === "UX" || item === "UI/UX");
+  const normalizedItems = deliverables.map((item) => deliverableAliases[item] ?? item);
+  const hasUiUx = normalizedItems.some((item) => item === "UI" || item === "UX" || item === "UI/UX");
 
   if (hasUiUx) nextDeliverables.push("UI/UX");
 
-  for (const item of deliverables) {
+  for (const item of normalizedItems) {
     if (item === "UI" || item === "UX" || item === "UI/UX" || item === "Research") continue;
     if (!nextDeliverables.includes(item)) nextDeliverables.push(item);
   }
 
-  return nextDeliverables;
+  return nextDeliverables.sort((a, b) => {
+    const indexA = deliverableDisplayOrder.indexOf(a as (typeof deliverableDisplayOrder)[number]);
+    const indexB = deliverableDisplayOrder.indexOf(b as (typeof deliverableDisplayOrder)[number]);
+
+    if (indexA === -1 && indexB === -1) return 0;
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    return indexA - indexB;
+  });
 }
 
 function mergeHomeProjects(cmsProjects: SanityProject[] | undefined): HomeProject[] {
@@ -1247,15 +1262,23 @@ function LanguageSwitcher() {
 }
 
 function PreferencesMenu({
+  activePage,
   theme,
   onThemeChange,
 }: {
+  activePage: "home" | "about" | "projects" | "content" | "contact";
   theme: ThemePreference;
   onThemeChange: (theme: ThemePreference) => void;
 }) {
   const { language } = useContext(LanguageContext);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const navItems = [
+    { key: "home", label: language === "en" ? "Home" : "Home", href: "/" },
+    { key: "projects", label: language === "en" ? "Projects" : "Projetos", href: "/projetos" },
+    { key: "content", label: language === "en" ? "Content" : "Conteúdos", href: "/conteudos" },
+    { key: "about", label: language === "en" ? "About" : "Sobre", href: "/sobre" },
+  ] as const;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -1304,6 +1327,24 @@ function PreferencesMenu({
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             className="absolute right-0 top-12 z-50 w-[264px] origin-top-right overflow-hidden rounded-2xl border border-border bg-card p-2 shadow-[0_20px_60px_rgba(0,0,0,0.14)]"
           >
+            <div className="flex flex-col gap-2 border-b border-border pb-2 lg:hidden">
+              {navItems.map((item) => (
+                <motion.a
+                  key={item.key}
+                  href={item.href}
+                  role="menuitem"
+                  onClick={() => setIsOpen(false)}
+                  className={`flex min-h-11 items-center rounded-xl px-3 text-[15px] font-medium leading-[1.45] tracking-[-0.3px] transition-colors ${
+                    activePage === item.key
+                      ? "bg-background text-foreground"
+                      : "text-muted hover:bg-background hover:text-foreground"
+                  }`}
+                  whileTap={TAP}
+                >
+                  {item.label}
+                </motion.a>
+              ))}
+            </div>
             <div className="flex items-center justify-between gap-4 border-b border-border px-3 py-3">
               <span className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-card-foreground">
                 {language === "en" ? "Theme" : "Tema"}
@@ -1368,7 +1409,7 @@ function Header({
         >
           {navLabels.contact}
         </motion.a>
-        <PreferencesMenu theme={theme} onThemeChange={onThemeChange} />
+        <PreferencesMenu activePage={activePage} theme={theme} onThemeChange={onThemeChange} />
       </div>
     </motion.header>
   );
@@ -1395,7 +1436,7 @@ function Hero() {
         </span>
         <motion.span
           className="relative top-[2px] h-[36px] w-[65px] shrink-0 overflow-hidden rounded-[24px] sm:top-[3px] sm:h-[45px] sm:w-[81px] sm:rounded-[32px]"
-          initial={prefersReducedMotion ? false : { scaleX: 0, opacity: 0, originX: 0 }}
+          initial={prefersReducedMotion ? false : { scaleX: 0, opacity: 0, originX: 0.5 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ ...SPRING, delay: 0.2 }}
         >
@@ -1546,7 +1587,7 @@ function ProjectCard({ project }: { project: HomeProject }) {
   return (
     <Wrapper
       href={project.href}
-      className="overflow-hidden rounded-[32px] border border-border p-2 lg:h-[562px]"
+      className="overflow-hidden rounded-[32px] border border-border p-2 will-change-transform lg:h-[562px]"
       variants={sectionReveal}
       whileHover={project.href ? { y: -6, borderColor: "var(--color-primary)" } : undefined}
       whileTap={project.href ? TAP : undefined}
@@ -1554,7 +1595,7 @@ function ProjectCard({ project }: { project: HomeProject }) {
       onClick={project.href ? () => posthog?.capture("project_card_clicked", { project_id: project.id, project_title: project.title, href: project.href }) : undefined}
     >
       <div className="flex h-full flex-col overflow-hidden rounded-[24px] bg-card">
-        <div className="relative h-[260px] shrink-0 overflow-hidden rounded-3xl bg-card p-1 sm:h-[360px] lg:h-[450px]">
+        <div className="media-outline relative h-[260px] shrink-0 overflow-hidden rounded-3xl bg-card p-1 sm:h-[360px] lg:h-[450px]">
           <motion.div
             className="h-full"
             whileHover={project.href ? { scale: 1.015 } : undefined}
@@ -1857,16 +1898,16 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
   ];
 
   const cvCourses = lang === "pt" ? [
-    "Bacharelado em Administração — Faculdade Adventista do Paraná (2017 - 2020)",
-    "Product Design — Design Circuit (2020 - 2021)",
-    "UI Design — UX Unicórnio (2022)",
-    "UI Design Especializado — UI Expert & uiBoost (2020 - 2024)",
+    "Bacharelado em Administração, Faculdade Adventista do Paraná (2017 - 2020)",
+    "Product Design, Design Circuit (2020 - 2021)",
+    "UI Design, UX Unicórnio (2022)",
+    "UI Design Especializado, UI Expert & uiBoost (2020 - 2024)",
     "Certificações adicionais em Webflow, Figma avançado e desenvolvimento moderno (OmniStack)"
   ] : [
-    "Bachelor of Business Administration — Faculdade Adventista do Paraná (2017 - 2020)",
-    "Product Design — Design Circuit (2020 - 2021)",
-    "UI Design — UX Unicórnio (2022)",
-    "Specialized UI Design — UI Expert & uiBoost (2020 - 2024)",
+    "Bachelor of Business Administration, Faculdade Adventista do Paraná (2017 - 2020)",
+    "Product Design, Design Circuit (2020 - 2021)",
+    "UI Design, UX Unicórnio (2022)",
+    "Specialized UI Design, UI Expert & uiBoost (2020 - 2024)",
     "Additional certifications in Webflow, advanced Figma, and modern coding (OmniStack)"
   ];
 
@@ -2021,7 +2062,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-center lg:gap-20" variants={sectionReveal}>
           <div className="flex flex-col gap-8 items-start">
             <SectionLabel>{language === "en" ? "About" : "Sobre"}</SectionLabel>
-            <h1 className="max-w-[720px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
+            <h1 className="max-w-[720px] font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               Crafting Excepcional Design
             </h1>
             <p className="max-w-[520px] text-[18px] leading-[1.45] tracking-[-0.36px] text-muted">
@@ -2045,7 +2086,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
-          <SectionLabel sticky>{language === "en" ? "Overview" : "Resumo"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Overview" : "Resumo"}</SectionLabel>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {highlights.map((item) => (
               <motion.p
@@ -2060,7 +2101,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
-          <SectionLabel sticky>{language === "en" ? "Impact" : "Impacto"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Impact" : "Impacto"}</SectionLabel>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {stats.map((item) => (
               <motion.div
@@ -2068,7 +2109,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
                 className="rounded-3xl border border-border bg-card p-6"
                 variants={sectionReveal}
               >
-                <p className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground lg:text-[48px] lg:tracking-[-2.4px]">
+                <p className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground tabular-nums lg:text-[48px] lg:tracking-[-2.4px]">
                   {item.value}
                 </p>
                 <p className="mt-3 text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
@@ -2084,12 +2125,12 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           variants={sectionReveal}
         >
           <div className="flex flex-col gap-4">
-            <SectionLabel sticky>{language === "en" ? "Companies" : "Empresas"}</SectionLabel>
+            <SectionLabel>{language === "en" ? "Companies" : "Empresas"}</SectionLabel>
             <h2 className="max-w-[300px] text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Companies and projects that know my work." : "Empresas e projetos que conhecem meu trabalho."}
             </h2>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="about-companies-grid grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {knownCompanies.map((company) => (
               <motion.a
                 key={company.name}
@@ -2128,7 +2169,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           variants={sectionReveal}
         >
           <div className="flex flex-col gap-4">
-            <SectionLabel sticky>{language === "en" ? "Testimonials" : "Depoimentos"}</SectionLabel>
+            <SectionLabel>{language === "en" ? "Testimonials" : "Depoimentos"}</SectionLabel>
             <h2 className="max-w-[260px] text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "What people say about working with me." : "O que falam sobre trabalhar comigo."}
             </h2>
@@ -2177,7 +2218,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           variants={sectionReveal}
         >
-          <SectionLabel sticky>{language === "en" ? "Experience" : "Experiência"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Experience" : "Experiência"}</SectionLabel>
           <div className="flex flex-col gap-4">
             {exps.map((item) => (
               <motion.article
@@ -2208,11 +2249,11 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           viewport={{ once: true, margin: "-15% 0px" }}
           variants={sectionReveal}
         >
-          <SectionLabel sticky>{language === "en" ? "Education" : "Educação"}</SectionLabel>
+          <SectionLabel>{language === "en" ? "Education" : "Educação"}</SectionLabel>
           <div className="rounded-3xl border border-border bg-card p-2">
             <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] bg-border sm:grid-cols-2">
               {courses.map((item) => (
-                <div key={item} className="min-h-[132px] bg-card p-6">
+                <div key={item} className="bg-card p-6 sm:min-h-[132px]">
                   <p className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
                     {item}
                   </p>
@@ -2234,12 +2275,28 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
   const href = `https://www.youtube.com/watch?v=${video.id}`;
 
   if (featured) {
+    const handleMobileCardOpen = (event: MouseEvent<HTMLElement>) => {
+      if (window.matchMedia("(min-width: 1024px)").matches) return;
+      if ((event.target as HTMLElement).closest("a")) return;
+      window.open(href, "_blank", "noreferrer");
+      posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card" });
+    };
+
     return (
       <motion.article
-        className="flex flex-col gap-6 rounded-[32px] border border-border bg-card p-2 lg:grid lg:grid-cols-[1.35fr_0.65fr]"
+        className="featured-video-card flex cursor-pointer flex-col gap-4 rounded-[32px] border border-border bg-card p-2 lg:grid lg:cursor-default lg:grid-cols-[1.35fr_0.65fr] lg:gap-6"
         variants={sectionReveal}
+        role="link"
+        tabIndex={0}
+        onClick={handleMobileCardOpen}
+        onKeyDown={(event) => {
+          if (event.key !== "Enter") return;
+          if (window.matchMedia("(min-width: 1024px)").matches) return;
+          window.open(href, "_blank", "noreferrer");
+          posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card_keyboard" });
+        }}
       >
-        <div className="aspect-video overflow-hidden rounded-[24px] bg-media">
+        <div className="media-outline aspect-video overflow-hidden rounded-[24px] bg-media">
           <iframe
             className="h-full w-full"
             src={`https://www.youtube.com/embed/${video.id}`}
@@ -2248,13 +2305,13 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
             allowFullScreen
           />
         </div>
-        <div className="flex flex-col justify-between p-4">
-          <div className="flex flex-col gap-4">
+        <div className="featured-video-copy flex flex-col gap-5 p-4 lg:justify-between">
+          <div className="featured-video-content flex flex-col gap-4">
             <SectionLabel>{t.latestVideo}</SectionLabel>
             <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {video.title}
             </h2>
-            <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+            <p className="tabular-nums text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
               {language === "en" ? (video.dateEn || video.date) : video.date}. {language === "en" ? (video.viewsEn || video.views) : video.views}.
             </p>
           </div>
@@ -2262,7 +2319,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
             href={href}
             target="_blank"
             rel="noreferrer"
-            className="w-fit rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+            className="hidden w-fit rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary lg:inline-flex"
             whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
             whileTap={TAP}
             transition={SPRING}
@@ -2287,7 +2344,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
       transition={SPRING}
       onClick={() => posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: false })}
     >
-      <div className="aspect-video overflow-hidden bg-media">
+      <div className="media-outline aspect-video overflow-hidden bg-media">
         <img loading="lazy" decoding="async"
           src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
           alt=""
@@ -2296,14 +2353,14 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
       </div>
       <div className="flex flex-1 flex-col justify-between gap-5 p-6">
         <div className="flex flex-col gap-3">
-          <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
+          <p className="tabular-nums text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
             {language === "en" ? (video.dateEn || video.date) : video.date}
           </p>
           <h3 className="text-[24px] font-medium leading-none tracking-[-1.2px] text-card-foreground">
             {video.title}
           </h3>
         </div>
-        <p className="text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
+        <p className="tabular-nums text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
           {language === "en" ? (video.viewsEn || video.views) : video.views}
         </p>
       </div>
@@ -2373,23 +2430,23 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
     <>
       <Header activePage="content" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
+        className="content-page-shell flex w-full flex-col gap-10 p-6 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8" variants={sectionReveal}>
           <div className="flex flex-col gap-8">
             <SectionLabel>{language === "en" ? "Content" : "Conteúdos"}</SectionLabel>
-            <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
+            <h1 className="max-w-[760px] font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "My point of view on Product Design, AI and more." : "Meus pontos de vista sobre Product Design, IA e muito mais"}
             </h1>
+            <p className="max-w-[520px] text-left text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+              {language === "en"
+                ? "Explore the latest shared content."
+                : "Confira os últimos conteúdos compartilhados"}
+            </p>
           </div>
-          <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-            {language === "en"
-              ? "Explore the latest shared content."
-              : "Confira os últimos conteúdos compartilhados"}
-          </p>
         </motion.section>
 
         <motion.section
@@ -2424,24 +2481,24 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
+          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:items-center lg:gap-20"
           variants={sectionReveal}
         >
           <SectionLabel>Links</SectionLabel>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
             {contentLinks.map((item) => (
               <motion.a
                 key={item.label}
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-3 rounded-3xl border border-border bg-card p-6 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground"
-                whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
+                className="flex min-h-10 items-center gap-2 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground transition-colors hover:text-primary"
+                whileHover={{ y: -2 }}
                 whileTap={TAP}
                 transition={SPRING}
                 onClick={() => posthog?.capture("social_link_clicked", { platform: item.label, href: item.href })}
               >
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-border bg-background text-primary">
+                <span className="grid size-10 shrink-0 place-items-center text-primary">
                   <SocialIcon icon={item.icon} />
                 </span>
                 <span>{item.label}</span>
@@ -2546,13 +2603,15 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
               </p>
               <motion.button
                 type="submit"
-                className="inline-flex items-center gap-2 rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
                 whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
                 whileTap={TAP}
                 transition={SPRING}
               >
                 <span>{language === "en" ? "Send email" : "Enviar email"}</span>
-                <IconlySendMessage size={16} />
+                <span className="shrink-0">
+                  <IconlySendMessage size={16} />
+                </span>
               </motion.button>
             </div>
           </form>
@@ -2651,7 +2710,7 @@ function FilterChip({
     <motion.button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] transition-colors ${
+      className={`cursor-pointer rounded-full border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] transition-colors ${
         active
           ? "border-primary bg-card text-foreground"
           : "border-border bg-transparent text-muted"
@@ -2711,17 +2770,17 @@ function ProjectListCard({ project }: { project: DirectoryProject }) {
         <p className="overflow-hidden text-[16px] leading-[1.45] tracking-[-0.32px] text-muted [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
           {language === "en" ? (project.summaryEn ?? project.summary) : project.summary}
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex min-w-0 flex-nowrap items-center gap-2 overflow-hidden">
           {visibleDeliverables.map((item) => (
             <span
               key={item}
-              className="rounded-full bg-background px-3 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted"
+              className="shrink-0 rounded-full bg-background px-3 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted"
             >
               {item}
             </span>
           ))}
           {hiddenDeliverablesCount > 0 ? (
-            <span className="rounded-full bg-background px-3 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted">
+            <span className="shrink-0 rounded-full bg-background px-3 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted">
               +{hiddenDeliverablesCount}
             </span>
           ) : null}
@@ -2764,11 +2823,11 @@ function ProjectsPage({
         <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20" variants={sectionReveal}>
           <div className="flex flex-col gap-8">
             <SectionLabel>{language === "en" ? "Projects" : "Projetos"}</SectionLabel>
-            <h1 className="max-w-[760px] font-display text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
+            <h1 className="max-w-[760px] font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {language === "en" ? "Explore some of my projects." : "Conheça alguns dos meus projetos."}
             </h1>
           </div>
-          <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+          <p className="text-left text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
             {language === "en"
               ? "You can filter by type or deliverable. Some projects have more than one case."
               : "Você pode filtrar pelo tipo ou entregável. Alguns deles têm mais de um case."}
@@ -2987,7 +3046,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
   switch (path) {
     case "/sobre":
       return {
-        title: `${t("Sobre", "About")} — ${SITE_NAME} | Product Designer`,
+        title: `${t("Sobre", "About")} | ${SITE_NAME} | Product Designer`,
         description: t(
           "Conheça Eduardo Amaral (uxdudu), Senior Product Designer com foco em UX/UI, Design Systems e Design com IA.",
           "Meet Eduardo Amaral (uxdudu), Senior Product Designer focused on UX/UI, Design Systems and AI for UX.",
@@ -2995,7 +3054,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/projetos":
       return {
-        title: `${t("Projetos", "Projects")} — ${SITE_NAME}`,
+        title: `${t("Projetos", "Projects")} | ${SITE_NAME}`,
         description: t(
           "Projetos e cases de UX/UI, Design Systems e produtos digitais por Eduardo Amaral.",
           "UX/UI, Design Systems and digital product cases by Eduardo Amaral.",
@@ -3003,7 +3062,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/conteudos":
       return {
-        title: `${t("Conteúdos", "Content")} — ${SITE_NAME}`,
+        title: `${t("Conteúdos", "Content")} | ${SITE_NAME}`,
         description: t(
           "Conteúdos sobre UX, UI, Product Design e Design com IA por Eduardo Amaral (uxdudu).",
           "Content about UX, UI, Product Design and AI for UX by Eduardo Amaral (uxdudu).",
@@ -3011,15 +3070,15 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/contato":
       return {
-        title: `${t("Contato", "Contact")} — ${SITE_NAME}`,
+        title: `${t("Contato", "Contact")} | ${SITE_NAME}`,
         description: t(
-          "Fale com Eduardo Amaral, Senior Product Designer — UX/UI, Design Systems e Design com IA.",
-          "Get in touch with Eduardo Amaral, Senior Product Designer — UX/UI, Design Systems and AI for UX.",
+          "Fale com Eduardo Amaral, Senior Product Designer em UX/UI, Design Systems e Design com IA.",
+          "Get in touch with Eduardo Amaral, Senior Product Designer in UX/UI, Design Systems and AI for UX.",
         ),
       };
     case "/clinia":
       return {
-        title: `Clinia — ${SITE_NAME} | Product Design & Design System`,
+        title: `Clinia | ${SITE_NAME} | Product Design & Design System`,
         description: t(
           "Cases da Clinia: Design System, UX/UI e produto, por Eduardo Amaral.",
           "Clinia cases: Design System, UX/UI and product, by Eduardo Amaral.",
@@ -3027,7 +3086,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/petrobras":
       return {
-        title: `Petrobras — ${SITE_NAME} | Design System`,
+        title: `Petrobras | ${SITE_NAME} | Design System`,
         description: t(
           "Cases da Petrobras: Design System e produto digital, por Eduardo Amaral.",
           "Petrobras cases: Design System and digital product, by Eduardo Amaral.",
@@ -3035,7 +3094,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/cases/clinia":
       return {
-        title: `Case Clinia — Design System & UX/UI | ${SITE_NAME}`,
+        title: `Case Clinia | Design System & UX/UI | ${SITE_NAME}`,
         description: t(
           "Case da Clinia: construção de Design System, UX/UI e Design com IA, por Eduardo Amaral.",
           "Clinia case study: Design System, UX/UI and AI for UX, by Eduardo Amaral.",
@@ -3043,7 +3102,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/cases/talqui":
       return {
-        title: `Case Talqui — Product Design & UX/UI | ${SITE_NAME}`,
+        title: `Case Talqui | Product Design & UX/UI | ${SITE_NAME}`,
         description: t(
           "Case da Talqui: UX/UI e produto digital, por Eduardo Amaral.",
           "Talqui case study: UX/UI and digital product, by Eduardo Amaral.",
@@ -3051,7 +3110,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/cases/petrobras-nossa-energia":
       return {
-        title: `Case Petrobras Nossa Energia — UX/UI | ${SITE_NAME}`,
+        title: `Case Petrobras Nossa Energia | UX/UI | ${SITE_NAME}`,
         description: t(
           "Case Petrobras Nossa Energia: UX/UI e produto digital em escala, por Eduardo Amaral.",
           "Petrobras Nossa Energia case study: UX/UI and digital product at scale, by Eduardo Amaral.",
@@ -3059,7 +3118,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     case "/cases/petrobras-design-system":
       return {
-        title: `Case Petrobras Design System — Design System com IA | ${SITE_NAME}`,
+        title: `Case Petrobras Design System | Design System com IA | ${SITE_NAME}`,
         description: t(
           "Case do Design System da Petrobras: tokens, componentes e Design System com IA, por Eduardo Amaral.",
           "Petrobras Design System case study: tokens, components and AI-assisted Design System, by Eduardo Amaral.",
@@ -3067,7 +3126,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
       };
     default:
       return {
-        title: `${SITE_NAME} — Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
+        title: `${SITE_NAME} | Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
         description: t(
           "Portfólio de Eduardo Amaral (uxdudu), Senior Product Designer especializado em UX/UI, Design Systems e Design com IA.",
           "Portfolio of Eduardo Amaral (uxdudu), Senior Product Designer specializing in UX/UI, Design Systems and AI for UX.",
@@ -3146,7 +3205,7 @@ export function App() {
   }, [path]);
 
   // Título + meta por rota (title, description, Open Graph, Twitter, canonical)
-  // — ajuda o Google a indexar cada página com contexto próprio e o prerender a capturar tudo.
+  // Ajuda o Google a indexar cada página com contexto próprio e o prerender a capturar tudo.
   useEffect(() => {
     if (path === "/cv/pt" || path === "/cv/en") return; // CvPrintPage define o próprio título
     const en = language === "en";

@@ -14,10 +14,10 @@ Eduardo Amaral é designer de produto sênior com foco em experiência do usuár
 
 ## Cases de trabalho
 
-- [Case — Clinia](https://eduardoamaral.me/cases/clinia): construção de Design System, UX/UI e produto, com uso de IA no fluxo de design.
-- [Case — Talqui](https://eduardoamaral.me/cases/talqui): UX/UI e design de produto digital.
-- [Case — Petrobras Nossa Energia](https://eduardoamaral.me/cases/petrobras-nossa-energia): UX/UI e produto digital em escala.
-- [Case — Petrobras Design System](https://eduardoamaral.me/cases/petrobras-design-system): Design System com IA — tokens, componentes e governança.
+- [Case Clinia](https://eduardoamaral.me/cases/clinia): construção de Design System, UX/UI e produto, com uso de IA no fluxo de design.
+- [Case Talqui](https://eduardoamaral.me/cases/talqui): UX/UI e design de produto digital.
+- [Case Petrobras Nossa Energia](https://eduardoamaral.me/cases/petrobras-nossa-energia): UX/UI e produto digital em escala.
+- [Case Petrobras Design System](https://eduardoamaral.me/cases/petrobras-design-system): Design System com IA, tokens, componentes e governança.
 
 ## Currículo
 

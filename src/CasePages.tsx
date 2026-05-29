@@ -1,5 +1,6 @@
 import { Children, Fragment, isValidElement, useEffect, useState, type ReactNode } from "react";
 import { usePostHog } from "@posthog/react";
+import { SmoothCorners } from "@lisse/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { SanityCaseStudy } from "./lib/sanity";
 import cliniaShadcnFoundation from "./assets/clinia-shadcn-foundation.webp";
@@ -171,11 +172,11 @@ function CaseImage({
       variants={sectionReveal}
       transition={SPRING}
     >
-      <div className="overflow-hidden rounded-3xl border border-border bg-card p-2">
+      <SmoothCorners corners={{ radius: 24, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
         <button
           type="button"
           onClick={() => onOpen?.({ src: image, alt: label, caption: label })}
-          className="group relative block h-[240px] w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-media text-left sm:h-[360px] lg:h-[460px]"
+          className="case-mobile-image-frame group relative block h-[240px] w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-media text-left sm:h-[360px] lg:h-[460px]"
           aria-label={`${t.zoom}: ${label}`}
         >
           <img loading="lazy" decoding="async"
@@ -188,7 +189,7 @@ function CaseImage({
             {t.zoom}
           </span>
         </button>
-      </div>
+      </SmoothCorners>
       <figcaption className="text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
         {label}
       </figcaption>
@@ -244,8 +245,8 @@ function CaseTextSection({
 }
 
 const cliniaCaseFallback: SanityCaseStudy = {
-  title: "Clinia — Plataforma 2.0",
-  titleEn: "Clinia — Platform 2.0",
+  title: "Clinia: Plataforma 2.0",
+  titleEn: "Clinia: Platform 2.0",
   slug: "clinia",
   client: "Clinia",
   role: "Product Design, Design System e Frontend",
@@ -253,18 +254,18 @@ const cliniaCaseFallback: SanityCaseStudy = {
   summaryEn: "Building Clinia platform 2.0, connecting UX audit, design system, custom shadcn, real AI prototypes and design-to-code workflow.",
   stack: ["Figma", "shadcn", "Cursor", "Claude", "Figma MCP"],
   sections: [
-    { eyebrow: "Desafio", title: "Reconstruir uma plataforma sem design system e sem perder identidade.", body: ["A versão anterior tinha uma experiência visual desalinhada e uma estrutura que dificultava evolução. A empresa não tinha um design system estruturado — cada decisão era tomada de forma isolada.", "O desafio era criar uma base sólida para a versão 2.0: um DS que respeitasse a identidade da marca, fosse próximo do código e permitisse escalar o produto com consistência."] },
+    { eyebrow: "Desafio", title: "Reconstruir a plataforma com uma base consistente.", body: ["A versão anterior tinha uma experiência visual desalinhada e uma estrutura difícil de evoluir. A empresa ainda não tinha um design system estruturado, então cada decisão era tomada de forma isolada.", "O desafio era criar uma base sólida para a versão 2.0: um DS próximo do código, alinhado à marca e pronto para escalar o produto com consistência."] },
     { eyebrow: "Solução", title: "Design system em produção, fluxo design-to-code com IA.", body: ["Estruturamos o design system com shadcn customizado no Figma e em código, criando um repositório de frontend alimentado continuamente com componentes e padrões sincronizados.", "Com Claude, Cursor e MCP do Figma no fluxo, a entrega deixou de ser interface estática e passou a incluir código funcional. O projeto está em andamento, com novas áreas da plataforma sendo construídas continuamente."] },
   ],
   sectionsEn: [
-    { eyebrow: "Challenge", title: "Rebuilding a platform without a design system without losing identity.", body: ["The previous version had a misaligned visual experience and a structure that made evolution difficult. The company had no structured design system — every decision was made in isolation.", "The challenge was to create a solid foundation for version 2.0: a DS that respected the brand identity, stayed close to the code, and allowed the team to scale the product consistently."] },
+    { eyebrow: "Challenge", title: "Rebuilding the platform with a consistent foundation.", body: ["The previous version had a misaligned visual experience and a structure that was hard to evolve. The company still had no structured design system, so each decision was made in isolation.", "The challenge was to create a solid foundation for version 2.0: a DS close to the code, aligned with the brand and ready to scale the product consistently."] },
     { eyebrow: "Solution", title: "Design system in production, design-to-code workflow with AI.", body: ["We built the design system with custom shadcn in Figma and in code, creating a frontend repository continuously fed with synchronized components and patterns.", "With Claude, Cursor and Figma MCP in the flow, deliverables stopped being static interfaces and started including functional code. The project is ongoing, with new platform areas being built continuously."] },
   ],
 };
 
 const talquiCaseFallback: SanityCaseStudy = {
-  title: "Talqui — Plataforma",
-  titleEn: "Talqui — Platform",
+  title: "Talqui: Plataforma",
+  titleEn: "Talqui: Platform",
   slug: "talqui",
   client: "Talqui",
   role: "Product Design e Design System",
@@ -273,17 +274,17 @@ const talquiCaseFallback: SanityCaseStudy = {
   stack: ["Figma", "Design Tokens", "Storybook", "IA"],
   sections: [
     { eyebrow: "Desafio", title: "Criar identidade e escala em uma plataforma nascida como fork técnico.", body: ["A plataforma havia nascido como uma adaptação de uma interface criada pelo time de desenvolvimento. Funcionava, mas limitava a identidade visual e dificultava o crescimento do produto.", "O desafio era criar uma plataforma com identidade própria: uma experiência que comunicasse a marca, suportasse novas features e tivesse uma base de componentes consistente para evoluir."] },
-    { eyebrow: "Solução", title: "Redesign completo com design system e documentação em Storybook.", body: ["Construí toda a plataforma nova — da identidade visual ao design system com tokens personalizados, componentes e padrões documentados.", "O time criou um repositório dedicado ao DS, sincronizado com Storybook. A plataforma foi redesenhada do zero e segue evoluindo com base nessa fundação."] },
+    { eyebrow: "Solução", title: "Redesign completo com design system e documentação em Storybook.", body: ["Construí toda a plataforma nova, da identidade visual ao design system com tokens personalizados, componentes e padrões documentados.", "O time criou um repositório dedicado ao DS, sincronizado com Storybook. A plataforma foi redesenhada do zero e segue evoluindo com base nessa fundação."] },
   ],
   sectionsEn: [
     { eyebrow: "Challenge", title: "Creating identity and scale in a platform born as a technical fork.", body: ["The platform had been born as an adaptation of an interface created by the development team. It worked, but limited the visual identity and made product growth difficult.", "The challenge was to create a platform with its own identity: an experience that communicated the brand, supported new features and had a consistent component base to evolve from."] },
-    { eyebrow: "Solution", title: "Full redesign with design system and Storybook documentation.", body: ["I built the entire new platform — from the visual identity to the design system with custom tokens, components and documented patterns.", "The team created a dedicated DS repository, synchronized with Storybook. The platform was redesigned from scratch and continues to evolve on this foundation."] },
+    { eyebrow: "Solution", title: "Full redesign with design system and Storybook documentation.", body: ["I built the new platform from the visual identity to the design system, with custom tokens, components and documented patterns.", "The team created a dedicated DS repository, synchronized with Storybook. The platform was redesigned from scratch and continues to evolve on this foundation."] },
   ],
 };
 
 const petrobrasDsCaseFallback: SanityCaseStudy = {
-  title: "Petrobras — Design System",
-  titleEn: "Petrobras — Design System",
+  title: "Petrobras: Design System",
+  titleEn: "Petrobras: Design System",
   slug: "petrobras-design-system",
   client: "Petrobras",
   role: "Design System e documentação",
@@ -301,8 +302,8 @@ const petrobrasDsCaseFallback: SanityCaseStudy = {
 };
 
 const petrobrasNossaEnergiaCaseFallback: SanityCaseStudy = {
-  title: "Petrobras — Nossa Energia",
-  titleEn: "Petrobras — Nossa Energia",
+  title: "Petrobras: Nossa Energia",
+  titleEn: "Petrobras: Nossa Energia",
   slug: "petrobras-nossa-energia",
   client: "Petrobras",
   role: "Design System, UX, UI e Liferay collaboration",
@@ -439,11 +440,11 @@ function DsEvidenceFigure({
       variants={sectionReveal}
       transition={SPRING}
     >
-      <div className="overflow-hidden rounded-3xl border border-border bg-card p-2">
+      <SmoothCorners corners={{ radius: 24, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
         <button
           type="button"
           onClick={() => onOpen({ src: item.image, alt: item.title, caption: item.description })}
-          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-white text-left"
+          className="case-mobile-image-frame group relative block w-full cursor-zoom-in overflow-hidden rounded-[20px] bg-white text-left"
           aria-label={`${t.zoom}: ${item.title}`}
         >
           <img loading="lazy" decoding="async" src={item.image} alt={item.title} className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]" />
@@ -451,7 +452,7 @@ function DsEvidenceFigure({
             {t.zoom}
           </span>
         </button>
-      </div>
+      </SmoothCorners>
       <figcaption className="flex flex-col gap-2">
         <h3 className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-foreground">
           {item.title}
@@ -480,11 +481,11 @@ function CaseLightboxFigure({
   const { t } = useTranslation();
   return (
     <motion.figure className="flex flex-col gap-4" variants={sectionReveal}>
-      <div className="overflow-hidden rounded-[32px] border border-border bg-card p-2">
+      <SmoothCorners corners={{ radius: 32, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
         <button
           type="button"
           onClick={() => onOpen({ src: image, alt: title, caption })}
-          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-white text-left"
+          className="case-mobile-image-frame group relative block w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-white text-left"
           aria-label={`${t.zoom}: ${title}`}
         >
           <img loading="lazy" decoding="async"
@@ -496,7 +497,7 @@ function CaseLightboxFigure({
             {t.zoom}
           </span>
         </button>
-      </div>
+      </SmoothCorners>
       <figcaption className="text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
         {caption}
       </figcaption>
@@ -556,9 +557,7 @@ function NextCaseSection({
         : "Plataforma 2.0, design system e fluxo com IA",
       href: "/cases/clinia",
       coverImage: cliniaCover,
-      bgClass: "bg-[#eef5ff]",
-      gradientClass: "bg-gradient-to-r from-[#eef5ff] via-[#eef5ff]/88 to-[#eef5ff]/20",
-      isDark: false,
+      bgClass: "bg-[#08080c]",
     },
     talqui: {
       title: "Talqui",
@@ -567,9 +566,7 @@ function NextCaseSection({
         : "Plataforma de atendimento com IA, redesign e design system",
       href: "/cases/talqui",
       coverImage: talquiCover,
-      bgClass: "bg-[#49a8ff]",
-      gradientClass: "bg-gradient-to-r from-[#49a8ff] via-[#49a8ff]/88 to-[#49a8ff]/20",
-      isDark: false,
+      bgClass: "bg-[#08080c]",
     },
     "petrobras-ds": {
       title: "Petrobras DS v2",
@@ -578,9 +575,7 @@ function NextCaseSection({
         : "Biblioteca de componentes, design tokens e documentação",
       href: "/cases/petrobras-design-system",
       coverImage: petrobrasDsCover,
-      bgClass: "bg-[#061308]",
-      gradientClass: "bg-gradient-to-r from-[#061308] via-[#061308]/92 to-[#061308]/28",
-      isDark: true,
+      bgClass: "bg-[#08080c]",
     },
     "petrobras-ne": {
       title: "Nossa Energia",
@@ -589,9 +584,7 @@ function NextCaseSection({
         : "Portal editorial de conteúdos conectado ao design system",
       href: "/cases/petrobras-nossa-energia",
       coverImage: petrobrasNossaEnergia,
-      bgClass: "bg-[#061308]",
-      gradientClass: "bg-gradient-to-r from-[#061308] via-[#061308]/92 to-[#061308]/28",
-      isDark: true,
+      bgClass: "bg-[#08080c]",
     },
   }[nextCase];
 
@@ -622,23 +615,18 @@ function NextCaseSection({
             alt=""
             className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
           />
-          <div className={["absolute inset-0 transition-opacity duration-300", data.gradientClass].join(" ")} />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/82 via-black/58 to-black/18 transition-opacity duration-300" />
         </div>
 
         {/* Content wrapper */}
         <div className="relative z-10 flex h-full min-h-[160px] sm:min-h-[200px] md:min-h-[240px] flex-col justify-between gap-8">
           <div className="flex items-start justify-between gap-4">
-            <h3 className={[
-              "text-[32px] font-medium leading-none tracking-[-1.6px] sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px] transition-colors duration-300",
-              data.isDark ? "text-white" : "text-[#08080c]",
-            ].join(" ")}>
+            <h3 className="text-[32px] font-medium leading-none tracking-[-1.6px] text-white transition-colors duration-300 sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
               {data.title}
             </h3>
             <div className={[
-              "grid size-12 place-items-center rounded-full border transition-all duration-300 shrink-0",
-              data.isDark
-                ? "border-white/20 bg-white/10 text-white group-hover:border-white group-hover:bg-white group-hover:text-black"
-                : "border-black/10 bg-black/5 text-[#08080c] group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground",
+              "grid size-12 place-items-center rounded-full border transition-colors duration-300 shrink-0",
+              "border-white/20 bg-white/10 text-white group-hover:border-white group-hover:bg-white group-hover:text-black",
             ].join(" ")}>
               <svg
                 viewBox="0 0 24 24"
@@ -653,10 +641,7 @@ function NextCaseSection({
               </svg>
             </div>
           </div>
-          <p className={[
-            "max-w-[480px] text-[15px] font-medium leading-[1.45] tracking-[-0.3px] sm:text-[17px] sm:tracking-[-0.34px] transition-colors duration-300",
-            data.isDark ? "text-white/76" : "text-[#08080c]/70",
-          ].join(" ")}>
+          <p className="max-w-[480px] text-[15px] font-medium leading-[1.45] tracking-[-0.3px] text-white/76 transition-colors duration-300 sm:text-[17px] sm:tracking-[-0.34px]">
             {data.category}
           </p>
         </div>
@@ -715,30 +700,32 @@ export function PetrobrasDesignSystemCasePage({
         </motion.section>
 
         <motion.section
-          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
+          className="w-full"
           variants={sectionReveal}
         >
-          <button
-            type="button"
-            onClick={() =>
-              setLightboxImage({
-                src: petrobrasDsCover,
-                alt: "Capa do projeto Petrobras Design System",
-                caption: language === "en" ? "Cover image for the Petrobras Design System case." : "Imagem de capa do case Petrobras Design System.",
-              })
-            }
-            className="group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#e4f6ed] text-left"
-            aria-label={language === "en" ? "Zoom in: Petrobras Design System case cover" : "Ampliar imagem: capa do case Petrobras Design System"}
-          >
-            <img loading="lazy" decoding="async"
-              src={petrobrasDsCover}
-              alt={language === "en" ? "Petrobras Design System case cover" : "Capa do projeto Petrobras Design System"}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
-            />
-            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-              {t.zoom}
-            </span>
-          </button>
+          <SmoothCorners corners={{ radius: 32, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
+            <button
+              type="button"
+              onClick={() =>
+                setLightboxImage({
+                  src: petrobrasDsCover,
+                  alt: "Capa do projeto Petrobras Design System",
+                  caption: language === "en" ? "Cover image for the Petrobras Design System case." : "Imagem de capa do case Petrobras Design System.",
+                })
+              }
+              className="case-mobile-image-frame group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#e4f6ed] text-left"
+              aria-label={language === "en" ? "Zoom in: Petrobras Design System case cover" : "Ampliar imagem: capa do case Petrobras Design System"}
+            >
+              <img loading="lazy" decoding="async"
+                src={petrobrasDsCover}
+                alt={language === "en" ? "Petrobras Design System case cover" : "Capa do projeto Petrobras Design System"}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+              />
+              <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                {t.zoom}
+              </span>
+            </button>
+          </SmoothCorners>
         </motion.section>
 
         <CmsCaseNarrative caseStudy={cmsCase || petrobrasDsCaseFallback} />
@@ -822,8 +809,8 @@ export function PetrobrasDesignSystemCasePage({
                 pages, but clear enough to be used by diverse teams in a complex institutional context.
               </p>
               <p>
-                It was also necessary to create practical documentation: not just a visual library,
-                but material that helped make decisions, specify interfaces, and reduce ambiguity during implementation.
+                The project also needed practical documentation with decision criteria, interface specs,
+                and clear implementation guidance.
               </p>
             </>
           ) : (
@@ -834,9 +821,8 @@ export function PetrobrasDesignSystemCasePage({
                 institucional complexo.
               </p>
               <p>
-                Também era necessário criar uma documentação prática: não apenas uma biblioteca visual,
-                mas um material que ajudasse a tomar decisões, especificar interfaces e reduzir
-                ambiguidade durante a implementação.
+                Também era necessário criar uma documentação prática, com critérios de decisão,
+                specs de interface e orientações claras para implementação.
               </p>
             </>
           )}
@@ -951,9 +937,8 @@ export function PetrobrasDesignSystemCasePage({
                 built on previously defined components, sections, and templates.
               </p>
               <p>
-                This relationship is the most important point of the case: the value of the design system was not
-                in an isolated library, but in the ability to create a foundation for multiple digital experiences
-                with more consistency and speed.
+                This relationship is the most important point of the case: the design system created
+                a foundation for multiple digital experiences with more consistency and speed.
               </p>
             </>
           ) : (
@@ -963,9 +948,8 @@ export function PetrobrasDesignSystemCasePage({
                 editorial que se apoia em componentes, sections e templates previamente definidos.
               </p>
               <p>
-                Essa relação é o ponto mais importante do case: o valor do design system não estava
-                em uma biblioteca isolada, mas na capacidade de criar uma fundação para múltiplas
-                experiências digitais com mais consistência e velocidade.
+                Essa relação é o ponto mais importante do case: o design system criou uma fundação
+                para múltiplas experiências digitais com mais consistência e velocidade.
               </p>
             </>
           )}
@@ -1072,31 +1056,33 @@ export function PetrobrasNossaEnergiaCasePage({
         </motion.section>
 
         <motion.section
-          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
+          className="w-full"
           variants={sectionReveal}
         >
-          <button
-            type="button"
-            onClick={() =>
-              setLightboxImage({
-                src: petrobrasNossaEnergia,
-                alt: "Nossa Energia Petrobras",
-                caption: language === "en" ? "Main image of the Nossa Energia Petrobras case." : "Imagem principal do case Nossa Energia Petrobras.",
-              })
-            }
-            className="group relative block h-[260px] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-media text-left sm:h-[420px] lg:h-[600px]"
-            aria-label={language === "en" ? "Zoom in: Nossa Energia Petrobras" : "Ampliar imagem: Nossa Energia Petrobras"}
-          >
-            <img loading="lazy" decoding="async"
-              src={petrobrasNossaEnergia}
-              alt="Nossa Energia Petrobras"
-              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.015]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-              {t.zoom}
-            </span>
-          </button>
+          <SmoothCorners corners={{ radius: 32, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
+            <button
+              type="button"
+              onClick={() =>
+                setLightboxImage({
+                  src: petrobrasNossaEnergia,
+                  alt: "Nossa Energia Petrobras",
+                  caption: language === "en" ? "Main image of the Nossa Energia Petrobras case." : "Imagem principal do case Nossa Energia Petrobras.",
+                })
+              }
+              className="case-mobile-image-frame group relative block h-[260px] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-media text-left sm:h-[420px] lg:h-[600px]"
+              aria-label={language === "en" ? "Zoom in: Nossa Energia Petrobras" : "Ampliar imagem: Nossa Energia Petrobras"}
+            >
+              <img loading="lazy" decoding="async"
+                src={petrobrasNossaEnergia}
+                alt="Nossa Energia Petrobras"
+                className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.015]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+              <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                {t.zoom}
+              </span>
+            </button>
+          </SmoothCorners>
         </motion.section>
 
         <CmsCaseNarrative caseStudy={cmsCase || petrobrasNossaEnergiaCaseFallback} />
@@ -1280,10 +1266,8 @@ export function PetrobrasNossaEnergiaCasePage({
           {language === "en" ? (
             <>
               <p>
-                To present this project in the portfolio, the ideal approach is to first show the
-                Petrobras family: Nossa Energia, design system, and main site. This helps the viewer
-                understand that the value lies not in just one page, but in creating a reusable foundation
-                for multiple digital products.
+                This project is part of the Petrobras digital family: Nossa Energia, design system,
+                and main site. Together, they show a reusable foundation for multiple products.
               </p>
               <p>
                 The Petro DS v2 documentation organized Design Tokens, Components, Sections,
@@ -1316,10 +1300,8 @@ export function PetrobrasNossaEnergiaCasePage({
           ) : (
             <>
               <p>
-                Para contar esse projeto no portfólio, o caminho ideal é mostrar primeiro a
-                família Petrobras: Nossa Energia, design system e site principal. Assim a pessoa
-                entende que o valor não está só em uma página, mas na criação de uma base
-                reutilizável para múltiplos produtos digitais.
+                Este projeto faz parte da família digital Petrobras: Nossa Energia, design system
+                e site principal. Juntos, eles mostram uma base reutilizável para múltiplos produtos.
               </p>
               <p>
                 A documentação do Petro DS v2 organizava Design Tokens, Components, Sections,
@@ -1454,30 +1436,32 @@ export function CliniaCasePage({
         </motion.section>
 
         <motion.section
-          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
+          className="w-full"
           variants={sectionReveal}
         >
-          <button
-            type="button"
-            onClick={() =>
-              setLightboxImage({
-                src: cliniaCover,
-                alt: "Capa do projeto Clinia Plataforma",
-                caption: language === "en" ? "Cover image for the Clinia case." : "Imagem de capa do case Clinia.",
-              })
-            }
-            className="group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#eef5ff] text-left"
-            aria-label={language === "en" ? "Zoom in: Clinia case cover" : "Ampliar imagem: capa do case Clinia"}
-          >
-            <img loading="lazy" decoding="async"
-              src={cliniaCover}
-              alt={language === "en" ? "Clinia Platform case cover" : "Capa do projeto Clinia Plataforma"}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
-            />
-            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-              {t.zoom}
-            </span>
-          </button>
+          <SmoothCorners corners={{ radius: 32, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
+            <button
+              type="button"
+              onClick={() =>
+                setLightboxImage({
+                  src: cliniaCover,
+                  alt: "Capa do projeto Clinia Plataforma",
+                  caption: language === "en" ? "Cover image for the Clinia case." : "Imagem de capa do case Clinia.",
+                })
+              }
+              className="case-mobile-image-frame group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#eef5ff] text-left"
+              aria-label={language === "en" ? "Zoom in: Clinia case cover" : "Ampliar imagem: capa do case Clinia"}
+            >
+              <img loading="lazy" decoding="async"
+                src={cliniaCover}
+                alt={language === "en" ? "Clinia Platform case cover" : "Capa do projeto Clinia Plataforma"}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+              />
+              <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                {t.zoom}
+              </span>
+            </button>
+          </SmoothCorners>
         </motion.section>
 
         <CmsCaseNarrative caseStudy={cmsCase || cliniaCaseFallback} />
@@ -1542,11 +1526,11 @@ export function CliniaCasePage({
                 className="flex flex-col gap-4"
                 variants={sectionReveal}
               >
-                <div className="overflow-hidden rounded-[32px] border border-border bg-card p-2">
+                <SmoothCorners corners={{ radius: 32, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
                   <button
                     type="button"
                     onClick={() => setLightboxImage({ src: item.image, alt: item.title, caption: item.caption })}
-                    className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-white text-left"
+                    className="case-mobile-image-frame group relative block w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-white text-left"
                     aria-label={`${t.zoom}: ${item.title}`}
                   >
                     <img loading="lazy" decoding="async"
@@ -1561,7 +1545,7 @@ export function CliniaCasePage({
                       {t.zoom}
                     </span>
                   </button>
-                </div>
+                </SmoothCorners>
                 <figcaption className="text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
                   {item.caption}
                 </figcaption>
@@ -1600,7 +1584,7 @@ export function CliniaCasePage({
           )}
           <CaseLightboxFigure
             image={cliniaShadcnFoundation}
-            title="shadcn — The Foundation for your Design System"
+            title="shadcn: The Foundation for your Design System"
             caption={language === "en" ? "Open source component base used as the starting point for Clinia's design system, adapted to the brand's visual identity." : "Base de componentes open source usada como ponto de partida para o design system da Clinia, adaptada à identidade visual da marca."}
             onOpen={setLightboxImage}
             imageClassName="aspect-[16/10] w-full object-cover"
@@ -1812,30 +1796,32 @@ export function TalquiCasePage({
         </motion.section>
 
         <motion.section
-          className="overflow-hidden rounded-[32px] border border-border bg-card p-2"
+          className="w-full"
           variants={sectionReveal}
         >
-          <button
-            type="button"
-            onClick={() =>
-              setLightboxImage({
-                src: talquiCover,
-                alt: "Capa do projeto Talqui Plataforma",
-                caption: language === "en" ? "Cover image for the Talqui case." : "Imagem de capa do case Talqui.",
-              })
-            }
-            className="group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#49a8ff] text-left"
-            aria-label={language === "en" ? "Zoom in: Talqui case cover" : "Ampliar imagem: capa do case Talqui"}
-          >
-            <img loading="lazy" decoding="async"
-              src={talquiCover}
-              alt={language === "en" ? "Talqui Platform case cover" : "Capa do projeto Talqui Plataforma"}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
-            />
-            <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-              {t.zoom}
-            </span>
-          </button>
+          <SmoothCorners corners={{ radius: 32, smoothing: 0.72 }} className="overflow-hidden border border-border bg-card p-2">
+            <button
+              type="button"
+              onClick={() =>
+                setLightboxImage({
+                  src: talquiCover,
+                  alt: "Capa do projeto Talqui Plataforma",
+                  caption: language === "en" ? "Cover image for the Talqui case." : "Imagem de capa do case Talqui.",
+                })
+              }
+              className="case-mobile-image-frame group relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[24px] bg-[#49a8ff] text-left"
+              aria-label={language === "en" ? "Zoom in: Talqui case cover" : "Ampliar imagem: capa do case Talqui"}
+            >
+              <img loading="lazy" decoding="async"
+                src={talquiCover}
+                alt={language === "en" ? "Talqui Platform case cover" : "Capa do projeto Talqui Plataforma"}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+              />
+              <span className="absolute bottom-4 right-4 rounded-full bg-black/52 px-3 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.39px] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                {t.zoom}
+              </span>
+            </button>
+          </SmoothCorners>
         </motion.section>
 
         <CmsCaseNarrative caseStudy={cmsCase || talquiCaseFallback} />
@@ -1876,8 +1862,7 @@ export function TalquiCasePage({
             <>
               <p>
                 The design system was built from the ground up with scale in mind. Variables, design
-                tokens, components, and patterns were organized to work as a product foundation,
-                not just a collection of screens.
+                tokens, components, and patterns were organized as a product foundation.
               </p>
               <p>
                 I created the design tokens with custom naming, bringing together brand semantics,
@@ -1893,8 +1878,7 @@ export function TalquiCasePage({
             <>
               <p>
                 O design system foi construído desde o início com escala em mente. Variáveis, design
-                tokens, componentes e padrões foram organizados para funcionar como uma base de produto,
-                não apenas como uma coleção de telas.
+                tokens, componentes e padrões foram organizados como uma base de produto.
               </p>
               <p>
                 Criei os design tokens com uma nomenclatura personalizada, aproximando a semântica da
@@ -2026,4 +2010,3 @@ export function TalquiCasePage({
     </>
   );
 }
-

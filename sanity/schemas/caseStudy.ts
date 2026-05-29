@@ -151,6 +151,46 @@ export const caseStudy = defineType({
         },
       ],
     }),
+    defineField({
+      name: "testimonials",
+      title: "Depoimentos",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "quote",
+              title: "Depoimento",
+              type: "text",
+              rows: 4,
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "quoteEn",
+              title: "Depoimento (EN)",
+              type: "text",
+              rows: 4,
+            }),
+            defineField({
+              name: "author",
+              title: "Nome",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({ name: "role", title: "Cargo", type: "string" }),
+            defineField({ name: "roleEn", title: "Cargo (EN)", type: "string" }),
+            defineField({ name: "company", title: "Empresa", type: "string" }),
+          ],
+          preview: {
+            select: {
+              title: "author",
+              subtitle: "company",
+            },
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {

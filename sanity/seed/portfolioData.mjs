@@ -13,7 +13,7 @@ export const portfolioProjects = [
     type: "Web app",
     status: "Em andamento",
     summary: "Produto de saúde digital com CRM, experiências com IA e design system.",
-    deliverables: ["UI", "UX", "Design System", "AI", "Research"],
+    deliverables: ["UI/UX", "Design System", "AI"],
   },
   {
     _id: "portfolioProject.talqui",
@@ -29,7 +29,7 @@ export const portfolioProjects = [
     type: "Web app",
     status: "Em andamento",
     summary: "Plataforma de atendimento com IA, redesign, design system e site em Framer.",
-    deliverables: ["UI", "UX", "Design System", "No code", "AI"],
+    deliverables: ["UI/UX", "Design System", "No code", "AI"],
   },
   {
     _id: "portfolioProject.petrobras",
@@ -45,7 +45,7 @@ export const portfolioProjects = [
     type: "Site",
     status: "Case disponível",
     summary: "Portal Nossa Energia, site institucional e Design System Petrobras v2.",
-    deliverables: ["UI", "UX", "Design System", "Motion", "Research"],
+    deliverables: ["UI/UX", "Design System", "Motion"],
   },
   {
     _id: "portfolioProject.orcamais",
@@ -60,7 +60,7 @@ export const portfolioProjects = [
     type: "Web app",
     status: "Em andamento",
     summary: "Plataforma de gestão de obras construída pela Versare com AI no processo.",
-    deliverables: ["UI", "UX", "AI", "Design System"],
+    deliverables: ["UI/UX", "AI", "Design System"],
   },
   {
     _id: "portfolioProject.grupo-primo",
@@ -75,7 +75,7 @@ export const portfolioProjects = [
     type: "Site",
     status: "Finalizado",
     summary: "Produtos digitais de educação e conteúdo como Finclass, Staage e Staart.",
-    deliverables: ["UI", "UX", "Design System"],
+    deliverables: ["UI/UX", "Design System"],
   },
   {
     _id: "portfolioProject.jstack",
@@ -88,7 +88,7 @@ export const portfolioProjects = [
     type: "Site",
     status: "Finalizado",
     summary: "Redesign institucional, posicionamento, landing pages e evolução de produto.",
-    deliverables: ["UI", "UX", "No code", "Design System"],
+    deliverables: ["UI/UX", "No code", "Design System"],
   },
   {
     _id: "portfolioProject.grana-ai",
@@ -101,7 +101,7 @@ export const portfolioProjects = [
     type: "Web app",
     status: "Versare",
     summary: "Produto financeiro com foco em clareza, jornadas e experiência de uso.",
-    deliverables: ["UI", "UX", "AI"],
+    deliverables: ["UI/UX", "AI"],
   },
   {
     _id: "portfolioProject.docompliance",
@@ -114,7 +114,7 @@ export const portfolioProjects = [
     type: "Web app",
     status: "Versare",
     summary: "Plataforma jurídica com IA para fluxos de compliance e operação.",
-    deliverables: ["UI", "UX", "AI", "Design System"],
+    deliverables: ["UI/UX", "AI", "Design System"],
   },
   {
     _id: "portfolioProject.gennio",
@@ -127,7 +127,7 @@ export const portfolioProjects = [
     type: "Site",
     status: "Versare",
     summary: "Landing pages e presença digital para comunicação de produto.",
-    deliverables: ["UI", "No code"],
+    deliverables: ["UI/UX", "No code"],
   },
   {
     _id: "portfolioProject.velloo",
@@ -140,7 +140,7 @@ export const portfolioProjects = [
     type: "App",
     status: "Versare",
     summary: "Experiência mobile com foco em interface, fluxos e produto.",
-    deliverables: ["UI", "UX"],
+    deliverables: ["UI/UX"],
   },
   {
     _id: "portfolioProject.marmaris",
@@ -153,7 +153,7 @@ export const portfolioProjects = [
     type: "Site",
     status: "Versare",
     summary: "Site institucional com direção visual e experiência responsiva.",
-    deliverables: ["UI", "UX", "No code"],
+    deliverables: ["UI/UX", "No code"],
   },
   {
     _id: "portfolioProject.clinia-platform",
@@ -215,7 +215,7 @@ export const caseStudies = [
   {
     _id: "caseStudy.clinia-platform",
     _type: "caseStudy",
-    title: "Clinia — Plataforma 2.0",
+    title: "Clinia: Plataforma 2.0",
     slug: { _type: "slug", current: "clinia" },
     client: "Clinia",
     role: "Product Design, Design System e Frontend",
@@ -257,7 +257,7 @@ export const caseStudies = [
   {
     _id: "caseStudy.talqui-platform",
     _type: "caseStudy",
-    title: "Talqui — Plataforma",
+    title: "Talqui: Plataforma",
     slug: { _type: "slug", current: "talqui" },
     client: "Talqui",
     role: "Product Design e Design System",
@@ -340,7 +340,7 @@ export const caseStudies = [
   {
     _id: "caseStudy.petrobras-nossa-energia",
     _type: "caseStudy",
-    title: "Petrobras — Nossa Energia",
+    title: "Petrobras: Nossa Energia",
     slug: { _type: "slug", current: "petrobras-nossa-energia" },
     client: "Petrobras",
     role: "Design System, UX, UI e Liferay collaboration",
@@ -447,7 +447,7 @@ export const caseStudies = [
   {
     _id: "caseStudy.petrobras-design-system",
     _type: "caseStudy",
-    title: "Petrobras — Design System",
+    title: "Petrobras: Design System",
     slug: { _type: "slug", current: "petrobras-design-system" },
     client: "Petrobras",
     role: "Design System e documentação",

@@ -3,3 +3,10 @@ node_modules
 dist
 .sanity/runtime
 .vercel
+.env.local
+.DS_Store
+.claude/
+.agents/
+feedbacks/
+skills-lock.json
+posthog-setup-report.md

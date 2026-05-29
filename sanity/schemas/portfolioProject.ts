@@ -126,7 +126,7 @@ export const portfolioProject = defineType({
       type: "array",
       of: [{ type: "string" }],
       options: {
-        list: ["UI", "UX", "Design System", "Motion", "No code", "AI", "Research"],
+        list: ["UI/UX", "Design System", "Motion", "No code", "AI"],
       },
     }),
   ],

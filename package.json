@@ -14,6 +14,7 @@
     "sanity:seed": "node sanity/seed/seed.mjs"
   },
   "dependencies": {
+    "@lisse/react": "^0.4.0",
     "@posthog/react": "^1.9.1",
     "@sanity/client": "^7.22.0",
     "@sanity/image-url": "^2.1.1",

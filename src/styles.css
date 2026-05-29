@@ -130,12 +130,40 @@ a {
   text-decoration: none;
 }
 
+button {
+  white-space: nowrap;
+}
+
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
 
 p, li, figcaption, blockquote {
   text-wrap: pretty;
+}
+
+.media-outline {
+  position: relative;
+}
+
+.media-outline::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.1));
+}
+
+.case-mobile-image-frame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.1));
 }
 
 @media (max-width: 1199px) {
@@ -147,10 +175,13 @@ p, li, figcaption, blockquote {
     width: 100% !important;
   }
 
-  header,
+  header {
+    padding: 0 !important;
+  }
+
   footer {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   header nav {
@@ -158,7 +189,15 @@ p, li, figcaption, blockquote {
   }
 
   main > div {
-    padding: 48px 24px !important;
+    padding: 24px !important;
+  }
+
+  main > div > div[class*="flex"][class*="w-full"][class*="flex-col"],
+  main .content-page-shell {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   section.grid {
@@ -169,6 +208,10 @@ p, li, figcaption, blockquote {
   [class*="grid-cols-3"],
   [class*="grid-cols-4"] {
     grid-template-columns: 1fr !important;
+  }
+
+  .about-companies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   section {
@@ -186,6 +229,11 @@ p, li, figcaption, blockquote {
   article > div > div:first-child {
     height: 70vw !important;
     max-height: 450px;
+  }
+
+  .featured-video-card .featured-video-copy .featured-video-content {
+    height: auto !important;
+    max-height: none !important;
   }
 
   h1 {
@@ -207,6 +255,20 @@ p, li, figcaption, blockquote {
   footer > div {
     min-width: 0 !important;
     justify-content: center !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .case-mobile-image-frame {
+    aspect-ratio: 4 / 3 !important;
+    height: auto !important;
+    min-height: min(78vw, 340px);
+  }
+
+  .case-mobile-image-frame > img {
+    height: 100% !important;
+    width: 100%;
+    object-fit: cover;
   }
 }
 
