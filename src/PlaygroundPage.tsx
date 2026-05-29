@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 import logo from "./assets/logo.svg";
 import dietaryHome from "./assets/playground/dietary-home.webp";
@@ -16,56 +16,83 @@ import talquiConversas from "./assets/playground/talqui-conversas.webp";
 import waiterappHome from "./assets/playground/waiterapp-home.webp";
 
 // ── Conteúdo do canvas infinito ───────────────────────────────────────────────
-type PlaygroundItem = { src: string; label: string };
+// ar = largura/altura natural do print. Prints landscape (web/desktop) ganham
+// span 2 (largura dupla); prints portrait (apps mobile) ficam em span 1.
+type PlaygroundItem = { src: string; label: string; ar: number; span: 1 | 2 };
 
 const items: PlaygroundItem[] = [
-  { src: talquiConversas, label: "TALQUI" },
-  { src: orcamaisWorkspaces, label: "ORÇAMAIS" },
-  { src: docomplianceHome, label: "DOCOMPLIANCE" },
-  { src: foodiaryPlano, label: "FOODIARY" },
-  { src: finclassJornada, label: "FINCLASS" },
-  { src: orcamaisCpu, label: "ORÇAMAIS" },
-  { src: marmarisFooter, label: "MARMARIS" },
-  { src: fincheckHome, label: "FINCHECK" },
-  { src: docomplianceAdd, label: "DOCOMPLIANCE" },
-  { src: foodiaryHome, label: "FOODIARY" },
-  { src: orcamaisBadge, label: "ORÇAMAIS DS" },
-  { src: waiterappHome, label: "WAITERAPP" },
-  { src: dietaryHome, label: "DIETARY" },
+  { src: talquiConversas, label: "TALQUI", ar: 1.475, span: 2 },
+  { src: orcamaisWorkspaces, label: "ORÇAMAIS", ar: 1.5, span: 2 },
+  { src: dietaryHome, label: "DIETARY", ar: 0.462, span: 1 },
+  { src: docomplianceHome, label: "DOCOMPLIANCE", ar: 1.5, span: 2 },
+  { src: foodiaryPlano, label: "FOODIARY", ar: 0.462, span: 1 },
+  { src: orcamaisCpu, label: "ORÇAMAIS", ar: 1.244, span: 2 },
+  { src: fincheckHome, label: "FINCHECK", ar: 0.462, span: 1 },
+  { src: marmarisFooter, label: "MARMARIS", ar: 1.266, span: 2 },
+  { src: finclassJornada, label: "FINCLASS", ar: 0.462, span: 1 },
+  { src: docomplianceAdd, label: "DOCOMPLIANCE", ar: 1.411, span: 2 },
+  { src: foodiaryHome, label: "FOODIARY", ar: 0.462, span: 1 },
+  { src: orcamaisBadge, label: "ORÇAMAIS DS", ar: 1.07, span: 2 },
+  { src: waiterappHome, label: "WAITERAPP", ar: 0.462, span: 1 },
 ];
 
-// Largura fixa de coluna; a altura de cada imagem é a natural (mantém proporção).
-const COL_W = 300;
-const GAP_X = 48;
-const GAP_Y = 48;
-const COLS = 4;
-const STEP_X = COL_W + GAP_X;
-const BLOCK_W = COLS * STEP_X;
+// ── Geometria do bloco que se repete ──────────────────────────────────────────
+const UNIT = 230; // largura de 1 coluna-base
+const GAP = 44;
+const COLS = 6; // colunas-base; span 2 ocupa duas
+const CAPTION_H = 34; // espaço da legenda abaixo de cada print
+const COL_STEP = UNIT + GAP;
+const BLOCK_W = COLS * COL_STEP; // inclui gap final → tiles horizontais espaçados
+
+const itemWidth = (span: number) => span * UNIT + (span - 1) * GAP;
+
+// Masonry determinístico com spanning de colunas (shortest-column packing).
+type Placed = PlaygroundItem & { x: number; y: number; w: number; h: number };
+
+function buildBlock(): { placed: Placed[]; blockH: number } {
+  const colHeights = new Array<number>(COLS).fill(0);
+  const placed: Placed[] = [];
+
+  for (const item of items) {
+    const span = item.span;
+    let bestCol = 0;
+    let bestTop = Infinity;
+    for (let c = 0; c <= COLS - span; c++) {
+      let top = 0;
+      for (let k = c; k < c + span; k++) top = Math.max(top, colHeights[k]);
+      if (top < bestTop) {
+        bestTop = top;
+        bestCol = c;
+      }
+    }
+
+    const w = itemWidth(span);
+    const h = w / item.ar + CAPTION_H;
+    const x = bestCol * COL_STEP;
+    const y = bestTop;
+    placed.push({ ...item, x, y, w, h });
+
+    const bottom = y + h + GAP;
+    for (let k = bestCol; k < bestCol + span; k++) colHeights[k] = bottom;
+  }
+
+  const blockH = Math.max(...colHeights);
+  return { placed, blockH };
+}
+
+const { placed, blockH: BLOCK_H } = buildBlock();
 
 export function PlaygroundPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const surfaceRef = useRef<HTMLDivElement>(null);
-  const tileRef = useRef<HTMLDivElement>(null);
-
-  const [blockH, setBlockH] = useState(900);
   const [copies, setCopies] = useState({ x: 3, y: 3 });
 
-  // Distribui os itens em colunas (round-robin) — alturas variam naturalmente.
-  const columns = useMemo(() => {
-    const cols: PlaygroundItem[][] = Array.from({ length: COLS }, () => []);
-    items.forEach((item, i) => cols[i % COLS].push(item));
-    return cols;
-  }, []);
-
-  // alvo (para onde vamos) e posição atual (suavizada)
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
   const velocity = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
   const moved = useRef(false);
   const lastPointer = useRef({ x: 0, y: 0 });
-  const blockHRef = useRef(blockH);
-  blockHRef.current = blockH;
 
   const prefersReduced = useMemo(
     () =>
@@ -74,58 +101,18 @@ export function PlaygroundPage() {
     [],
   );
 
-  // Mede a altura natural do bloco (coluna mais alta) depois das imagens carregarem.
-  useLayoutEffect(() => {
-    const tile = tileRef.current;
-    if (!tile) return;
-
-    const measure = () => {
-      const colEls = tile.querySelectorAll<HTMLElement>("[data-col]");
-      let max = 0;
-      colEls.forEach((c) => (max = Math.max(max, c.offsetHeight)));
-      if (max > 0) setBlockH(max + GAP_Y);
-    };
-
-    const imgs = Array.from(tile.querySelectorAll("img"));
-    let pending = imgs.length;
-    if (pending === 0) measure();
-    imgs.forEach((img) => {
-      if (img.complete && img.naturalWidth > 0) {
-        if (--pending === 0) measure();
-      } else {
-        img.addEventListener(
-          "load",
-          () => {
-            if (--pending === 0) measure();
-          },
-          { once: true },
-        );
-        img.addEventListener(
-          "error",
-          () => {
-            if (--pending === 0) measure();
-          },
-          { once: true },
-        );
-      }
-    });
-
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [columns]);
-
   // Quantas cópias do bloco cobrem a viewport + buffer.
   useLayoutEffect(() => {
     const recompute = () => {
       setCopies({
         x: Math.ceil(window.innerWidth / BLOCK_W) + 2,
-        y: Math.ceil(window.innerHeight / blockH) + 2,
+        y: Math.ceil(window.innerHeight / BLOCK_H) + 2,
       });
     };
     recompute();
     window.addEventListener("resize", recompute);
     return () => window.removeEventListener("resize", recompute);
-  }, [blockH]);
+  }, []);
 
   // Loop de animação + interação.
   useEffect(() => {
@@ -137,6 +124,8 @@ export function PlaygroundPage() {
     const setX = gsap.quickSetter(surface, "x", "px");
     const setY = gsap.quickSetter(surface, "y", "px");
     const ease = prefersReduced ? 1 : 0.12;
+    const wrapX = gsap.utils.wrap(-BLOCK_W, 0);
+    const wrapY = gsap.utils.wrap(-BLOCK_H, 0);
 
     const tick = () => {
       if (!dragging.current && !prefersReduced) {
@@ -151,8 +140,8 @@ export function PlaygroundPage() {
       current.current.x += (target.current.x - current.current.x) * ease;
       current.current.y += (target.current.y - current.current.y) * ease;
 
-      setX(gsap.utils.wrap(-BLOCK_W, 0, current.current.x));
-      setY(gsap.utils.wrap(-blockHRef.current, 0, current.current.y));
+      setX(wrapX(current.current.x));
+      setY(wrapY(current.current.y));
     };
 
     gsap.ticker.add(tick);
@@ -190,7 +179,7 @@ export function PlaygroundPage() {
       velocity.current = { x: -e.deltaX * 0.2, y: -e.deltaY * 0.2 };
     };
 
-    // Evita que um drag dispare navegação ao soltar sobre um link.
+    // Evita navegação acidental ao soltar um drag sobre um link.
     const onClickCapture = (e: MouseEvent) => {
       if (moved.current) {
         e.preventDefault();
@@ -237,47 +226,11 @@ export function PlaygroundPage() {
     const offsets: { ox: number; oy: number; key: string }[] = [];
     for (let i = 0; i < copies.x; i++) {
       for (let j = 0; j < copies.y; j++) {
-        offsets.push({ ox: (i - 1) * BLOCK_W, oy: (j - 1) * blockH, key: `${i}-${j}` });
+        offsets.push({ ox: (i - 1) * BLOCK_W, oy: (j - 1) * BLOCK_H, key: `${i}-${j}` });
       }
     }
     return offsets;
-  }, [copies, blockH]);
-
-  const renderColumns = (blockKey: string, withRef: boolean) => (
-    <div
-      ref={withRef ? tileRef : undefined}
-      className="absolute left-0 top-0"
-      style={{ width: BLOCK_W, height: blockH }}
-    >
-      {columns.map((col, c) => (
-        <div
-          key={c}
-          data-col
-          className="absolute top-0 flex flex-col"
-          style={{ left: c * STEP_X, width: COL_W, gap: GAP_Y }}
-        >
-          {col.map((item, idx) => (
-            <figure key={`${blockKey}-${c}-${idx}`} data-figure className="group m-0">
-              <div className="overflow-hidden rounded-[6px] bg-white/5">
-                <img
-                  src={item.src}
-                  alt={item.label}
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                  style={{ width: COL_W, height: "auto" }}
-                  className="block transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                />
-              </div>
-              <figcaption className="pt-3 text-[11px] font-medium uppercase tracking-[0.26em] text-white/45 transition-colors duration-300 group-hover:text-white">
-                {item.label}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
+  }, [copies]);
 
   return (
     <div
@@ -290,13 +243,35 @@ export function PlaygroundPage() {
         className="absolute left-0 top-0 h-full w-full cursor-grab"
         style={{ willChange: "transform" }}
       >
-        {blockOffsets.map(({ ox, oy, key }, index) => (
+        {blockOffsets.map(({ ox, oy, key }) => (
           <div
             key={key}
             className="absolute left-0 top-0"
-            style={{ transform: `translate(${ox}px, ${oy}px)` }}
+            style={{ transform: `translate(${ox}px, ${oy}px)`, width: BLOCK_W, height: BLOCK_H }}
           >
-            {renderColumns(key, index === 0)}
+            {placed.map((item, index) => (
+              <figure
+                key={`${key}-${index}`}
+                data-figure
+                className="group absolute m-0"
+                style={{ left: item.x, top: item.y, width: item.w }}
+              >
+                <div className="overflow-hidden rounded-[6px] bg-white/5">
+                  <img
+                    src={item.src}
+                    alt={item.label}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: item.w, height: "auto" }}
+                    className="block transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                </div>
+                <figcaption className="pt-3 text-[11px] font-medium uppercase tracking-[0.26em] text-white/45 transition-colors duration-300 group-hover:text-white">
+                  {item.label}
+                </figcaption>
+              </figure>
+            ))}
           </div>
         ))}
       </div>
