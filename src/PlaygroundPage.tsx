@@ -13,6 +13,8 @@ import orcamaisBadge from "./assets/playground/orcamais-badge-documentation.webp
 import orcamaisCpu from "./assets/playground/orcamais-editar-cpu.webp";
 import orcamaisWorkspaces from "./assets/playground/orcamais-workspaces.webp";
 import talquiConversas from "./assets/playground/talqui-conversas.webp";
+import vellooBusca from "./assets/playground/velloo-busca.png";
+import vellooHome from "./assets/playground/velloo-home.png";
 import waiterappHome from "./assets/playground/waiterapp-home.webp";
 
 // ── Conteúdo do canvas infinito ───────────────────────────────────────────────
@@ -22,8 +24,9 @@ type PlaygroundItem = { src: string; label: string; ar: number; span: 1 | 2 };
 
 const items: PlaygroundItem[] = [
   { src: talquiConversas, label: "TALQUI", ar: 1.475, span: 2 },
-  { src: orcamaisWorkspaces, label: "ORÇAMAIS", ar: 1.5, span: 2 },
   { src: dietaryHome, label: "DIETARY", ar: 0.462, span: 1 },
+  { src: orcamaisWorkspaces, label: "ORÇAMAIS", ar: 1.5, span: 2 },
+  { src: vellooHome, label: "VELLOO", ar: 0.46, span: 1 },
   { src: docomplianceHome, label: "DOCOMPLIANCE", ar: 1.5, span: 2 },
   { src: foodiaryPlano, label: "FOODIARY", ar: 0.462, span: 1 },
   { src: orcamaisCpu, label: "ORÇAMAIS", ar: 1.244, span: 2 },
@@ -31,8 +34,9 @@ const items: PlaygroundItem[] = [
   { src: marmarisFooter, label: "MARMARIS", ar: 1.266, span: 2 },
   { src: finclassJornada, label: "FINCLASS", ar: 0.462, span: 1 },
   { src: docomplianceAdd, label: "DOCOMPLIANCE", ar: 1.411, span: 2 },
-  { src: foodiaryHome, label: "FOODIARY", ar: 0.462, span: 1 },
+  { src: vellooBusca, label: "VELLOO", ar: 0.46, span: 1 },
   { src: orcamaisBadge, label: "ORÇAMAIS DS", ar: 1.07, span: 2 },
+  { src: foodiaryHome, label: "FOODIARY", ar: 0.462, span: 1 },
   { src: waiterappHome, label: "WAITERAPP", ar: 0.462, span: 1 },
 ];
 
