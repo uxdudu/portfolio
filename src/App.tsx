@@ -565,16 +565,16 @@ const socialFeedSections = [
 ];
 
 const aboutHighlights = [
-  "Product Designer com mais de 5 anos criando produtos, sites e design systems.",
+  "Product Designer com mais de 6 anos criando produtos, sites e design systems.",
   "Atuo de discovery a interface, protótipo, handoff e evolução com times de produto.",
   "Trabalhei em projetos para Petrobras, Banco do Brasil, Grupo Primo, Clinia e Talqui.",
   "Hoje também construo a Versare Design, estúdio focado em produto digital e IA.",
 ];
 
 const aboutStats = [
-  { value: "5+", label: "Anos de experiência" },
-  { value: "50+", label: "Projetos entregues" },
-  { value: "15+", label: "Clientes satisfeitos" },
+  { value: "+6", label: "Anos de experiência" },
+  { value: "+80", label: "Projetos entregues" },
+  { value: "+51", label: "Clientes satisfeitos" },
 ];
 
 const faviconUrl = (href: string) => `${new URL(href).origin}/favicon.ico`;
@@ -893,16 +893,16 @@ const socialFeedSectionsEn = [
 ];
 
 const aboutHighlightsEn = [
-  "Product Designer with 5+ years building products, sites, and design systems.",
+  "Product Designer with 6+ years building products, sites, and design systems.",
   "I work from discovery to interface, prototype, handoff, and product evolution.",
   "I have worked on projects for Petrobras, Banco do Brasil, Grupo Primo, Clinia, and Talqui.",
   "I also run Versare Design, a studio focused on digital products and AI.",
 ];
 
 const aboutStatsEn = [
-  { value: "5+", label: "Years of experience" },
-  { value: "50+", label: "Projects delivered" },
-  { value: "15+", label: "Happy clients" },
+  { value: "+6", label: "Years of experience" },
+  { value: "+80", label: "Projects delivered" },
+  { value: "+51", label: "Happy clients" },
 ];
 
 const experiencesEn = [
@@ -1843,7 +1843,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       experience: "Experiência Profissional",
       education: "Formação Acadêmica & Cursos",
       contact: "Contato",
-      aboutText: "Product Designer Sênior com mais de 5 anos de experiência transformando desafios complexos em soluções digitais intuitivas e centradas no usuário. Possuo uma abordagem versátil e ponta a ponta (end-to-end), cobrindo desde a etapa de descoberta (discovery) e pesquisa de UX até a criação de Design Systems avançados, desenvolvimento sem código (Webflow/Framer) e implementação técnica de frontend integrada a fluxos de Inteligência Artificial.",
+      aboutText: "Product Designer Sênior com mais de 6 anos de experiência transformando desafios complexos em soluções digitais intuitivas e centradas no usuário. Possuo uma abordagem versátil e ponta a ponta (end-to-end), cobrindo desde a etapa de descoberta (discovery) e pesquisa de UX até a criação de Design Systems avançados, desenvolvimento sem código (Webflow/Framer) e implementação técnica de frontend integrada a fluxos de Inteligência Artificial.",
     },
     en: {
       print: "Print / Save PDF",
@@ -1854,7 +1854,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       experience: "Professional Experience",
       education: "Education & Training",
       contact: "Contact",
-      aboutText: "Senior Product Designer with 5+ years of experience turning complex challenges into intuitive, user-centered digital solutions. Possess a highly versatile, end-to-end approach, covering everything from UX research and discovery to advanced Design Systems, no-code development (Framer/Webflow), and frontend technical implementation integrated with modern AI workflows.",
+      aboutText: "Senior Product Designer with 6+ years of experience turning complex challenges into intuitive, user-centered digital solutions. Possess a highly versatile, end-to-end approach, covering everything from UX research and discovery to advanced Design Systems, no-code development (Framer/Webflow), and frontend technical implementation integrated with modern AI workflows.",
     }
   }[lang];
 
@@ -1875,7 +1875,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       role: "Fundador / UX Designer",
       company: "Versare Design",
       period: "2023 - Presente",
-      description: "Liderança de estúdio de produto digital end-to-end, gerenciando discovery, UX/UI, sites em Framer e desenvolvimento de plataformas web/mobile inteligentes com IA. Mais de 50 projetos entregues."
+      description: "Liderança de estúdio de produto digital end-to-end, gerenciando discovery, UX/UI, sites em Framer e desenvolvimento de plataformas web/mobile inteligentes com IA. Mais de 80 projetos entregues."
     },
     {
       role: "Head of Product Design",
@@ -1912,7 +1912,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       role: "Founder / UX Designer",
       company: "Versare Design",
       period: "2023 - Present",
-      description: "Led a product studio delivering discovery, end-to-end design, Framer websites, and AI platforms. Managed design pipelines for 50+ projects with exceptional satisfaction."
+      description: "Led a product studio delivering discovery, end-to-end design, Framer websites, and AI platforms. Managed design pipelines for 80+ projects with exceptional satisfaction."
     },
     {
       role: "Head of Product Design",
