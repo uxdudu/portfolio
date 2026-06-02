@@ -4,6 +4,7 @@ export * from "./IconlyDribbble";
 export * from "./IconlyInstagram";
 export * from "./IconlyLinkedin";
 export * from "./IconlyMoon";
+export * from "./IconlyPrinter";
 export * from "./IconlySendMessage";
 export * from "./IconlySpotify";
 export * from "./IconlySun";

@@ -69,6 +69,7 @@ import {
   IconlyInstagram,
   IconlyLinkedin,
   IconlyMoon,
+  IconlyPrinter,
   IconlySendMessage,
   IconlySpotify,
   IconlySun,
@@ -624,6 +625,15 @@ const testimonials = [
     companyUrl: "https://www.lanlink.com.br/",
     companyIconUrl: faviconUrl("https://www.lanlink.com.br/"),
   },
+  {
+    quote:
+      "O Dudu é um cara incrível, metódico e organizado, trouxe um nível de organização sem igual para o projeto. Dá gosto de trabalhar com designers assim!",
+    author: "Richard Jesus",
+    role: "Outusual",
+    company: "Outusual",
+    companyUrl: "https://outusual.com/",
+    companyIconUrl: faviconUrl("https://outusual.com/"),
+  },
 ];
 
 const testimonialsEn = [
@@ -671,6 +681,15 @@ const testimonialsEn = [
     company: "Lanlink",
     companyUrl: "https://www.lanlink.com.br/",
     companyIconUrl: faviconUrl("https://www.lanlink.com.br/"),
+  },
+  {
+    quote:
+      "Dudu is an incredible, methodical, and organized person. He brought an unmatched level of organization to the project. It is a pleasure to work with designers like that!",
+    author: "Richard Jesus",
+    role: "Outusual",
+    company: "Outusual",
+    companyUrl: "https://outusual.com/",
+    companyIconUrl: faviconUrl("https://outusual.com/"),
   },
 ];
 
@@ -1945,72 +1964,86 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
     "UX Research & Usability Testing"
   ];
 
+  const cvContact = [
+    { label: "Local", value: "Paraná, Brasil" },
+    { label: "Email", value: "oi@eduardoamaral.me", href: "mailto:oi@eduardoamaral.me" },
+    { label: "LinkedIn", value: "linkedin.com/in/eduardooamaral", href: "https://linkedin.com/in/eduardooamaral/" },
+    { label: "Web", value: "eduardoamaral.me", href: "https://eduardoamaral.me" },
+  ];
+
   return (
-    <div className="min-h-screen w-full bg-white text-black p-6 sm:p-12 md:py-16 md:px-24 print:p-0 print:text-black print:bg-white font-sans selection:bg-black/10">
+    <div className="min-h-screen w-full bg-[#fafafa] p-6 font-sans text-[#08080c] selection:bg-black/10 sm:p-12 md:px-24 md:py-16 print:bg-white print:p-0 print:text-black">
       {/* Action Bar (hidden when printing) */}
-      <div className="flex justify-between items-center mb-12 border-b border-gray-100 pb-6 print:hidden">
+      <div className="mb-12 flex items-center justify-between border-b border-[#e8e8ee] pb-6 print:hidden">
         <a
           href="/sobre"
-          className="inline-flex items-center gap-1.5 text-[14px] font-medium text-gray-500 hover:text-black transition-colors whitespace-nowrap"
+          className="inline-flex items-center gap-1.5 whitespace-nowrap text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-[#636374] transition-colors hover:text-[#08080c]"
         >
           <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           {t.back}
         </a>
         <button
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 rounded-[8px] bg-black px-4 py-2 text-[14px] font-medium text-white hover:bg-black/90 cursor-pointer transition-colors shadow-sm whitespace-nowrap"
+          className="inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[10px] border border-border bg-card px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary transition-colors hover:border-primary"
         >
-          <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <IconlyPrinter size={18} />
           {t.print}
         </button>
       </div>
 
       {/* Main CV Layout */}
-      <div className="max-w-[800px] mx-auto flex flex-col gap-10 print:gap-8">
+      <div className="mx-auto flex max-w-[800px] flex-col gap-10 rounded-[18px] border border-[#e8e8ee] bg-white p-8 shadow-[0_18px_70px_rgba(8,8,12,0.06)] print:gap-8 print:rounded-none print:border-0 print:p-0 print:shadow-none">
         {/* Header Section */}
-        <div className="flex flex-col gap-4 border-b border-gray-200 pb-8 print:pb-6">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
-            <h1 className="text-[32px] sm:text-[40px] font-bold tracking-tight text-black leading-none">
+        <div className="flex flex-col gap-5 border-b border-[#e8e8ee] pb-8 print:pb-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <h1 className="font-display text-[36px] font-medium leading-none tracking-[-1.8px] text-[#08080c] sm:text-[44px] sm:tracking-[-2.2px]">
               Eduardo Amaral
             </h1>
-            <p className="text-[16px] font-semibold text-gray-600 tracking-wide uppercase sm:text-right">
+            <p className="text-[14px] font-medium uppercase leading-[1.45] tracking-[0.12em] text-[#3e6ff3] sm:text-right">
               {t.role}
             </p>
           </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-gray-500">
-            <span className="flex items-center gap-1.5">
-              📍 Paraná, Brasil
-            </span>
-            <a href="mailto:oi@eduardoamaral.me" className="flex items-center gap-1.5 hover:text-black transition-colors">
-              ✉️ oi@eduardoamaral.me
-            </a>
-            <a href="https://linkedin.com/in/eduardooamaral/" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-black transition-colors">
-              🔗 linkedin.com/in/eduardooamaral
-            </a>
-            <a href="https://eduardoamaral.me" className="flex items-center gap-1.5 hover:text-black transition-colors">
-              🌐 eduardoamaral.me
-            </a>
+          <div className="grid gap-2 text-[13px] leading-[1.45] tracking-[-0.26px] text-[#636374] sm:grid-cols-2">
+            {cvContact.map((item) => {
+              const content = (
+                <>
+                  <span className="min-w-[58px] text-[11px] font-medium uppercase tracking-[0.12em] text-[#9c9caf]">
+                    {item.label}
+                  </span>
+                  <span className="text-[#636374]">{item.value}</span>
+                </>
+              );
+              return item.href ? (
+                <a key={item.label} href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined} className="flex items-baseline gap-2 transition-colors hover:text-[#08080c]">
+                  {content}
+                </a>
+              ) : (
+                <span key={item.label} className="flex items-baseline gap-2">
+                  {content}
+                </span>
+              );
+            })}
           </div>
         </div>
 
         {/* Profile Section */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.profile}
           </h2>
-          <p className="text-[15px] leading-[1.6] text-gray-700">
+          <p className="text-[15px] font-normal leading-[1.65] tracking-[-0.3px] text-[#363642]">
             {t.aboutText}
           </p>
         </section>
 
         {/* Skills Section */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.skills}
           </h2>
           <div className="flex flex-wrap gap-2 pt-1">
             {cvSkills.map(skill => (
-              <span key={skill} className="rounded-[6px] border border-gray-200 bg-gray-50 px-2.5 py-1 text-[13px] font-medium text-gray-700">
+              <span key={skill} className="rounded-[8px] border border-[#e8e8ee] bg-[#fafafa] px-2.5 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.26px] text-[#363642]">
                 {skill}
               </span>
             ))}
@@ -2019,21 +2052,21 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
 
         {/* Experience Section */}
         <section className="flex flex-col gap-6">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.experience}
           </h2>
           <div className="flex flex-col gap-6 print:gap-5">
             {cvExps.map(exp => (
               <article key={exp.company + exp.role} className="flex flex-col gap-1.5">
-                <div className="flex justify-between items-baseline gap-4">
-                  <h3 className="text-[16px] font-bold text-black">
-                    {exp.role} <span className="font-normal text-gray-500">@ {exp.company}</span>
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                  <h3 className="text-[17px] font-medium leading-[1.25] tracking-[-0.51px] text-[#08080c]">
+                    {exp.role} <span className="font-normal text-[#636374]">@ {exp.company}</span>
                   </h3>
-                  <span className="text-[13px] font-medium text-gray-500 shrink-0">
+                  <span className="shrink-0 text-[13px] font-medium leading-[1.45] tracking-[-0.26px] text-[#636374]">
                     {exp.period}
                   </span>
                 </div>
-                <p className="text-[14px] leading-[1.5] text-gray-600">
+                <p className="text-[14px] font-normal leading-[1.55] tracking-[-0.28px] text-[#636374]">
                   {exp.description}
                 </p>
               </article>
@@ -2043,10 +2076,10 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
 
         {/* Education Section */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-[16px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-1.5">
+          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.education}
           </h2>
-          <ul className="flex flex-col gap-2 list-disc pl-4 text-[14px] leading-[1.5] text-gray-600">
+          <ul className="flex list-disc flex-col gap-2 pl-4 text-[14px] font-normal leading-[1.55] tracking-[-0.28px] text-[#636374]">
             {cvCourses.map((course, idx) => (
               <li key={idx} className="pl-0.5">
                 {course}
