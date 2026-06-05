@@ -19,6 +19,8 @@ const ROUTES = [
   "/projetos",
   "/conteudos",
   "/contato",
+  "/styleguide",
+  "/sitemap",
   "/clinia",
   "/petrobras",
   "/playground",
