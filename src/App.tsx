@@ -122,6 +122,7 @@ const pageFade = {
 };
 
 type ThemePreference = "system" | "light" | "dark";
+type ActivePage = "home" | "about" | "projects" | "content" | "contact" | "none";
 type LightboxImage = {
   src: string;
   alt: string;
@@ -1302,7 +1303,7 @@ function PreferencesMenu({
   theme,
   onThemeChange,
 }: {
-  activePage: "home" | "about" | "projects" | "content" | "contact";
+  activePage: ActivePage;
   theme: ThemePreference;
   onThemeChange: (theme: ThemePreference) => void;
 }) {
@@ -1405,7 +1406,7 @@ function Header({
   theme,
   onThemeChange,
 }: {
-  activePage: "home" | "about" | "projects" | "content" | "contact";
+  activePage: ActivePage;
   theme: ThemePreference;
   onThemeChange: (theme: ThemePreference) => void;
 }) {
@@ -2098,8 +2099,22 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
   const highlights = language === "en" ? aboutHighlightsEn : aboutHighlights;
   const stats = language === "en" ? aboutStatsEn : aboutStats;
   const socialProof = language === "en" ? testimonialsEn : testimonials;
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const activeTestimonial = socialProof[testimonialIndex];
+  const testimonialAuthorInitials = activeTestimonial.author
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join("");
   const exps = language === "en" ? experiencesEn : experiences;
   const courses = language === "en" ? trainingEn : training;
+  const goToPreviousTestimonial = () => {
+    setTestimonialIndex((current) => (current === 0 ? socialProof.length - 1 : current - 1));
+  };
+  const goToNextTestimonial = () => {
+    setTestimonialIndex((current) => (current + 1) % socialProof.length);
+  };
 
   return (
     <>
@@ -2238,43 +2253,84 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
               {language === "en" ? "What people say about working with me." : "O que falam sobre trabalhar comigo."}
             </h2>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {socialProof.map((item) => (
+
+          <div className="flex flex-col items-center gap-5">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.figure
-                key={`${item.author}-${item.role}`}
-                className="flex min-h-[240px] flex-col justify-between rounded-3xl border border-border bg-card p-6"
-                variants={sectionReveal}
+                key={`${activeTestimonial.author}-${language}`}
+                className="flex min-h-[360px] w-full flex-col justify-between rounded-3xl border border-border bg-card p-6 sm:p-8 lg:min-h-[420px] lg:p-10"
+                initial={prefersReducedMotion ? false : { opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={prefersReducedMotion ? undefined : { opacity: 0, x: -24 }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               >
-                <blockquote className="text-[20px] font-medium leading-[1.35] tracking-[-0.6px] text-card-foreground">
-                  "{item.quote}"
-                </blockquote>
-                <figcaption className="mt-8 flex items-end justify-between gap-4 text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-                  <span>
-                    <span className="block font-medium text-card-foreground">{item.author}</span>
-                    <span>{item.role}</span>
-                    {item.companyUrl ? (
-                      <a
-                        href={item.companyUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-1 font-medium text-primary"
-                      >
-                        · {item.company}
-                      </a>
-                    ) : null}
-                  </span>
-                  {item.companyLogo || item.companyIconUrl ? (
-                    <a href={item.companyUrl} target="_blank" rel="noreferrer" className="hidden size-9 shrink-0 items-center justify-center sm:flex">
-                      <img loading="lazy" decoding="async"
-                        src={item.companyLogo || item.companyIconUrl}
-                        alt={item.company || ""}
-                        className="size-9 rounded-lg object-contain"
+                <div className="flex min-h-10 items-center">
+                  {activeTestimonial.companyLogo || activeTestimonial.companyIconUrl ? (
+                    <a href={activeTestimonial.companyUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={activeTestimonial.companyLogo || activeTestimonial.companyIconUrl}
+                        alt={activeTestimonial.company || ""}
+                        className="size-10 rounded-lg object-contain object-left"
                       />
+                      <span className="text-[14px] font-medium leading-none tracking-[-0.42px] text-card-foreground">
+                        {activeTestimonial.company}
+                      </span>
                     </a>
-                  ) : null}
+                  ) : (
+                    <span className="text-[14px] font-medium leading-none tracking-[-0.42px] text-card-foreground">
+                      {activeTestimonial.company}
+                    </span>
+                  )}
+                </div>
+
+                <blockquote className="max-w-[720px] py-8 text-[20px] font-medium leading-[1.4] tracking-[-0.6px] text-card-foreground lg:text-[22px] lg:tracking-[-0.66px]">
+                  {activeTestimonial.quote}
+                </blockquote>
+
+                <figcaption className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-full bg-background text-[13px] font-medium leading-none tracking-[-0.39px] text-card-foreground">
+                    {testimonialAuthorInitials}
+                  </span>
+                  <span className="text-[16px] font-medium leading-[1.2] tracking-[-0.48px] text-card-foreground lg:text-[18px] lg:tracking-[-0.54px]">
+                    {activeTestimonial.author}
+                    <span className="mt-1 block text-[14px] font-normal leading-[1.45] tracking-[-0.28px] text-muted">
+                      {activeTestimonial.role}
+                    </span>
+                  </span>
                 </figcaption>
               </motion.figure>
-            ))}
+            </AnimatePresence>
+
+            <div className="flex items-center gap-4">
+              <motion.button
+                type="button"
+                onClick={goToPreviousTestimonial}
+                aria-label={language === "en" ? "Previous testimonial" : "Depoimento anterior"}
+                className="grid size-12 place-items-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-card"
+                whileHover={{ y: -2 }}
+                whileTap={TAP}
+                transition={SPRING}
+              >
+                <svg viewBox="0 0 24 24" className="size-5 stroke-current" fill="none" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </motion.button>
+              <motion.button
+                type="button"
+                onClick={goToNextTestimonial}
+                aria-label={language === "en" ? "Next testimonial" : "Próximo depoimento"}
+                className="grid size-12 place-items-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-card"
+                whileHover={{ y: -2 }}
+                whileTap={TAP}
+                transition={SPRING}
+              >
+                <svg viewBox="0 0 24 24" className="size-5 stroke-current" fill="none" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </motion.button>
+            </div>
           </div>
         </motion.section>
 
@@ -2481,6 +2537,276 @@ function SocialIcon({ icon }: { icon: (typeof contentLinks)[number]["icon"] }) {
   }
 
   return <IconlyLinkedin size={20} />;
+}
+
+function StyleguidePage({ theme, onThemeChange }: PageProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const { language } = useTranslation();
+  const colorTokens = [
+    { name: "Background", token: "--background", className: "bg-background" },
+    { name: "Foreground", token: "--foreground", className: "bg-foreground" },
+    { name: "Card", token: "--card", className: "bg-card" },
+    { name: "Primary", token: "--primary-foreground", className: "bg-primary" },
+    { name: "Muted", token: "--muted-foreground", className: "bg-muted" },
+    { name: "Border", token: "--border", className: "bg-border" },
+  ];
+  const componentSamples = [
+    language === "en" ? "Product Design" : "Design de Produto",
+    "UX/UI",
+    "Design System",
+    language === "en" ? "AI for UX" : "Design com IA",
+  ];
+  const typographyScale = [
+    { name: "Display", className: "text-[32px] lg:text-[56px]", tracking: "-1.6px / -2.8px", leading: "1", sample: "Crafting Excepcional Design" },
+    { name: "Section title", className: "text-[22px] lg:text-[32px]", tracking: "-1.1px / -1.6px", leading: "1", sample: language === "en" ? "Projects and cases" : "Projetos e cases" },
+    { name: "Card title", className: "text-[22px] lg:text-[32px]", tracking: "-1.1px / -1.6px", leading: "1", sample: "Design System" },
+    { name: "Body large", className: "text-[18px]", tracking: "-0.36px", leading: "1.45", sample: language === "en" ? "Clear writing for product stories." : "Escrita clara para histórias de produto." },
+    { name: "Body", className: "text-[16px]", tracking: "-0.32px", leading: "1.45", sample: language === "en" ? "Context, process and decisions." : "Contexto, processo e decisões." },
+    { name: "Caption", className: "text-[14px]", tracking: "-0.42px", leading: "1.45", sample: language === "en" ? "Small label" : "Rótulo pequeno" },
+  ];
+  const spacingScale = [
+    { name: "1", value: "4px", className: "w-1" },
+    { name: "2", value: "8px", className: "w-2" },
+    { name: "3", value: "12px", className: "w-3" },
+    { name: "4", value: "16px", className: "w-4" },
+    { name: "5", value: "20px", className: "w-5" },
+    { name: "6", value: "24px", className: "w-6" },
+    { name: "8", value: "32px", className: "w-8" },
+    { name: "10", value: "40px", className: "w-10" },
+    { name: "20", value: "80px", className: "w-20" },
+  ];
+  const radiusScale = [
+    { name: "Button", value: "10px", className: "rounded-[10px]" },
+    { name: "Nav / badge", value: "14px", className: "rounded-[14px]" },
+    { name: "Small card", value: "16px", className: "rounded-2xl" },
+    { name: "Media", value: "20px", className: "rounded-[20px]" },
+    { name: "Card", value: "24px", className: "rounded-3xl" },
+    { name: "Pill", value: "9999px", className: "rounded-full" },
+  ];
+
+  return (
+    <>
+      <Header activePage="none" theme={theme} onThemeChange={onThemeChange} />
+      <motion.div
+        className="content-page-shell flex w-full flex-col gap-10 p-6 lg:gap-14 lg:p-20"
+        initial={prefersReducedMotion ? false : "hidden"}
+        animate="visible"
+        variants={staggerChildren}
+      >
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>Styleguide</SectionLabel>
+          <div className="flex flex-col gap-5">
+            <h1 className="max-w-[720px] text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground lg:text-[56px] lg:tracking-[-2.8px]">
+              {language === "en" ? "Visual foundations for this portfolio." : "Fundações visuais deste portfólio."}
+            </h1>
+            <p className="max-w-[620px] text-[18px] leading-[1.45] tracking-[-0.36px] text-muted">
+              {language === "en"
+                ? "A compact reference for typography, colors, spacing and reusable interface patterns."
+                : "Uma referência compacta de tipografia, cores, espaçamentos e padrões reutilizáveis de interface."}
+            </p>
+          </div>
+        </motion.section>
+
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{language === "en" ? "Typography" : "Tipografia"}</SectionLabel>
+          <div className="grid gap-4">
+            {typographyScale.map((item) => (
+              <div key={item.name} className="rounded-3xl border border-border bg-card p-6">
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">{item.name}</p>
+                  <p className="text-[13px] leading-[1.45] tracking-[-0.26px] text-muted">
+                    {item.className} · tracking {item.tracking} · line {item.leading}
+                  </p>
+                </div>
+                <p className={`${item.className} font-medium leading-none tracking-[-1.1px] text-card-foreground lg:tracking-[-1.6px]`}>
+                  {item.sample}
+                </p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{language === "en" ? "Colors" : "Cores"}</SectionLabel>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+            {colorTokens.map((color) => (
+              <div key={color.token} className="rounded-3xl border border-border bg-card p-4">
+                <div className={`mb-4 h-24 rounded-2xl border border-border ${color.className}`} />
+                <p className="text-[16px] font-medium leading-[1.2] tracking-[-0.48px] text-card-foreground">{color.name}</p>
+                <p className="mt-1 text-[14px] leading-[1.45] tracking-[-0.28px] text-muted">{color.token}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{language === "en" ? "Spacing" : "Espaçamento"}</SectionLabel>
+          <div className="grid gap-3">
+            {spacingScale.map((space) => (
+              <div key={space.name} className="grid grid-cols-[88px_1fr_80px] items-center gap-4 rounded-2xl border border-border bg-card p-4">
+                <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-card-foreground">gap-{space.name}</p>
+                <div className="h-8 rounded-full bg-background">
+                  <div className={`${space.className} h-8 rounded-full bg-primary`} />
+                </div>
+                <p className="text-right text-[14px] leading-[1.45] tracking-[-0.28px] text-muted">{space.value}</p>
+              </div>
+            ))}
+            <div className="rounded-3xl border border-border bg-card p-6">
+              <p className="mb-4 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
+                {language === "en" ? "Common page spacing" : "Espaçamentos comuns de página"}
+              </p>
+              <div className="grid gap-3 text-[15px] leading-[1.45] tracking-[-0.3px] text-muted">
+                <p><span className="font-medium text-card-foreground">Page padding:</span> p-6 / lg:p-20</p>
+                <p><span className="font-medium text-card-foreground">Section gap:</span> gap-10 / lg:gap-14 / lg:gap-20</p>
+                <p><span className="font-medium text-card-foreground">Card padding:</span> p-6 / p-8 / lg:p-10</p>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>Radius</SectionLabel>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+            {radiusScale.map((radius) => (
+              <div key={radius.name} className="rounded-3xl border border-border bg-card p-4">
+                <div className={`mb-4 h-28 border border-border bg-background ${radius.className}`} />
+                <p className="text-[16px] font-medium leading-[1.2] tracking-[-0.48px] text-card-foreground">{radius.name}</p>
+                <p className="mt-1 text-[14px] leading-[1.45] tracking-[-0.28px] text-muted">{radius.value}</p>
+                <p className="mt-1 text-[13px] leading-[1.45] tracking-[-0.26px] text-muted">{radius.className}</p>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>{language === "en" ? "Components" : "Componentes"}</SectionLabel>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex min-h-[220px] flex-col justify-between rounded-3xl border border-border bg-card p-6">
+              <div className="flex flex-wrap gap-2">
+                {componentSamples.map((item) => (
+                  <span key={item} className="rounded-full border border-border px-3 py-1 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
+                    {item}
+                  </span>
+                ))}
+              </div>
+              <div className="flex flex-col gap-3">
+                <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+                  {language === "en" ? "Card pattern" : "Padrão de card"}
+                </h2>
+                <p className="text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+                  {language === "en" ? "Rounded, quiet and content-first." : "Arredondado, discreto e centrado no conteúdo."}
+                </p>
+              </div>
+            </div>
+            <div className="flex min-h-[220px] flex-col justify-between rounded-3xl border border-border bg-card p-6">
+              <SectionLabel>{language === "en" ? "Actions" : "Ações"}</SectionLabel>
+              <div className="flex flex-wrap gap-3">
+                <a href="/projetos" className="rounded-[10px] border border-border px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
+                  {language === "en" ? "See projects" : "Ver projetos"}
+                </a>
+                <a href="/contato" className="rounded-[10px] bg-foreground px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-background">
+                  {language === "en" ? "Contact" : "Contato"}
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      </motion.div>
+      <Footer />
+    </>
+  );
+}
+
+function SitemapPage({ theme, onThemeChange }: PageProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const { language } = useTranslation();
+  const groups = [
+    {
+      title: language === "en" ? "Main pages" : "Páginas principais",
+      links: [
+        { label: "Home", href: "/" },
+        { label: language === "en" ? "Projects" : "Projetos", href: "/projetos" },
+        { label: language === "en" ? "Content" : "Conteúdos", href: "/conteudos" },
+        { label: language === "en" ? "About" : "Sobre", href: "/sobre" },
+        { label: language === "en" ? "Contact" : "Contato", href: "/contato" },
+      ],
+    },
+    {
+      title: language === "en" ? "Case hubs" : "Hubs de cases",
+      links: [
+        { label: "Clinia", href: "/clinia" },
+        { label: "Petrobras", href: "/petrobras" },
+      ],
+    },
+    {
+      title: "Cases",
+      links: [
+        { label: "Clinia", href: "/cases/clinia" },
+        { label: "Talqui", href: "/cases/talqui" },
+        { label: "Petrobras Nossa Energia", href: "/cases/petrobras-nossa-energia" },
+        { label: "Petrobras Design System", href: "/cases/petrobras-design-system" },
+      ],
+    },
+    {
+      title: language === "en" ? "Utilities" : "Utilitários",
+      links: [
+        { label: "Styleguide", href: "/styleguide" },
+        { label: "Sitemap", href: "/sitemap" },
+        { label: "Playground", href: "/playground" },
+        { label: "CV PT", href: "/cv/pt" },
+        { label: "CV EN", href: "/cv/en" },
+      ],
+    },
+  ];
+
+  return (
+    <>
+      <Header activePage="none" theme={theme} onThemeChange={onThemeChange} />
+      <motion.div
+        className="content-page-shell flex w-full flex-col gap-10 p-6 lg:gap-14 lg:p-20"
+        initial={prefersReducedMotion ? false : "hidden"}
+        animate="visible"
+        variants={staggerChildren}
+      >
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+          <SectionLabel>Sitemap</SectionLabel>
+          <div className="flex flex-col gap-5">
+            <h1 className="max-w-[720px] text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground lg:text-[56px] lg:tracking-[-2.8px]">
+              {language === "en" ? "All available pages." : "Todas as páginas disponíveis."}
+            </h1>
+            <p className="max-w-[620px] text-[18px] leading-[1.45] tracking-[-0.36px] text-muted">
+              {language === "en"
+                ? "A simple index of visible and support pages in the portfolio."
+                : "Um índice simples das páginas visíveis e de apoio do portfólio."}
+            </p>
+          </div>
+        </motion.section>
+
+        <motion.section className="grid gap-4 border-t border-border pt-10 sm:grid-cols-2" variants={sectionReveal}>
+          {groups.map((group) => (
+            <article key={group.title} className="rounded-3xl border border-border bg-card p-6">
+              <h2 className="mb-5 text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+                {group.title}
+              </h2>
+              <div className="flex flex-col gap-2">
+                {group.links.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="group flex items-center justify-between rounded-2xl border border-border px-4 py-3 text-[15px] font-medium leading-[1.45] tracking-[-0.3px] text-card-foreground transition-colors hover:border-primary"
+                  >
+                    <span>{link.label}</span>
+                    <span className="text-[14px] font-normal text-muted group-hover:text-primary">{link.href}</span>
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </motion.section>
+      </motion.div>
+      <Footer />
+    </>
+  );
 }
 
 function ContentPage({ theme, onThemeChange }: PageProps) {
@@ -3140,6 +3466,22 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
           "Get in touch with Eduardo Amaral, Senior Product Designer in UX/UI, Design Systems and AI for UX.",
         ),
       };
+    case "/styleguide":
+      return {
+        title: `Styleguide | ${SITE_NAME}`,
+        description: t(
+          "Guia visual do portfólio de Eduardo Amaral: tipografia, cores e componentes.",
+          "Visual guide for Eduardo Amaral's portfolio: typography, colors and components.",
+        ),
+      };
+    case "/sitemap":
+      return {
+        title: `Sitemap | ${SITE_NAME}`,
+        description: t(
+          "Mapa de páginas do portfólio de Eduardo Amaral.",
+          "Page map for Eduardo Amaral's portfolio.",
+        ),
+      };
     case "/clinia":
       return {
         title: `Clinia | ${SITE_NAME} | Product Design & Design System`,
@@ -3216,6 +3558,8 @@ export function App() {
   const isContent = path === "/conteudos";
   const isContact = path === "/contato";
   const isProjects = path === "/projetos";
+  const isStyleguide = path === "/styleguide";
+  const isSitemap = path === "/sitemap";
   const isCliniaHub = path === "/clinia";
   const isCliniaCase = path === "/cases/clinia";
   const isTalquiCase = path === "/cases/talqui";
@@ -3394,6 +3738,10 @@ export function App() {
     <PetrobrasNossaEnergiaCasePage {...pageProps} cmsCase={petrobrasNossaEnergiaCase} />
   ) : isPetrobrasHub ? (
     <PetrobrasHubPage {...pageProps} projectOptions={petrobrasProjectOptions} />
+  ) : isStyleguide ? (
+    <StyleguidePage {...pageProps} />
+  ) : isSitemap ? (
+    <SitemapPage {...pageProps} />
   ) : isContact ? (
     <ContactPage {...pageProps} />
   ) : isProjects ? (
