@@ -2751,7 +2751,7 @@ function SitemapPage({ theme, onThemeChange }: PageProps) {
       title: language === "en" ? "Utilities" : "Utilitários",
       links: [
         { label: "Styleguide", href: "/styleguide" },
-        { label: "Sitemap", href: "/sitemap" },
+        { label: "Sitemap", href: "/mapa-do-site" },
         { label: "Playground", href: "/playground" },
         { label: "CV PT", href: "/cv/pt" },
         { label: "CV EN", href: "/cv/en" },
@@ -3474,7 +3474,7 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
           "Visual guide for Eduardo Amaral's portfolio: typography, colors and components.",
         ),
       };
-    case "/sitemap":
+    case "/mapa-do-site":
       return {
         title: `Sitemap | ${SITE_NAME}`,
         description: t(
@@ -3559,7 +3559,7 @@ export function App() {
   const isContact = path === "/contato";
   const isProjects = path === "/projetos";
   const isStyleguide = path === "/styleguide";
-  const isSitemap = path === "/sitemap";
+  const isSitemap = path === "/mapa-do-site";
   const isCliniaHub = path === "/clinia";
   const isCliniaCase = path === "/cases/clinia";
   const isTalquiCase = path === "/cases/talqui";
