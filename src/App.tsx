@@ -1,5 +1,6 @@
 import { Children, Fragment, Suspense, createContext, isValidElement, lazy, useContext, useEffect, useLayoutEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { usePostHog } from "@posthog/react";
+import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Lenis from "lenis";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -3815,6 +3816,7 @@ export function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+      <Analytics />
       <SpeedInsights />
     </LanguageContext.Provider>
   );
