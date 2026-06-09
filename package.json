@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "node scripts/fetch-sanity-content.mjs && vite build && node scripts/prerender.mjs",
     "build:client": "vite build",
+    "test:seo": "node --test scripts/seo-indexing.test.mjs",
     "sanity:content": "node scripts/fetch-sanity-content.mjs",
     "prerender": "node scripts/prerender.mjs",
     "preview": "vite preview",
@@ -35,6 +36,7 @@
     "vite": "^7.0.0"
   },
   "devDependencies": {
+    "@sparticuz/chromium": "^147.0.0",
     "puppeteer": "^24.43.1",
     "sirv": "^3.0.2"
   }

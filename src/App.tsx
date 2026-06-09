@@ -1828,12 +1828,6 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
 }
 
 function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
-  useEffect(() => {
-    document.title = lang === "pt" 
-      ? "Eduardo Amaral - Currículo" 
-      : "Eduardo Amaral - CV";
-  }, [lang]);
-
   const t = {
     pt: {
       print: "Imprimir / Salvar PDF",
@@ -3530,6 +3524,24 @@ function getRouteMeta(path: string, en: boolean): { title: string; description: 
           "Petrobras Design System case study: tokens, components and AI-assisted Design System, by Eduardo Amaral.",
         ),
       };
+    case "/playground":
+      return {
+        title: `Playground | ${SITE_NAME} | UI Experiments`,
+        description: t(
+          "Experimentos visuais e estudos de interface criados por Eduardo Amaral.",
+          "Visual experiments and interface studies created by Eduardo Amaral.",
+        ),
+      };
+    case "/cv/pt":
+      return {
+        title: `${SITE_NAME} - Currículo`,
+        description: "Currículo profissional de Eduardo Amaral, Senior Product Designer.",
+      };
+    case "/cv/en":
+      return {
+        title: `${SITE_NAME} - CV`,
+        description: "Professional CV of Eduardo Amaral, Senior Product Designer.",
+      };
     default:
       return {
         title: `${SITE_NAME} | Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
@@ -3615,10 +3627,10 @@ export function App() {
   // Título + meta por rota (title, description, Open Graph, Twitter, canonical)
   // Ajuda o Google a indexar cada página com contexto próprio e o prerender a capturar tudo.
   useEffect(() => {
-    if (path === "/cv/pt" || path === "/cv/en") return; // CvPrintPage define o próprio título
     const en = language === "en";
     const meta = getRouteMeta(path, en);
     const canonical = `https://eduardoamaral.me${path === "/" ? "" : path}`;
+    const isCv = path === "/cv/pt" || path === "/cv/en";
 
     document.title = meta.title;
 
@@ -3633,6 +3645,12 @@ export function App() {
     };
 
     setMeta('meta[name="description"]', "name", "description", meta.description);
+    setMeta(
+      'meta[name="robots"]',
+      "name",
+      "robots",
+      isCv ? "noindex, follow" : "index, follow, max-image-preview:large",
+    );
     setMeta('meta[property="og:title"]', "property", "og:title", meta.title);
     setMeta('meta[property="og:description"]', "property", "og:description", meta.description);
     setMeta('meta[property="og:url"]', "property", "og:url", canonical);

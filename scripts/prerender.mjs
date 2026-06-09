@@ -1,10 +1,11 @@
 // Prerender (SSG) — renderiza cada rota num Chrome headless e salva HTML estático
-// em dist/<rota>/index.html. Mantém o roteamento SPA intacto: o Vercel serve o
-// arquivo estático quando existe e cai no fallback /index.html para o resto.
+// em dist/<rota>/index.html. A Vercel serve somente esses caminhos; URLs
+// desconhecidas permanecem 404 em vez de retornarem a home como soft 404.
 import { createServer } from "node:http";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import chromium from "@sparticuz/chromium";
 import sirv from "sirv";
 import puppeteer from "puppeteer";
 
@@ -12,7 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, "..", "dist");
 const PORT = 4180;
 
-// Rotas a pré-renderizar (espelham o sitemap; CV print pages ficam de fora)
+// Rotas públicas mais páginas de impressão, que são servidas com noindex.
 const ROUTES = [
   "/",
   "/sobre",
@@ -28,6 +29,8 @@ const ROUTES = [
   "/cases/talqui",
   "/cases/petrobras-nossa-energia",
   "/cases/petrobras-design-system",
+  "/cv/pt",
+  "/cv/en",
 ];
 
 function outPathFor(route) {
@@ -40,19 +43,12 @@ async function run() {
   const server = createServer((req, res) => serve(req, res));
   await new Promise((resolve) => server.listen(PORT, resolve));
 
-  let browser;
-  try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-  } catch (err) {
-    // Sem Chromium disponível (ex.: ambiente de CI sem o binário): não derruba o
-    // build — o site é servido como SPA e a meta por rota é aplicada via JS.
-    console.warn("⚠ Prerender pulado: não foi possível iniciar o Chromium.\n", err?.message || err);
-    server.close();
-    return;
-  }
+  const isVercel = Boolean(process.env.VERCEL);
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: isVercel ? chromium.args : ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: isVercel ? await chromium.executablePath() : undefined,
+  });
 
   // Renderiza TODAS as rotas em memória primeiro (servindo o dist intacto),
   // depois grava — assim sobrescrever index.html não afeta o fallback SPA.
