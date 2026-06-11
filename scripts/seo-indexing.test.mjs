@@ -13,7 +13,6 @@ const INDEXABLE_ROUTES = [
   "/projetos",
   "/conteudos",
   "/contato",
-  "/styleguide",
   "/mapa-do-site",
   "/clinia",
   "/petrobras",
@@ -59,4 +58,5 @@ test("lists every indexable route in the sitemap and excludes CV routes", () => 
   }
 
   assert.doesNotMatch(sitemap, /\/cv\/(?:pt|en)<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/styleguide<\/loc>/);
 });

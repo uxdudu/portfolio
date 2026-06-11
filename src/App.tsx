@@ -65,6 +65,7 @@ import brFlag from "./assets/br.svg";
 import usFlag from "./assets/us.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
+import { getRouteSeo } from "./seo.mjs";
 import {
   IconlyDownload,
   IconlyInstagram,
@@ -1365,7 +1366,7 @@ function PreferencesMenu({
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             className="absolute right-0 top-12 z-50 w-[264px] origin-top-right overflow-hidden rounded-2xl border border-border bg-card p-2 shadow-[0_20px_60px_rgba(0,0,0,0.14)]"
           >
-            <div className="flex flex-col gap-2 border-b border-border pb-2 lg:hidden">
+            <div className="flex flex-col gap-2 border-b border-border pb-2 xl:hidden">
               {navItems.map((item) => (
                 <motion.a
                   key={item.key}
@@ -1419,7 +1420,7 @@ function Header({
 
   return (
     <motion.header
-      className="sticky top-0 z-40 flex w-full items-center justify-between bg-background/90 px-5 py-4 backdrop-blur-md lg:h-[88px] lg:px-20 lg:py-6"
+      className="sticky top-0 z-40 flex w-full items-center justify-between bg-background/90 px-5 py-4 backdrop-blur-md lg:h-[88px] lg:px-10 lg:py-6 xl:px-20"
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -1428,7 +1429,7 @@ function Header({
         <Logo linked />
       </div>
 
-      <nav className="hidden shrink-0 items-center justify-center rounded-[14px] p-1 lg:flex">
+      <nav className="hidden shrink-0 items-center justify-center rounded-[14px] p-1 xl:flex">
         <div className="flex items-center justify-center gap-4 rounded-[44px]">
           <NavItem label={navLabels.home} href="/" active={activePage === "home"} />
           <NavItem label={navLabels.projects} href="/projetos" active={activePage === "projects"} />
@@ -3424,136 +3425,6 @@ function PetrobrasHubPage({
   );
 }
 
-const SITE_NAME = "Eduardo Amaral";
-
-function getRouteMeta(path: string, en: boolean): { title: string; description: string } {
-  const t = (pt: string, eng: string) => (en ? eng : pt);
-  switch (path) {
-    case "/sobre":
-      return {
-        title: `${t("Sobre", "About")} | ${SITE_NAME} | Product Designer`,
-        description: t(
-          "Conheça Eduardo Amaral (uxdudu), Senior Product Designer com foco em UX/UI, Design Systems e Design com IA.",
-          "Meet Eduardo Amaral (uxdudu), Senior Product Designer focused on UX/UI, Design Systems and AI for UX.",
-        ),
-      };
-    case "/projetos":
-      return {
-        title: `${t("Projetos", "Projects")} | ${SITE_NAME}`,
-        description: t(
-          "Projetos e cases de UX/UI, Design Systems e produtos digitais por Eduardo Amaral.",
-          "UX/UI, Design Systems and digital product cases by Eduardo Amaral.",
-        ),
-      };
-    case "/conteudos":
-      return {
-        title: `${t("Conteúdos", "Content")} | ${SITE_NAME}`,
-        description: t(
-          "Conteúdos sobre UX, UI, Product Design e Design com IA por Eduardo Amaral (uxdudu).",
-          "Content about UX, UI, Product Design and AI for UX by Eduardo Amaral (uxdudu).",
-        ),
-      };
-    case "/contato":
-      return {
-        title: `${t("Contato", "Contact")} | ${SITE_NAME}`,
-        description: t(
-          "Fale com Eduardo Amaral, Senior Product Designer em UX/UI, Design Systems e Design com IA.",
-          "Get in touch with Eduardo Amaral, Senior Product Designer in UX/UI, Design Systems and AI for UX.",
-        ),
-      };
-    case "/styleguide":
-      return {
-        title: `Styleguide | ${SITE_NAME}`,
-        description: t(
-          "Guia visual do portfólio de Eduardo Amaral: tipografia, cores e componentes.",
-          "Visual guide for Eduardo Amaral's portfolio: typography, colors and components.",
-        ),
-      };
-    case "/mapa-do-site":
-      return {
-        title: `Sitemap | ${SITE_NAME}`,
-        description: t(
-          "Mapa de páginas do portfólio de Eduardo Amaral.",
-          "Page map for Eduardo Amaral's portfolio.",
-        ),
-      };
-    case "/clinia":
-      return {
-        title: `Clinia | ${SITE_NAME} | Product Design & Design System`,
-        description: t(
-          "Cases da Clinia: Design System, UX/UI e produto, por Eduardo Amaral.",
-          "Clinia cases: Design System, UX/UI and product, by Eduardo Amaral.",
-        ),
-      };
-    case "/petrobras":
-      return {
-        title: `Petrobras | ${SITE_NAME} | Design System`,
-        description: t(
-          "Cases da Petrobras: Design System e produto digital, por Eduardo Amaral.",
-          "Petrobras cases: Design System and digital product, by Eduardo Amaral.",
-        ),
-      };
-    case "/cases/clinia":
-      return {
-        title: `Case Clinia | Design System & UX/UI | ${SITE_NAME}`,
-        description: t(
-          "Case da Clinia: construção de Design System, UX/UI e Design com IA, por Eduardo Amaral.",
-          "Clinia case study: Design System, UX/UI and AI for UX, by Eduardo Amaral.",
-        ),
-      };
-    case "/cases/talqui":
-      return {
-        title: `Case Talqui | Product Design & UX/UI | ${SITE_NAME}`,
-        description: t(
-          "Case da Talqui: UX/UI e produto digital, por Eduardo Amaral.",
-          "Talqui case study: UX/UI and digital product, by Eduardo Amaral.",
-        ),
-      };
-    case "/cases/petrobras-nossa-energia":
-      return {
-        title: `Case Petrobras Nossa Energia | UX/UI | ${SITE_NAME}`,
-        description: t(
-          "Case Petrobras Nossa Energia: UX/UI e produto digital em escala, por Eduardo Amaral.",
-          "Petrobras Nossa Energia case study: UX/UI and digital product at scale, by Eduardo Amaral.",
-        ),
-      };
-    case "/cases/petrobras-design-system":
-      return {
-        title: `Case Petrobras Design System | Design System com IA | ${SITE_NAME}`,
-        description: t(
-          "Case do Design System da Petrobras: tokens, componentes e Design System com IA, por Eduardo Amaral.",
-          "Petrobras Design System case study: tokens, components and AI-assisted Design System, by Eduardo Amaral.",
-        ),
-      };
-    case "/playground":
-      return {
-        title: `Playground | ${SITE_NAME} | UI Experiments`,
-        description: t(
-          "Experimentos visuais e estudos de interface criados por Eduardo Amaral.",
-          "Visual experiments and interface studies created by Eduardo Amaral.",
-        ),
-      };
-    case "/cv/pt":
-      return {
-        title: `${SITE_NAME} - Currículo`,
-        description: "Currículo profissional de Eduardo Amaral, Senior Product Designer.",
-      };
-    case "/cv/en":
-      return {
-        title: `${SITE_NAME} - CV`,
-        description: "Professional CV of Eduardo Amaral, Senior Product Designer.",
-      };
-    default:
-      return {
-        title: `${SITE_NAME} | Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
-        description: t(
-          "Portfólio de Eduardo Amaral (uxdudu), Senior Product Designer especializado em UX/UI, Design Systems e Design com IA.",
-          "Portfolio of Eduardo Amaral (uxdudu), Senior Product Designer specializing in UX/UI, Design Systems and AI for UX.",
-        ),
-      };
-  }
-}
-
 export function App() {
   const prefersReducedMotion = useReducedMotion();
   const { content: sanityContent } = useSanityPortfolioContent();
@@ -3629,11 +3500,9 @@ export function App() {
   // Ajuda o Google a indexar cada página com contexto próprio e o prerender a capturar tudo.
   useEffect(() => {
     const en = language === "en";
-    const meta = getRouteMeta(path, en);
-    const canonical = `https://eduardoamaral.me${path === "/" ? "" : path}`;
-    const isCv = path === "/cv/pt" || path === "/cv/en";
+    const seo = getRouteSeo(path, en);
 
-    document.title = meta.title;
+    document.title = seo.title;
 
     const setMeta = (selector: string, attr: string, key: string, content: string) => {
       let tag = document.head.querySelector(selector);
@@ -3645,18 +3514,18 @@ export function App() {
       tag.setAttribute("content", content);
     };
 
-    setMeta('meta[name="description"]', "name", "description", meta.description);
-    setMeta(
-      'meta[name="robots"]',
-      "name",
-      "robots",
-      isCv ? "noindex, follow" : "index, follow, max-image-preview:large",
-    );
-    setMeta('meta[property="og:title"]', "property", "og:title", meta.title);
-    setMeta('meta[property="og:description"]', "property", "og:description", meta.description);
-    setMeta('meta[property="og:url"]', "property", "og:url", canonical);
-    setMeta('meta[name="twitter:title"]', "name", "twitter:title", meta.title);
-    setMeta('meta[name="twitter:description"]', "name", "twitter:description", meta.description);
+    setMeta('meta[name="description"]', "name", "description", seo.description);
+    setMeta('meta[name="robots"]', "name", "robots", seo.robots);
+    setMeta('meta[property="og:type"]', "property", "og:type", seo.openGraphType);
+    setMeta('meta[property="og:title"]', "property", "og:title", seo.title);
+    setMeta('meta[property="og:description"]', "property", "og:description", seo.description);
+    setMeta('meta[property="og:url"]', "property", "og:url", seo.canonical);
+    setMeta('meta[property="og:image"]', "property", "og:image", seo.image);
+    setMeta('meta[property="og:image:alt"]', "property", "og:image:alt", seo.imageAlt);
+    setMeta('meta[name="twitter:title"]', "name", "twitter:title", seo.title);
+    setMeta('meta[name="twitter:description"]', "name", "twitter:description", seo.description);
+    setMeta('meta[name="twitter:image"]', "name", "twitter:image", seo.image);
+    setMeta('meta[name="twitter:image:alt"]', "name", "twitter:image:alt", seo.imageAlt);
 
     let link = document.head.querySelector('link[rel="canonical"]');
     if (!link) {
@@ -3664,7 +3533,18 @@ export function App() {
       link.setAttribute("rel", "canonical");
       document.head.appendChild(link);
     }
-    link.setAttribute("href", canonical);
+    link.setAttribute("href", seo.canonical);
+
+    let structuredData = document.head.querySelector<HTMLScriptElement>(
+      'script[data-route-structured-data="true"]',
+    );
+    if (!structuredData) {
+      structuredData = document.createElement("script");
+      structuredData.type = "application/ld+json";
+      structuredData.dataset.routeStructuredData = "true";
+      document.head.appendChild(structuredData);
+    }
+    structuredData.textContent = JSON.stringify(seo.structuredData);
   }, [path, language]);
 
 

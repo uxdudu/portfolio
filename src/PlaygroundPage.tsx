@@ -8,6 +8,7 @@ import fincheckHome from "./assets/playground/fincheck-home.webp";
 import finclassJornada from "./assets/playground/finclass-mapa-da-jornada.webp";
 import foodiaryHome from "./assets/playground/foodiary-home.webp";
 import foodiaryPlano from "./assets/playground/foodiary-plano.webp";
+import icones3d from "./assets/playground/icones-3d.webp";
 import marmarisFooter from "./assets/playground/marmaris-travel-footer.webp";
 import orcamaisBadge from "./assets/playground/orcamais-badge-documentation.webp";
 import orcamaisCpu from "./assets/playground/orcamais-editar-cpu.webp";
@@ -24,6 +25,7 @@ type PlaygroundItem = { src: string; label: string; ar: number; span: 1 | 2 };
 
 const items: PlaygroundItem[] = [
   { src: talquiConversas, label: "TALQUI", ar: 1.475, span: 2 },
+  { src: icones3d, label: "ÍCONES 3D", ar: 1.925, span: 2 },
   { src: dietaryHome, label: "DIETARY", ar: 0.462, span: 1 },
   { src: orcamaisWorkspaces, label: "ORÇAMAIS", ar: 1.5, span: 2 },
   { src: vellooHome, label: "VELLOO", ar: 0.46, span: 1 },

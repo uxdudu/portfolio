@@ -9,10 +9,6 @@
       name="description"
       content="Portfólio de Eduardo Amaral (uxdudu), Senior Product Designer especializado em UX/UI, Design Systems e Design com IA. Cases de plataformas e produtos digitais escaláveis."
     />
-    <meta
-      name="keywords"
-      content="Eduardo Amaral, Eduardo Amaral UX, uxdudu, UX Dudu, UX Design, UI Design, UX Designer, Product Designer, Design com IA, Design System, Design System com IA, AI for UX"
-    />
     <meta name="author" content="Eduardo Amaral" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://eduardoamaral.me/" />
@@ -43,6 +39,7 @@
     />
     <meta property="og:url" content="https://eduardoamaral.me/" />
     <meta property="og:image" content="https://eduardoamaral.me/og-image.png" />
+    <meta property="og:image:alt" content="Eduardo Amaral, Senior Product Designer" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="pt_BR" />
@@ -55,31 +52,43 @@
       content="Portfólio de Eduardo Amaral (uxdudu), Senior Product Designer especializado em UX/UI, Design Systems e Design com IA."
     />
     <meta name="twitter:image" content="https://eduardoamaral.me/og-image.png" />
+    <meta name="twitter:image:alt" content="Eduardo Amaral, Senior Product Designer" />
 
-    <!-- Dados estruturados (Person) -->
+    <!-- Dados estruturados do site e da autoria -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Eduardo Amaral",
-        "alternateName": ["uxdudu", "UX Dudu", "Eduardo Amaral UX"],
-        "url": "https://eduardoamaral.me",
-        "image": "https://eduardoamaral.me/og-image.png",
-        "jobTitle": "Senior Product Designer",
-        "description": "Product Designer especializado em UI/UX, Design Systems e Design com IA.",
-        "knowsAbout": [
-          "UX Design",
-          "UI Design",
-          "Product Design",
-          "Design System",
-          "Design com IA",
-          "AI for UX"
-        ],
-        "sameAs": [
-          "https://www.linkedin.com/in/eduardooamaral/",
-          "https://www.instagram.com/ux.dudu/",
-          "https://dribbble.com/eduardooamaral",
-          "https://open.spotify.com/show/3iRN3dTrHKCfA6bIg56hQv"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://eduardoamaral.me/#website",
+            "url": "https://eduardoamaral.me/",
+            "name": "Eduardo Amaral",
+            "inLanguage": ["pt-BR", "en"],
+            "publisher": { "@id": "https://eduardoamaral.me/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://eduardoamaral.me/#person",
+            "name": "Eduardo Amaral",
+            "alternateName": ["uxdudu", "UX Dudu", "Eduardo Amaral UX"],
+            "url": "https://eduardoamaral.me",
+            "jobTitle": "Senior Product Designer",
+            "description": "Product Designer especializado em UX/UI, Design Systems e IA aplicada ao design.",
+            "knowsAbout": [
+              "UX Design",
+              "UI Design",
+              "Product Design",
+              "Design Systems",
+              "Design com IA"
+            ],
+            "sameAs": [
+              "https://www.linkedin.com/in/eduardooamaral/",
+              "https://www.instagram.com/ux.dudu/",
+              "https://dribbble.com/eduardooamaral",
+              "https://open.spotify.com/show/3iRN3dTrHKCfA6bIg56hQv"
+            ]
+          }
         ]
       }
     </script>

@@ -1,7 +1,8 @@
-import { Children, Fragment, isValidElement, useEffect, useState, type ReactNode } from "react";
+import { Children, Fragment, cloneElement, isValidElement, useEffect, useState, type ComponentProps, type ReactNode } from "react";
 import { usePostHog } from "@posthog/react";
 import { SmoothCorners } from "@lisse/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { orderCaseStages } from "./caseNarrative.mjs";
 import type { SanityCaseStudy } from "./lib/sanity";
 import cliniaShadcnFoundation from "./assets/clinia-shadcn-foundation.webp";
 import cliniaClaudeCursorFigmaMcp from "./assets/clinia-claude-cursor-figma-mcp.webp";
@@ -39,8 +40,6 @@ import {
   petrobrasDsProcessEn,
   petrobrasDsFoundations,
   petrobrasDsFoundationsEn,
-  petrobrasDsOutcomes,
-  petrobrasDsOutcomesEn,
   petrobrasDsEvidence,
   petrobrasDsEvidenceEn,
   petrobrasDsCmsEvidenceFallback,
@@ -55,6 +54,51 @@ import {
   projects,
 } from "./App";
 import type { PageProps, LightboxImage } from "./App";
+
+type CaseNarrativeStage =
+  | "intro"
+  | "challenge"
+  | "before"
+  | "during"
+  | "after"
+  | "testimonial"
+  | "next";
+
+type CaseStageProps = {
+  caseStage?: CaseNarrativeStage;
+};
+
+function CaseNarrativeLayout({
+  children,
+  className,
+  ...motionProps
+}: {
+  children: ReactNode;
+  className: string;
+} & Omit<ComponentProps<typeof motion.div>, "children" | "className">) {
+  const orderedChildren = orderCaseStages(
+    Children.toArray(children),
+    (child) =>
+      isValidElement<CaseStageProps>(child)
+        ? child.props.caseStage ||
+          (child.props as CaseStageProps & { "data-case-stage"?: CaseNarrativeStage })[
+            "data-case-stage"
+          ] ||
+          "intro"
+        : "intro",
+  );
+  const keyedChildren = orderedChildren.map((child, index) =>
+    isValidElement(child)
+      ? cloneElement(child, { key: `${child.key ?? "case-section"}-${index}` })
+      : child,
+  );
+
+  return (
+    <motion.div className={className} {...motionProps}>
+      {keyedChildren}
+    </motion.div>
+  );
+}
 
 function CaseMeta({ label, value }: { label: string; value: string }) {
   return (
@@ -202,12 +246,13 @@ function CaseTextSection({
   title,
   stickyLabel = false,
   children,
+  caseStage,
 }: {
   eyebrow: string;
   title: string;
   stickyLabel?: boolean;
   children: ReactNode;
-}) {
+} & CaseStageProps) {
   const flattenChildren = (node: ReactNode): ReactNode[] =>
     Children.toArray(node).flatMap((child) => {
       if (isValidElement<{ children?: ReactNode }>(child) && child.type === Fragment) {
@@ -228,6 +273,7 @@ function CaseTextSection({
 
   return (
     <motion.section
+      data-case-stage={caseStage}
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
@@ -239,6 +285,43 @@ function CaseTextSection({
         <div className="flex flex-col gap-4 text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
           {compactChildren}
         </div>
+      </div>
+    </motion.section>
+  );
+}
+
+function CaseBulletSection({
+  eyebrow,
+  title,
+  items,
+  caseStage,
+}: {
+  eyebrow: string;
+  title: string;
+  items: string[];
+} & CaseStageProps) {
+  return (
+    <motion.section
+      data-case-stage={caseStage}
+      className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
+      variants={sectionReveal}
+    >
+      <SectionLabel>{eyebrow}</SectionLabel>
+      <div className="flex flex-col gap-6">
+        <h2 className="max-w-[640px] text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground [text-wrap:balance] lg:text-[32px] lg:tracking-[-1.6px]">
+          {title}
+        </h2>
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {items.map((item) => (
+            <motion.li
+              key={item}
+              className="rounded-3xl border border-border bg-card p-6 text-[18px] font-medium leading-[1.45] tracking-[-0.54px] text-card-foreground [text-wrap:pretty]"
+              variants={sectionReveal}
+            >
+              {item}
+            </motion.li>
+          ))}
+        </ul>
       </div>
     </motion.section>
   );
@@ -282,25 +365,6 @@ const talquiCaseFallback: SanityCaseStudy = {
   ],
 };
 
-const petrobrasDsCaseFallback: SanityCaseStudy = {
-  title: "Petrobras: Design System",
-  titleEn: "Petrobras: Design System",
-  slug: "petrobras-design-system",
-  client: "Petrobras",
-  role: "Design System e documentação",
-  summary: "Design System Petrobras v2 com tokens, componentes, seções, templates, motion, acessibilidade e documentação manual de specs para sustentar o ecossistema digital.",
-  summaryEn: "Petrobras Design System v2 with tokens, components, sections, templates, motion, accessibility and manual spec documentation to sustain the digital ecosystem.",
-  stack: ["Figma", "Notion", "Design Tokens", "Specs"],
-  sections: [
-    { eyebrow: "Desafio", title: "Dar consistência a um ecossistema digital diverso e complexo.", body: ["O desafio era organizar uma base grande o suficiente para atender diferentes tipos de páginas e times, mas clara o bastante para ser usada com autonomia em um contexto institucional complexo.", "Também era necessário criar documentação prática que ajudasse a tomar decisões e reduzir ambiguidade durante a implementação."] },
-    { eyebrow: "Solução", title: "Uma biblioteca visual e uma documentação prática.", body: ["O DS v2 conectou tokens, componentes, sections e templates em uma base consultável que sustentou o portal Nossa Energia, o site principal e outras frentes digitais.", "A documentação foi criada manualmente com specs, anatomia, estados e orientações de acessibilidade para manter consistência entre design e desenvolvimento."] },
-  ],
-  sectionsEn: [
-    { eyebrow: "Challenge", title: "Bringing consistency to a diverse and complex digital ecosystem.", body: ["The challenge was to organize a foundation large enough to serve different types of pages and teams, but clear enough to be used autonomously in a complex institutional context.", "It was also necessary to create practical documentation that helped make decisions and reduce ambiguity during implementation."] },
-    { eyebrow: "Solution", title: "A visual library and practical documentation.", body: ["DS v2 connected tokens, components, sections and templates into a consultable foundation that supported the Nossa Energia portal, the main site and other digital fronts.", "Documentation was created manually with specs, anatomy, states and accessibility guidelines to maintain consistency between design and development."] },
-  ],
-};
-
 const petrobrasNossaEnergiaCaseFallback: SanityCaseStudy = {
   title: "Petrobras: Nossa Energia",
   titleEn: "Petrobras: Nossa Energia",
@@ -320,7 +384,7 @@ const petrobrasNossaEnergiaCaseFallback: SanityCaseStudy = {
   ],
 };
 
-function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
+function CmsCaseNarrative({ caseStudy, caseStage }: { caseStudy?: SanityCaseStudy } & CaseStageProps) {
   const { language, t } = useTranslation();
   if (!caseStudy) return null;
 
@@ -331,6 +395,7 @@ function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
 
   return (
     <motion.section
+      data-case-stage={caseStage}
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
@@ -388,7 +453,7 @@ function CmsCaseNarrative({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
   );
 }
 
-function CaseTestimonials({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
+function CaseTestimonials({ caseStudy, caseStage }: { caseStudy?: SanityCaseStudy } & CaseStageProps) {
   const { language } = useTranslation();
   const testimonials = caseStudy?.testimonials?.filter((item) => item.quote && item.author) || [];
 
@@ -396,6 +461,7 @@ function CaseTestimonials({ caseStudy }: { caseStudy?: SanityCaseStudy }) {
 
   return (
     <motion.section
+      data-case-stage={caseStage}
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
@@ -507,12 +573,14 @@ function CaseLightboxFigure({
 
 function CliniaPrototypeSection({
   onOpen,
+  caseStage,
 }: {
   onOpen: (image: LightboxImage) => void;
-}) {
+} & CaseStageProps) {
   const { language } = useTranslation();
   return (
     <motion.section
+      data-case-stage={caseStage}
       className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
       variants={sectionReveal}
     >
@@ -545,10 +613,11 @@ function CliniaPrototypeSection({
 function NextCaseSection({
   nextCase,
   language,
+  caseStage,
 }: {
   nextCase: "clinia" | "talqui" | "petrobras-ds" | "petrobras-ne";
   language: "en" | "pt-BR";
-}) {
+} & CaseStageProps) {
   const data = {
     clinia: {
       title: "Clinia",
@@ -592,6 +661,7 @@ function NextCaseSection({
 
   return (
     <motion.section
+      data-case-stage={caseStage}
       className="flex flex-col gap-6 border-t border-border pt-10 lg:pt-16"
       variants={sectionReveal}
     >
@@ -660,8 +730,52 @@ export function PetrobrasDesignSystemCasePage({
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
   const foundations = language === "en" ? petrobrasDsFoundationsEn : petrobrasDsFoundations;
   const process = language === "en" ? petrobrasDsProcessEn : petrobrasDsProcess;
-  const outcomes = language === "en" ? petrobrasDsOutcomesEn : petrobrasDsOutcomes;
   const evidence = language === "en" ? petrobrasDsEvidenceEn : petrobrasDsEvidence;
+  const impact = language === "en"
+    ? [
+        "More than 100 pages structured on a single visual and technical foundation.",
+        "Page creation time reduced from approximately six days to half a day.",
+        "Foundation used by Petrobras' institutional portal and Content Hub.",
+      ]
+    : [
+        "Mais de 100 páginas estruturadas sobre uma única base visual e técnica.",
+        "Redução do tempo de criação de páginas de aproximadamente 6 dias para meio dia.",
+        "Base utilizada pelo portal institucional e Hub de Conteúdo da Petrobras.",
+      ];
+  const responsibilities = language === "en"
+    ? [
+        "Design System leadership.",
+        "Definition of the Design Token architecture.",
+        "Structuring base and semantic tokens.",
+        "Component architecture and standardization.",
+        "Documentation in Figma and Notion.",
+        "Continuous alignment with the development team.",
+        "Definition of usage and governance guidelines.",
+        "Leadership of the system's internal adoption.",
+      ]
+    : [
+        "Liderança do Design System.",
+        "Definição da arquitetura de Design Tokens.",
+        "Estruturação de tokens base e semânticos.",
+        "Arquitetura e padronização dos componentes.",
+        "Criação da documentação em Figma e Notion.",
+        "Alinhamento contínuo com a equipe de desenvolvimento.",
+        "Definição de diretrizes de uso e governança.",
+        "Condução da adoção interna do sistema.",
+      ];
+  const finalResults = language === "en"
+    ? [
+        "Elimination of inconsistencies across products and areas of the ecosystem.",
+        "Significant reduction in interface-related rework.",
+        "Shared governance between Design and Development.",
+        "Greater predictability for Design and Development.",
+      ]
+    : [
+        "Eliminação de inconsistências entre produtos e áreas do ecossistema.",
+        "Redução significativa de retrabalho relacionado à interface.",
+        "Governança compartilhada entre Design e Desenvolvimento.",
+        "Maior previsibilidade para Design e Desenvolvimento.",
+      ];
   const cmsEvidence = (cmsCase?.evidence?.length ? cmsCase.evidence : petrobrasDsCmsEvidenceFallback).filter((item) => {
     const text = `${item.title || ""} ${item.caption || ""}`.toLowerCase();
     return !text.includes("capa do petrods");
@@ -671,7 +785,7 @@ export function PetrobrasDesignSystemCasePage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
-      <motion.div
+      <CaseNarrativeLayout
         className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
@@ -728,46 +842,17 @@ export function PetrobrasDesignSystemCasePage({
           </SmoothCorners>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase || petrobrasDsCaseFallback} />
-        <CaseTestimonials caseStudy={cmsCase} />
+        <CaseTestimonials caseStudy={cmsCase} caseStage="testimonial" />
 
-        <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "A common language for public products." : "Uma linguagem comum para produtos públicos."}>
-          {language === "en" ? (
-            <>
-              <p>
-                The Petrobras Design System v2 was structured to bring consistency to the brand's digital ecosystem,
-                connecting visual decisions, components, templates, and implementation patterns into a consultable foundation.
-              </p>
-              <p>
-                In practice, it helped sustain Nossa Energia portal, the main site, and other digital fronts
-                with the same tokens, components, sections, and usage criteria.
-              </p>
-              <p>
-                Documentation was created manually, including specs, anatomy, examples, states,
-                accessibility guidance, and recommendations to reduce noise between UX, UI, content, and development.
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                O Design System Petrobras v2 foi estruturado para dar consistência ao ecossistema
-                digital da marca, conectando decisões visuais, componentes, templates e padrões de
-                implementação em uma base consultável.
-              </p>
-              <p>
-                Na prática, ele ajudava a sustentar o portal Nossa Energia, o site principal e outras
-                frentes digitais com os mesmos tokens, componentes, sections e critérios de uso.
-              </p>
-              <p>
-                A documentação foi feita manualmente, incluindo specs, anatomia, exemplos, estados,
-                orientações de acessibilidade e recomendações para reduzir ruído entre UX, UI,
-                conteúdo e desenvolvimento.
-              </p>
-            </>
-          )}
-        </CaseTextSection>
+        <CaseBulletSection
+          caseStage="after"
+          eyebrow={language === "en" ? "Impact" : "Impacto"}
+          title={language === "en" ? "A shared foundation that changed the scale of delivery." : "Uma base compartilhada que mudou a escala das entregas."}
+          items={impact}
+        />
 
         <motion.section
+          data-case-stage="after"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -801,34 +886,61 @@ export function PetrobrasDesignSystemCasePage({
           </div>
         </motion.section>
 
-        <CaseTextSection eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "Scaling consistency without blocking evolution." : "Escalar consistência sem travar a evolução."}>
+        <CaseTextSection caseStage="challenge" eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "Scaling consistency without blocking evolution." : "Escalar consistência sem travar a evolução."}>
           {language === "en" ? (
             <>
               <p>
-                The challenge was to organize a foundation large enough to serve different types of
-                pages, but clear enough to be used by diverse teams in a complex institutional context.
+                Petrobras' digital ecosystem had more than 100 pages developed individually, without
+                a shared visual language. This generated visual inconsistencies, longer production
+                times, and frequent rework between designers and developers.
               </p>
               <p>
-                The project also needed practical documentation with decision criteria, interface specs,
-                and clear implementation guidance.
+                The challenge was to create a shared foundation that could serve different products and
+                teams while remaining viable within the Liferay platform.
               </p>
             </>
           ) : (
             <>
               <p>
-                O desafio era organizar uma base grande o suficiente para atender diferentes tipos de
-                páginas, mas clara o bastante para ser usada por times diversos em um contexto
-                institucional complexo.
+                O ecossistema digital da Petrobras possuía mais de 100 páginas desenvolvidas
+                individualmente, sem uma linguagem visual compartilhada. A ausência de um Design System
+                gerava inconsistências visuais, aumento do tempo de produção e retrabalho frequente
+                entre designers e desenvolvedores.
               </p>
               <p>
-                Também era necessário criar uma documentação prática, com critérios de decisão,
-                specs de interface e orientações claras para implementação.
+                O desafio era criar uma base compartilhada que atendesse diferentes produtos e equipes,
+                sem perder a viabilidade dentro da plataforma Liferay.
               </p>
             </>
           )}
         </CaseTextSection>
 
+        <CaseTextSection
+          caseStage="before"
+          eyebrow={language === "en" ? "Before" : "Antes"}
+          title={language === "en" ? "More than 100 pages built without a shared foundation." : "Mais de 100 páginas construídas sem uma base compartilhada."}
+        >
+          <p>
+            {language === "en"
+              ? "Each product area evolved with isolated interface decisions, which increased visual inconsistency and made common page patterns expensive to reproduce."
+              : "Cada área de produto evoluía com decisões de interface isoladas, o que aumentava a inconsistência visual e tornava padrões comuns de página caros de reproduzir."}
+          </p>
+          <p>
+            {language === "en"
+              ? "Design and Development lacked a common source for tokens, components, responsive behavior, and implementation guidance."
+              : "Design e Desenvolvimento não tinham uma fonte comum para tokens, componentes, comportamento responsivo e orientações de implementação."}
+          </p>
+        </CaseTextSection>
+
+        <CaseBulletSection
+          caseStage="during"
+          eyebrow={language === "en" ? "How we solved it" : "Como resolvemos"}
+          title={language === "en" ? "Leadership from architecture to adoption." : "Liderança da arquitetura à adoção."}
+          items={responsibilities}
+        />
+
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -854,7 +966,40 @@ export function PetrobrasDesignSystemCasePage({
           </div>
         </motion.section>
 
+        <CaseTextSection
+          caseStage="during"
+          eyebrow={language === "en" ? "Implementation" : "Desafios de implementação"}
+          title={language === "en" ? "Balancing design needs and Liferay constraints." : "Equilibrar as necessidades de Design e as limitações do Liferay."}
+        >
+          {language === "en" ? (
+            <>
+              <p>
+                One of the project's main challenges was balancing Design needs with the technical
+                constraints imposed by the Liferay platform.
+              </p>
+              <p>
+                Because development was handled by a third-party company, several decisions required
+                negotiation to preserve the user experience without compromising technical feasibility.
+                This process directly influenced the component architecture and the system's evolution.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Um dos principais desafios do projeto foi equilibrar as necessidades de Design com as
+                limitações técnicas impostas pela plataforma Liferay.
+              </p>
+              <p>
+                Como o desenvolvimento era conduzido por uma empresa terceirizada, diversas decisões
+                exigiam negociação para preservar a experiência do usuário sem comprometer a viabilidade
+                técnica. Esse processo influenciou diretamente a arquitetura dos componentes e a evolução do sistema.
+              </p>
+            </>
+          )}
+        </CaseTextSection>
+
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -895,41 +1040,89 @@ export function PetrobrasDesignSystemCasePage({
           </div>
         </motion.section>
 
-        <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-          initial={prefersReducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-15% 0px" }}
-          variants={staggerChildren}
+        <CaseTextSection
+          caseStage="during"
+          eyebrow={language === "en" ? "Governance" : "Governança"}
+          title={language === "en" ? "Continuous evolution without compromising stability." : "Evolução contínua sem comprometer a estabilidade."}
         >
-          <SectionLabel>{language === "en" ? "Solution" : "Solução"}</SectionLabel>
-          <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {outcomes.map((item) => (
-                <motion.p
-                  key={item}
-                  className="rounded-3xl border border-border bg-card p-6 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground"
-                  variants={sectionReveal}
-                >
-                  {item}
-                </motion.p>
-              ))}
-            </div>
-            <motion.a
-              href="https://uxdudu.notion.site/Petro-DS-v2-2d88fb2f824449078175f0599d7b0b92?pvs=73"
-              target="_blank"
-              rel="noreferrer"
-              className="w-fit rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
-              whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
-              whileTap={TAP}
-              transition={SPRING}
-            >
-              {t.viewPetroDs}
-            </motion.a>
-          </div>
-        </motion.section>
+          {language === "en" ? (
+            <>
+              <p>
+                Any designer on the team could propose improvements or new components. Changes were
+                evaluated jointly by Design and Development.
+              </p>
+              <p>
+                Incremental changes were released as patches, while structural changes created new
+                component versions to avoid large-scale impact.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Qualquer designer da equipe podia propor melhorias ou novos componentes. As alterações
+                eram avaliadas em conjunto entre Design e Desenvolvimento.
+              </p>
+              <p>
+                Mudanças incrementais eram publicadas como patches, enquanto alterações estruturais
+                geravam novas versões de componentes para evitar impactos em larga escala.
+              </p>
+            </>
+          )}
+        </CaseTextSection>
 
-        <CaseTextSection eyebrow={language === "en" ? "Connection" : "Relação"} title={language === "en" ? "The design system was the bridge between the Petrobras cases." : "O design system era a ponte entre os cases Petrobras."}>
+        <CaseTextSection
+          caseStage="during"
+          eyebrow={language === "en" ? "Adoption" : "Adoção e evangelização"}
+          title={language === "en" ? "Documentation and training as alignment tools." : "Documentação e treinamento como ferramentas de alinhamento."}
+        >
+          {language === "en" ? (
+            <>
+              <p>
+                Documentation was the main alignment tool between teams. Weekly presentations with
+                designers, developers, and stakeholders shared updates, validated decisions, and
+                reinforced the correct use of components.
+              </p>
+              <p>
+                Accessible documentation, continuous training, and close support contributed to
+                consistent adoption of the system across all new projects.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                A documentação foi utilizada como principal ferramenta de alinhamento entre equipes.
+                Semanalmente eram realizadas apresentações com designers, desenvolvedores e stakeholders
+                para compartilhar atualizações, validar decisões e garantir o uso correto dos componentes.
+              </p>
+              <p>
+                A combinação entre documentação acessível, treinamento contínuo e acompanhamento próximo
+                da equipe contribuiu para uma adoção consistente do sistema em todos os novos projetos.
+              </p>
+            </>
+          )}
+        </CaseTextSection>
+
+        <CaseBulletSection
+          caseStage="after"
+          eyebrow={language === "en" ? "Results" : "Resultados"}
+          title={language === "en" ? "A more consistent and predictable digital ecosystem." : "Um ecossistema digital mais consistente e previsível."}
+          items={finalResults}
+        />
+
+        <motion.a
+          data-case-stage="after"
+          href="https://uxdudu.notion.site/Petro-DS-v2-2d88fb2f824449078175f0599d7b0b92?pvs=73"
+          target="_blank"
+          rel="noreferrer"
+          className="w-fit rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
+          whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
+          whileTap={TAP}
+          transition={SPRING}
+        >
+          {t.viewPetroDs}
+        </motion.a>
+
+        <CaseTextSection caseStage="after" eyebrow={language === "en" ? "Connection" : "Relação"} title={language === "en" ? "The design system was the bridge between the Petrobras cases." : "O design system era a ponte entre os cases Petrobras."}>
           {language === "en" ? (
             <>
               <p>
@@ -954,8 +1147,8 @@ export function PetrobrasDesignSystemCasePage({
             </>
           )}
         </CaseTextSection>
-        <NextCaseSection nextCase="petrobras-ne" language={language} />
-      </motion.div>
+        <NextCaseSection nextCase="petrobras-ne" language={language} caseStage="next" />
+      </CaseNarrativeLayout>
       <Footer />
     </>
   );
@@ -1027,7 +1220,7 @@ export function PetrobrasNossaEnergiaCasePage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
-      <motion.div
+      <CaseNarrativeLayout
         className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
@@ -1085,11 +1278,11 @@ export function PetrobrasNossaEnergiaCasePage({
           </SmoothCorners>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase || petrobrasNossaEnergiaCaseFallback} />
-        <CaseTestimonials caseStudy={cmsCase} />
+        <CaseTestimonials caseStudy={cmsCase} caseStage="testimonial" />
 
         <CaseTextSection
-          eyebrow={language === "en" ? "About" : "Sobre"}
+          caseStage="before"
+          eyebrow={language === "en" ? "Before" : "Antes"}
           title={language === "en" ? "A hub to centralize institutional content." : "Um hub para centralizar conteúdo institucional."}
           stickyLabel
         >
@@ -1131,6 +1324,7 @@ export function PetrobrasNossaEnergiaCasePage({
         </CaseTextSection>
 
         <CaseTextSection
+          caseStage="challenge"
           eyebrow={language === "en" ? "Challenge" : "Desafio"}
           title={language === "en" ? "Organizing content without losing consistency." : "Organizar conteúdo sem perder consistência."}
           stickyLabel
@@ -1164,13 +1358,14 @@ export function PetrobrasNossaEnergiaCasePage({
 
         {evidence.length > 0 && (
           <motion.section
+            data-case-stage="during"
             className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
             initial={prefersReducedMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-15% 0px" }}
             variants={staggerChildren}
           >
-            <SectionLabel sticky>Nossa Energia</SectionLabel>
+            <SectionLabel sticky>{language === "en" ? "How we solved it" : "Como resolvemos"}</SectionLabel>
             <div className="flex flex-col gap-8">
               <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
                 {language === "en" ? "Process maps first, final screens after." : "Mapas de processo primeiro, telas finais depois."}
@@ -1210,6 +1405,7 @@ export function PetrobrasNossaEnergiaCasePage({
         )}
 
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1233,6 +1429,7 @@ export function PetrobrasNossaEnergiaCasePage({
         </motion.section>
 
         <motion.section
+          data-case-stage="after"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1259,6 +1456,7 @@ export function PetrobrasNossaEnergiaCasePage({
         </motion.section>
 
         <CaseTextSection
+          caseStage="after"
           eyebrow={language === "en" ? "Connection" : "Relação"}
           title={language === "en" ? "Portal, design system and main site are the same ecosystem." : "Portal, design system e site principal são o mesmo ecossistema."}
           stickyLabel
@@ -1336,6 +1534,7 @@ export function PetrobrasNossaEnergiaCasePage({
         </CaseTextSection>
 
         <motion.section
+          data-case-stage="after"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1360,8 +1559,8 @@ export function PetrobrasNossaEnergiaCasePage({
             </motion.a>
           </div>
         </motion.section>
-        <NextCaseSection nextCase="clinia" language={language} />
-      </motion.div>
+        <NextCaseSection nextCase="clinia" language={language} caseStage="next" />
+      </CaseNarrativeLayout>
       <Footer />
     </>
   );
@@ -1407,7 +1606,7 @@ export function CliniaCasePage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
-      <motion.div
+      <CaseNarrativeLayout
         className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
@@ -1464,10 +1663,9 @@ export function CliniaCasePage({
           </SmoothCorners>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase || cliniaCaseFallback} />
-        <CaseTestimonials caseStudy={cmsCase} />
+        <CaseTestimonials caseStudy={cmsCase} caseStage="testimonial" />
 
-        <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "Version 2.0 started with understanding the problem." : "A versão 2.0 começou pelo entendimento do problema."}>
+        <CaseTextSection caseStage="challenge" eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "Version 2.0 started with understanding the problem." : "A versão 2.0 começou pelo entendimento do problema."}>
           {language === "en" ? (
             <>
               <p>
@@ -1510,11 +1708,12 @@ export function CliniaCasePage({
         </CaseTextSection>
 
         <motion.section
+          data-case-stage="before"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           variants={sectionReveal}
         >
           <div className="flex flex-col gap-4">
-            <SectionLabel>{language === "en" ? "Version 1" : "Versão 1"}</SectionLabel>
+            <SectionLabel>{language === "en" ? "Before" : "Antes"}</SectionLabel>
             <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {language === "en" ? "Interfaces before the rebuild." : "Interfaces antes da reconstrução."}
             </h2>
@@ -1554,7 +1753,7 @@ export function CliniaCasePage({
           </div>
         </motion.section>
 
-        <CaseTextSection eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "shadcn as the bridge between identity, Figma, and frontend." : "shadcn como ponte entre identidade, Figma e frontend."}>
+        <CaseTextSection caseStage="during" eyebrow={language === "en" ? "How we solved it" : "Como resolvemos"} title={language === "en" ? "shadcn as the bridge between identity, Figma, and frontend." : "shadcn como ponte entre identidade, Figma e frontend."}>
           {language === "en" ? (
             <>
               <p>
@@ -1592,6 +1791,7 @@ export function CliniaCasePage({
         </CaseTextSection>
 
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1627,9 +1827,10 @@ export function CliniaCasePage({
           </div>
         </motion.section>
 
-        <CliniaPrototypeSection onOpen={setLightboxImage} />
+        <CliniaPrototypeSection onOpen={setLightboxImage} caseStage="during" />
 
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1651,6 +1852,7 @@ export function CliniaCasePage({
         </motion.section>
 
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1681,7 +1883,7 @@ export function CliniaCasePage({
           </div>
         </motion.section>
 
-        <CaseTextSection eyebrow={language === "en" ? "AI in the process" : "IA no processo"} title={language === "en" ? "Figma, Cursor and Claude synchronized daily." : "Figma, Cursor e Claude sincronizados no dia a dia."}>
+        <CaseTextSection caseStage="during" eyebrow={language === "en" ? "AI in the process" : "IA no processo"} title={language === "en" ? "Figma, Cursor and Claude synchronized daily." : "Figma, Cursor e Claude sincronizados no dia a dia."}>
           {language === "en" ? (
             <>
               <p>
@@ -1720,6 +1922,7 @@ export function CliniaCasePage({
         </CaseTextSection>
 
         <motion.section
+          data-case-stage="after"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1739,8 +1942,8 @@ export function CliniaCasePage({
             ))}
           </div>
         </motion.section>
-        <NextCaseSection nextCase="talqui" language={language} />
-      </motion.div>
+        <NextCaseSection nextCase="talqui" language={language} caseStage="next" />
+      </CaseNarrativeLayout>
       <Footer />
     </>
   );
@@ -1767,7 +1970,7 @@ export function TalquiCasePage({
     <>
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
-      <motion.div
+      <CaseNarrativeLayout
         className="flex w-full flex-col gap-10 p-5 lg:gap-20 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
@@ -1824,10 +2027,9 @@ export function TalquiCasePage({
           </SmoothCorners>
         </motion.section>
 
-        <CmsCaseNarrative caseStudy={cmsCase || talquiCaseFallback} />
-        <CaseTestimonials caseStudy={cmsCase} />
+        <CaseTestimonials caseStudy={cmsCase} caseStage="testimonial" />
 
-        <CaseTextSection eyebrow={language === "en" ? "About" : "Sobre"} title={language === "en" ? "The platform needed to stop looking like a technical fork." : "A plataforma precisava deixar de parecer um fork técnico."}>
+        <CaseTextSection caseStage="challenge" eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "The platform needed to stop looking like a technical fork." : "A plataforma precisava deixar de parecer um fork técnico."}>
           {language === "en" ? (
             <>
               <p>
@@ -1857,7 +2059,24 @@ export function TalquiCasePage({
           )}
         </CaseTextSection>
 
-        <CaseTextSection eyebrow={language === "en" ? "Challenge" : "Desafio"} title={language === "en" ? "Tokens, components, and documentation designed for scale." : "Tokens, componentes e documentação pensados para escala."}>
+        <CaseTextSection
+          caseStage="before"
+          eyebrow={language === "en" ? "Before" : "Antes"}
+          title={language === "en" ? "A functional base without a product identity." : "Uma base funcional, mas sem identidade de produto."}
+        >
+          <p>
+            {language === "en"
+              ? "The previous interface originated from a technical fork and solved the first operational needs, but it inherited patterns that did not express Talqui's brand."
+              : "A interface anterior nasceu de um fork técnico e resolvia as primeiras necessidades operacionais, mas herdava padrões que não expressavam a marca Talqui."}
+          </p>
+          <p>
+            {language === "en"
+              ? "Without shared tokens, components, and documentation, each new feature increased visual fragmentation and implementation ambiguity."
+              : "Sem tokens, componentes e documentação compartilhados, cada nova feature aumentava a fragmentação visual e a ambiguidade de implementação."}
+          </p>
+        </CaseTextSection>
+
+        <CaseTextSection caseStage="during" eyebrow={language === "en" ? "How we solved it" : "Como resolvemos"} title={language === "en" ? "Tokens, components, and documentation designed for scale." : "Tokens, componentes e documentação pensados para escala."}>
           {language === "en" ? (
             <>
               <p>
@@ -1896,6 +2115,7 @@ export function TalquiCasePage({
 
         {evidence.length > 0 && (
           <motion.section
+            data-case-stage="during"
             className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
             initial={prefersReducedMotion ? false : "hidden"}
             whileInView="visible"
@@ -1925,6 +2145,7 @@ export function TalquiCasePage({
         )}
 
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1951,6 +2172,7 @@ export function TalquiCasePage({
         </motion.section>
 
         <motion.section
+          data-case-stage="during"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -1972,6 +2194,7 @@ export function TalquiCasePage({
         </motion.section>
 
         <motion.section
+          data-case-stage="after"
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           initial={prefersReducedMotion ? false : "hidden"}
           whileInView="visible"
@@ -2004,8 +2227,8 @@ export function TalquiCasePage({
             </motion.a>
           </div>
         </motion.section>
-        <NextCaseSection nextCase="petrobras-ds" language={language} />
-      </motion.div>
+        <NextCaseSection nextCase="petrobras-ds" language={language} caseStage="next" />
+      </CaseNarrativeLayout>
       <Footer />
     </>
   );
