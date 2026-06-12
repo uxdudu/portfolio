@@ -65,6 +65,7 @@ import brFlag from "./assets/br.svg";
 import usFlag from "./assets/us.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
+import { normalizeRoutePath } from "./routePath.mjs";
 import { getRouteSeo } from "./seo.mjs";
 import {
   IconlyDownload,
@@ -3428,7 +3429,7 @@ function PetrobrasHubPage({
 export function App() {
   const prefersReducedMotion = useReducedMotion();
   const { content: sanityContent } = useSanityPortfolioContent();
-  const [path, setPath] = useState(() => window.location.pathname);
+  const [path, setPath] = useState(() => normalizeRoutePath(window.location.pathname));
   const lenisRef = useRef<Lenis | null>(null);
   const [theme, setTheme] = useState<ThemePreference>(() => {
     const stored = window.localStorage?.getItem("theme-preference");
@@ -3481,7 +3482,7 @@ export function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setPath(window.location.pathname);
+      setPath(normalizeRoutePath(window.location.pathname));
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
@@ -3565,13 +3566,13 @@ export function App() {
       const url = new URL(href, window.location.origin);
       if (url.origin !== window.location.origin) return;
 
-      if (url.pathname === window.location.pathname && url.hash) {
+      if (normalizeRoutePath(url.pathname) === normalizeRoutePath(window.location.pathname) && url.hash) {
         return;
       }
 
       event.preventDefault();
       window.history.pushState({}, "", `${url.pathname}${url.hash}`);
-      setPath(url.pathname);
+      setPath(normalizeRoutePath(url.pathname));
     };
 
     document.addEventListener("click", handleClick);
