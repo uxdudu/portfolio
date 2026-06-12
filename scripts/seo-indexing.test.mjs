@@ -6,6 +6,8 @@ const vercelConfig = JSON.parse(readFileSync(new URL("../vercel.json", import.me
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const prerenderSource = readFileSync(new URL("./prerender.mjs", import.meta.url), "utf8");
 const sitemap = readFileSync(new URL("../public/sitemap.xml", import.meta.url), "utf8");
+const pagesWorkflow = readFileSync(new URL("../.github/workflows/deploy-pages.yml", import.meta.url), "utf8");
+const pagesCname = readFileSync(new URL("../public/CNAME", import.meta.url), "utf8").trim();
 
 const INDEXABLE_ROUTES = [
   "/",
@@ -59,4 +61,13 @@ test("lists every indexable route in the sitemap and excludes CV routes", () => 
 
   assert.doesNotMatch(sitemap, /\/cv\/(?:pt|en)<\/loc>/);
   assert.doesNotMatch(sitemap, /\/styleguide<\/loc>/);
+});
+
+test("publishes the production build to GitHub Pages with the custom domain", () => {
+  assert.match(pagesWorkflow, /actions\/configure-pages@v5/);
+  assert.match(pagesWorkflow, /actions\/upload-pages-artifact@v4/);
+  assert.match(pagesWorkflow, /actions\/deploy-pages@v4/);
+  assert.match(pagesWorkflow, /run: npm run build/);
+  assert.match(pagesWorkflow, /path: \.\/dist/);
+  assert.equal(pagesCname, "eduardoamaral.me");
 });
