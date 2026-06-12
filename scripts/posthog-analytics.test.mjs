@@ -13,6 +13,10 @@ test("initializes PostHog only when the public token is configured", () => {
   assert.match(mainSource, /posthog\.init\(posthogToken,/);
 });
 
+test("removes accidental whitespace from the PostHog token", () => {
+  assert.match(mainSource, /VITE_PUBLIC_POSTHOG_TOKEN\?\.trim\(\)/);
+});
+
 test("sends PostHog events directly when no proxy host is configured", () => {
   assert.match(
     mainSource,

@@ -5,7 +5,7 @@ import { App } from "./App";
 import posthog from "posthog-js";
 import { PostHogProvider } from "@posthog/react";
 
-const posthogToken = import.meta.env.VITE_PUBLIC_POSTHOG_TOKEN;
+const posthogToken = import.meta.env.VITE_PUBLIC_POSTHOG_TOKEN?.trim();
 
 if (posthogToken) {
   posthog.init(posthogToken, {
