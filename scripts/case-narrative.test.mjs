@@ -75,24 +75,32 @@ test("applies all four narrative stages to every project case", () => {
   }
 });
 
-test("uses logo-only stack in the Petrobras Nossa Energia hero", () => {
-  const start = casePagesSource.indexOf(
-    "export function PetrobrasNossaEnergiaCasePage",
-  );
-  const end = casePagesSource.indexOf(
-    "export function CliniaCasePage",
-    start,
-  );
-  const source = casePagesSource.slice(start, end);
+test("uses the case-specific logo-only stack in every project hero", () => {
+  const caseNames = [
+    "PetrobrasDesignSystemCasePage",
+    "PetrobrasNossaEnergiaCasePage",
+    "CliniaCasePage",
+    "TalquiCasePage",
+  ];
 
-  assert.match(source, /<CaseStackLogos/);
-  assert.doesNotMatch(source, /<CaseMeta label="Stack"/);
+  for (const [index, caseName] of caseNames.entries()) {
+    const start = casePagesSource.indexOf(`export function ${caseName}`);
+    const end =
+      index === caseNames.length - 1
+        ? casePagesSource.length
+        : casePagesSource.indexOf(`export function ${caseNames[index + 1]}`);
+    const source = casePagesSource.slice(start, end);
 
-  for (const name of ["Figma", "Claude", "Notion", "Cursor"]) {
-    assert.match(casePagesSource, new RegExp(`name: "${name}"`));
+    assert.match(source, /<CaseStackLogos items=/, `${caseName} must render stack logos`);
+    assert.doesNotMatch(source, /<CaseMeta label="Stack"/, `${caseName} still renders stack text`);
+  }
+
+  for (const name of ["Figma", "Claude", "Notion", "Cursor", "shadcn", "Storybook", "Liferay CMS"]) {
+    assert.match(casePagesSource, new RegExp(`"${name}"`));
   }
 
   assert.match(casePagesSource, /stack-cursor\.svg/);
-  assert.match(casePagesSource, /max-h-5 max-w-5/);
+  assert.match(casePagesSource, /items: string\[\]/);
+  assert.match(casePagesSource, /size-4/);
   assert.doesNotMatch(casePagesSource, /name: "Notion".*dark:invert/);
 });

@@ -117,32 +117,138 @@ function CaseMeta({ label, value }: { label: string; value: string }) {
   );
 }
 
-const caseStackLogos = [
-  { name: "Figma", src: stackFigma, className: "" },
-  { name: "Claude", src: stackClaude, className: "" },
-  { name: "Notion", src: stackNotion, className: "" },
-  { name: "Cursor", src: stackCursor, className: "" },
-];
+type StackLogo = {
+  key: string;
+  name: string;
+  src?: string;
+  icon?: ReactNode;
+};
 
-function CaseStackLogos() {
+const stackLogoIcons: Record<string, Omit<StackLogo, "name">> = {
+  figma: { key: "figma", src: stackFigma },
+  "figma mcp": { key: "figma", src: stackFigma },
+  claude: { key: "claude", src: stackClaude },
+  notion: { key: "notion", src: stackNotion },
+  cursor: { key: "cursor", src: stackCursor },
+  shadcn: {
+    key: "shadcn",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="m6 15 3-3m-1 7 11-11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  storybook: {
+    key: "storybook",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6.8 3.8 17.9 3l.7 18-12.5-1Z" fill="#ff4785" />
+        <path d="m14.7 2.9-.1 3.2 1.4-1 .9.7-.1-3Z" fill="white" />
+        <path d="M14.2 9.2c-.7-.5-1.4-.8-2.2-.8-.9 0-1.4.4-1.4 1 0 .7.7.9 1.7 1.2 1.7.5 3 1.2 3 3.2 0 1.9-1.5 3.2-3.7 3.2-1.7 0-3-.7-3.9-1.8l1.4-1.1c.7.8 1.5 1.2 2.5 1.2s1.6-.5 1.6-1.2c0-.8-.7-1-1.8-1.4-1.6-.5-2.8-1.1-2.8-3 0-1.8 1.4-3 3.5-3 1.3 0 2.5.4 3.4 1.1Z" fill="white" />
+      </svg>
+    ),
+  },
+  "liferay cms": {
+    key: "liferay",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="4" fill="#0b5fff" />
+        <circle cx="16" cy="8" r="4" fill="#55a8ff" />
+        <circle cx="8" cy="16" r="4" fill="#55a8ff" />
+        <circle cx="16" cy="16" r="4" fill="#0b5fff" />
+      </svg>
+    ),
+  },
+  "design tokens": {
+    key: "design-tokens",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+        <circle cx="7" cy="7" r="3" />
+        <circle cx="17" cy="7" r="3" />
+        <circle cx="12" cy="17" r="3" />
+        <path d="m9.5 8.5 5 0M8.5 9.5l2 4.5m5-4.5-2 4.5" />
+      </svg>
+    ),
+  },
+  "design system": {
+    key: "design-system",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+        <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+        <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+        <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+        <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+      </svg>
+    ),
+  },
+  specs: {
+    key: "specs",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+        <path d="M7 3.5h7l3 3v14H7zM14 3.5v3h3M9.5 11h5M9.5 14.5h5M9.5 18h3" />
+      </svg>
+    ),
+  },
+  ux: {
+    key: "ux",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="m5 3 13 9-6 1.5L9 19Z" />
+      </svg>
+    ),
+  },
+  ia: {
+    key: "ai",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 3c.8 4.8 3.2 7.2 8 8-4.8.8-7.2 3.2-8 8-.8-4.8-3.2-7.2-8-8 4.8-.8 7.2-3.2 8-8Z" />
+      </svg>
+    ),
+  },
+  ai: {
+    key: "ai",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 3c.8 4.8 3.2 7.2 8 8-4.8.8-7.2 3.2-8 8-.8-4.8-3.2-7.2-8-8 4.8-.8 7.2-3.2 8-8Z" />
+      </svg>
+    ),
+  },
+};
+
+const fallbackStackIcon = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="m12 3 8 4.5-8 4.5-8-4.5Zm-8 9 8 4.5 8-4.5M4 16.5l8 4.5 8-4.5" />
+  </svg>
+);
+
+function CaseStackLogos({ items }: { items: string[] }) {
+  const logos = items.reduce<StackLogo[]>((result, name) => {
+    const definition = stackLogoIcons[name.toLowerCase()] || {
+      key: name.toLowerCase(),
+      icon: fallbackStackIcon,
+    };
+
+    if (!result.some((item) => item.key === definition.key)) {
+      result.push({ ...definition, name });
+    }
+
+    return result;
+  }, []);
+
   return (
     <div
-      className="flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2"
-      aria-label="Stack: Figma, Claude, Notion e Cursor"
+      className="flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2.5 text-card-foreground"
+      aria-label={`Stack: ${logos.map(({ name }) => name).join(", ")}`}
     >
-      {caseStackLogos.map(({ name, src, className }) => (
+      {logos.map(({ key, name, src, icon }) => (
         <span
-          key={name}
+          key={key}
           role="img"
           aria-label={name}
           title={name}
-          className="flex size-5 items-center justify-center"
+          className="flex size-4 shrink-0 items-center justify-center [&>svg]:size-full"
         >
-          <img
-            src={src}
-            alt=""
-            className={`max-h-5 max-w-5 object-contain ${className}`}
-          />
+          {src ? <img src={src} alt="" className="max-h-4 max-w-4 object-contain" /> : icon}
         </span>
       ))}
     </div>
@@ -454,14 +560,7 @@ function CmsCaseNarrative({ caseStudy, caseStage }: { caseStudy?: SanityCaseStud
             ) : null}
             {stack?.length ? (
               <div className="flex flex-wrap gap-2 pt-2">
-                {stack.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-border px-3 py-1 text-[14px] leading-[1.45] tracking-[-0.42px] text-muted"
-                  >
-                    {item}
-                  </span>
-                ))}
+                <CaseStackLogos items={stack} />
               </div>
             ) : null}
           </div>
@@ -844,7 +943,7 @@ export function PetrobrasDesignSystemCasePage({
             <div className="flex flex-wrap justify-center gap-2 pt-2">
               <CaseMeta label={language === "en" ? "Role" : "Função"} value={language === "en" ? (cmsCase?.roleEn || cmsCase?.role || "Design System, UI, UX and documentation") : (cmsCase?.role || "Design System, UI, UX e documentação")} />
               <CaseMeta label="Status" value={cmsCase?.status || "2022 - 2024"} />
-              <CaseMeta label="Stack" value={language === "en" ? (cmsCase?.stackEn?.join(", ") || cmsCase?.stack?.join(", ") || "Library, specs and governance") : (cmsCase?.stack?.join(", ") || "Biblioteca, specs e governança")} />
+              <CaseStackLogos items={language === "en" ? (cmsCase?.stackEn || cmsCase?.stack || ["Figma", "Notion", "Design Tokens", "Specs"]) : (cmsCase?.stack || ["Figma", "Notion", "Design Tokens", "Specs"])} />
             </div>
           </div>
         </motion.section>
@@ -1279,7 +1378,7 @@ export function PetrobrasNossaEnergiaCasePage({
             <div className="flex flex-wrap justify-center gap-2 pt-2">
               <CaseMeta label={language === "en" ? "Role" : "Função"} value={language === "en" ? (cmsCase?.roleEn || cmsCase?.role || "Design System, UX, UI and Liferay collaboration") : (cmsCase?.role || "Design System, UX, UI e colaboração com Liferay")} />
               <CaseMeta label="Status" value={cmsCase?.status || "2024"} />
-              <CaseStackLogos />
+              <CaseStackLogos items={language === "en" ? (cmsCase?.stackEn || cmsCase?.stack || ["Figma", "Liferay CMS", "Design System", "UX"]) : (cmsCase?.stack || ["Figma", "Liferay CMS", "Design System", "UX"])} />
             </div>
           </div>
         </motion.section>
@@ -1665,7 +1764,7 @@ export function CliniaCasePage({
             <div className="flex flex-wrap justify-center gap-2 pt-2">
               <CaseMeta label={language === "en" ? "Role" : "Função"} value={language === "en" ? (cmsCase?.roleEn || cmsCase?.role || "Product Design, Design System and Frontend") : (cmsCase?.role || "Product Design, Design System e Frontend")} />
               <CaseMeta label="Status" value={language === "en" ? (cmsCase?.statusEn || cmsCase?.status || "Ongoing project") : (cmsCase?.status || "Projeto em andamento")} />
-              <CaseMeta label="Stack" value={language === "en" ? (cmsCase?.stackEn?.join(", ") || cmsCase?.stack?.join(", ") || "Figma, shadcn, Cursor and Claude") : (cmsCase?.stack?.join(", ") || "Figma, shadcn, Cursor e Claude")} />
+              <CaseStackLogos items={language === "en" ? (cmsCase?.stackEn || cmsCase?.stack || ["Figma", "shadcn", "Cursor", "Claude", "Figma MCP"]) : (cmsCase?.stack || ["Figma", "shadcn", "Cursor", "Claude", "Figma MCP"])} />
             </div>
           </div>
         </motion.section>
@@ -2029,7 +2128,7 @@ export function TalquiCasePage({
             <div className="flex flex-wrap justify-center gap-2 pt-2">
               <CaseMeta label={language === "en" ? "Role" : "Função"} value={language === "en" ? (cmsCase?.roleEn || cmsCase?.role || "Product Design, UI and Design System") : (cmsCase?.role || "Product Design, UI e Design System")} />
               <CaseMeta label="Status" value={language === "en" ? (cmsCase?.statusEn || cmsCase?.status || "AI-powered support platform") : (cmsCase?.status || "Plataforma de atendimento com IA")} />
-              <CaseMeta label="Stack" value={language === "en" ? (cmsCase?.stackEn?.join(", ") || cmsCase?.stack?.join(", ") || "Design tokens, DS repository and Storybook") : (cmsCase?.stack?.join(", ") || "Design tokens, repositório DS e Storybook")} />
+              <CaseStackLogos items={language === "en" ? (cmsCase?.stackEn || cmsCase?.stack || ["Figma", "Design Tokens", "Storybook", "AI"]) : (cmsCase?.stack || ["Figma", "Design Tokens", "Storybook", "IA"])} />
             </div>
           </div>
         </motion.section>
