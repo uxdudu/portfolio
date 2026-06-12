@@ -161,7 +161,7 @@ const projects = [
     descriptionEn: "Site, Platform, Design System",
     logo: cliniaLogoPng,
     icon: cliniaLogoPng,
-    href: "/cases/clinia",
+    href: "/cases/clinia/",
   },
   {
     id: "talqui",
@@ -173,7 +173,7 @@ const projects = [
     logo: talquiLogoPng,
     symbol: talquiSymbol,
     icon: talquiLogoPng,
-    href: "/cases/talqui",
+    href: "/cases/talqui/",
   },
   {
     id: "petrobras",
@@ -182,7 +182,7 @@ const projects = [
     tagsEn: ["Institutional", "2022 - 2024"],
     description: "Site, Portal de Conteúdos, Design System",
     descriptionEn: "Site, Content Portal, Design System",
-    href: "/petrobras",
+    href: "/petrobras/",
     icon: petrobrasLogo,
   },
   {
@@ -214,7 +214,7 @@ const petrobrasProjects = [
     eyebrow: "Portal de conteúdos",
     description:
       "Hub editorial da Petrobras para centralizar conteúdos institucionais, artigos e editorias usando componentes do design system.",
-    href: "/cases/petrobras-nossa-energia",
+    href: "/cases/petrobras-nossa-energia/",
     status: "Case disponível",
   },
   {
@@ -222,7 +222,7 @@ const petrobrasProjects = [
     eyebrow: "Fundação do ecossistema",
     description:
       "Biblioteca documentada manualmente com tokens, componentes, seções, templates, motion e specs para sustentar o ecossistema digital.",
-    href: "/cases/petrobras-design-system",
+    href: "/cases/petrobras-design-system/",
     status: "Case disponível",
   },
 ];
@@ -233,7 +233,7 @@ const petrobrasProjectsEn = [
     eyebrow: "Content portal",
     description:
       "Petrobras editorial hub to centralize institutional content, articles and editorial sections using design system components.",
-    href: "/cases/petrobras-nossa-energia",
+    href: "/cases/petrobras-nossa-energia/",
     status: "Case available",
   },
   {
@@ -241,7 +241,7 @@ const petrobrasProjectsEn = [
     eyebrow: "Ecosystem foundation",
     description:
       "Manually documented library with tokens, components, sections, templates, motion and specs to sustain the digital ecosystem.",
-    href: "/cases/petrobras-design-system",
+    href: "/cases/petrobras-design-system/",
     status: "Case available",
   },
 ];
@@ -402,7 +402,7 @@ const cliniaProjects = [
     eyebrow: "Web App",
     description:
       "Nova base da plataforma Clinia: versão 2.0, onboarding, estatísticas, CRM, design system e fluxo design-to-code com Cursor e Claude.",
-    href: "/cases/clinia",
+    href: "/cases/clinia/",
     status: "Case disponível",
   },
 ];
@@ -414,7 +414,7 @@ const cliniaProjectsEn = [
     eyebrow: "Web App",
     description:
       "New foundation of the Clinia platform: v2.0, onboarding, statistics, CRM, design system and design-to-code workflow with Cursor and Claude.",
-    href: "/cases/clinia",
+    href: "/cases/clinia/",
     status: "Case available",
   },
 ];
@@ -942,7 +942,7 @@ const allProjects = [
     summary: "Produto de saúde digital com CRM, experiências com IA e design system.",
     summaryEn: "Digital health product with CRM, AI experiences and design system.",
     deliverables: ["UI/UX", "Design System", "AI"],
-    href: "/cases/clinia",
+    href: "/cases/clinia/",
   },
   {
     name: "Talqui",
@@ -952,7 +952,7 @@ const allProjects = [
     summary: "Plataforma de atendimento com IA, redesign, design system e site em Framer.",
     summaryEn: "AI support platform, redesign, design system and Framer site.",
     deliverables: ["UI/UX", "Design System", "No code", "AI"],
-    href: "/cases/talqui",
+    href: "/cases/talqui/",
   },
   {
     name: "Orçamais",
@@ -971,7 +971,7 @@ const allProjects = [
     summary: "Portal Nossa Energia, site institucional e Design System Petrobras v2.",
     summaryEn: "Nossa Energia portal, institutional site and Petrobras Design System v2.",
     deliverables: ["UI/UX", "Design System"],
-    href: "/petrobras",
+    href: "/petrobras/",
   },
   {
     name: "Grupo Primo",
@@ -1316,9 +1316,9 @@ function PreferencesMenu({
   const menuRef = useRef<HTMLDivElement>(null);
   const navItems = [
     { key: "home", label: language === "en" ? "Home" : "Home", href: "/" },
-    { key: "projects", label: language === "en" ? "Projects" : "Projetos", href: "/projetos" },
-    { key: "content", label: language === "en" ? "Content" : "Conteúdos", href: "/conteudos" },
-    { key: "about", label: language === "en" ? "About" : "Sobre", href: "/sobre" },
+    { key: "projects", label: language === "en" ? "Projects" : "Projetos", href: "/projetos/" },
+    { key: "content", label: language === "en" ? "Content" : "Conteúdos", href: "/conteudos/" },
+    { key: "about", label: language === "en" ? "About" : "Sobre", href: "/sobre/" },
   ] as const;
 
   useEffect(() => {
@@ -1434,16 +1434,16 @@ function Header({
       <nav className="hidden shrink-0 items-center justify-center rounded-[14px] p-1 xl:flex">
         <div className="flex items-center justify-center gap-4 rounded-[44px]">
           <NavItem label={navLabels.home} href="/" active={activePage === "home"} />
-          <NavItem label={navLabels.projects} href="/projetos" active={activePage === "projects"} />
-          <NavItem label={navLabels.content} href="/conteudos" active={activePage === "content"} />
-          <NavItem label={navLabels.about} href="/sobre" active={activePage === "about"} />
-          <NavItem label="Playground" href="/playground" />
+          <NavItem label={navLabels.projects} href="/projetos/" active={activePage === "projects"} />
+          <NavItem label={navLabels.content} href="/conteudos/" active={activePage === "content"} />
+          <NavItem label={navLabels.about} href="/sobre/" active={activePage === "about"} />
+          <NavItem label="Playground" href="/playground/" />
         </div>
       </nav>
 
       <div className="flex min-w-0 flex-1 items-center justify-end gap-2 lg:gap-3">
         <motion.a
-          href="/contato"
+          href="/contato/"
           className="hidden rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary lg:block"
           whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
           whileTap={TAP}
@@ -1808,7 +1808,7 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
           className="absolute left-0 mt-2 w-max min-w-[12rem] origin-top-left rounded-xl border border-border bg-card p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.12)] z-30"
         >
           <a
-            href="/cv/pt"
+            href="/cv/pt/"
             target="_blank"
             className="flex w-full items-center gap-2.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
             onClick={() => { trackEvent(posthog, "cv_downloaded", { cv_language: "pt-BR" }); setIsOpen(false); }}
@@ -1817,7 +1817,7 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
             <span>{ptLabel}</span>
           </a>
           <a
-            href="/cv/en"
+            href="/cv/en/"
             target="_blank"
             className="flex w-full items-center gap-2.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
             onClick={() => { trackEvent(posthog, "cv_downloaded", { cv_language: "en" }); setIsOpen(false); }}
@@ -1975,7 +1975,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       {/* Action Bar (hidden when printing) */}
       <div className="mb-12 flex items-center justify-between border-b border-[#e8e8ee] pb-6 print:hidden">
         <a
-          href="/sobre"
+          href="/sobre/"
           className="inline-flex items-center gap-1.5 whitespace-nowrap text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-[#636374] transition-colors hover:text-[#08080c]"
         >
           <svg viewBox="0 0 24 24" className="size-4 stroke-current" fill="none" strokeWidth="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -2699,10 +2699,10 @@ function StyleguidePage({ theme, onThemeChange }: PageProps) {
             <div className="flex min-h-[220px] flex-col justify-between rounded-3xl border border-border bg-card p-6">
               <SectionLabel>{language === "en" ? "Actions" : "Ações"}</SectionLabel>
               <div className="flex flex-wrap gap-3">
-                <a href="/projetos" className="rounded-[10px] border border-border px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
+                <a href="/projetos/" className="rounded-[10px] border border-border px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
                   {language === "en" ? "See projects" : "Ver projetos"}
                 </a>
-                <a href="/contato" className="rounded-[10px] bg-foreground px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-background">
+                <a href="/contato/" className="rounded-[10px] bg-foreground px-4 py-2.5 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-background">
                   {language === "en" ? "Contact" : "Contato"}
                 </a>
               </div>
@@ -2723,36 +2723,36 @@ function SitemapPage({ theme, onThemeChange }: PageProps) {
       title: language === "en" ? "Main pages" : "Páginas principais",
       links: [
         { label: "Home", href: "/" },
-        { label: language === "en" ? "Projects" : "Projetos", href: "/projetos" },
-        { label: language === "en" ? "Content" : "Conteúdos", href: "/conteudos" },
-        { label: language === "en" ? "About" : "Sobre", href: "/sobre" },
-        { label: language === "en" ? "Contact" : "Contato", href: "/contato" },
+        { label: language === "en" ? "Projects" : "Projetos", href: "/projetos/" },
+        { label: language === "en" ? "Content" : "Conteúdos", href: "/conteudos/" },
+        { label: language === "en" ? "About" : "Sobre", href: "/sobre/" },
+        { label: language === "en" ? "Contact" : "Contato", href: "/contato/" },
       ],
     },
     {
       title: language === "en" ? "Case hubs" : "Hubs de cases",
       links: [
-        { label: "Clinia", href: "/clinia" },
-        { label: "Petrobras", href: "/petrobras" },
+        { label: "Clinia", href: "/clinia/" },
+        { label: "Petrobras", href: "/petrobras/" },
       ],
     },
     {
       title: "Cases",
       links: [
-        { label: "Clinia", href: "/cases/clinia" },
-        { label: "Talqui", href: "/cases/talqui" },
-        { label: "Petrobras Nossa Energia", href: "/cases/petrobras-nossa-energia" },
-        { label: "Petrobras Design System", href: "/cases/petrobras-design-system" },
+        { label: "Clinia", href: "/cases/clinia/" },
+        { label: "Talqui", href: "/cases/talqui/" },
+        { label: "Petrobras Nossa Energia", href: "/cases/petrobras-nossa-energia/" },
+        { label: "Petrobras Design System", href: "/cases/petrobras-design-system/" },
       ],
     },
     {
       title: language === "en" ? "Utilities" : "Utilitários",
       links: [
-        { label: "Styleguide", href: "/styleguide" },
-        { label: "Sitemap", href: "/mapa-do-site" },
-        { label: "Playground", href: "/playground" },
-        { label: "CV PT", href: "/cv/pt" },
-        { label: "CV EN", href: "/cv/en" },
+        { label: "Styleguide", href: "/styleguide/" },
+        { label: "Sitemap", href: "/mapa-do-site/" },
+        { label: "Playground", href: "/playground/" },
+        { label: "CV PT", href: "/cv/pt/" },
+        { label: "CV EN", href: "/cv/en/" },
       ],
     },
   ];
@@ -3359,7 +3359,7 @@ function CliniaHubPage({
       >
         <motion.section className="flex flex-col gap-6" variants={sectionReveal}>
           <a
-            href="/projetos"
+            href="/projetos/"
             className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToProjects}

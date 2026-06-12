@@ -760,7 +760,7 @@ function NextCaseSection({
       category: language === "en" 
         ? "Platform 2.0, design system and AI-powered workflow"
         : "Plataforma 2.0, design system e fluxo com IA",
-      href: "/cases/clinia",
+      href: "/cases/clinia/",
       coverImage: cliniaCover,
       bgClass: "bg-[#08080c]",
     },
@@ -769,7 +769,7 @@ function NextCaseSection({
       category: language === "en"
         ? "AI-powered support platform, redesign, and design system"
         : "Plataforma de atendimento com IA, redesign e design system",
-      href: "/cases/talqui",
+      href: "/cases/talqui/",
       coverImage: talquiCover,
       bgClass: "bg-[#08080c]",
     },
@@ -778,7 +778,7 @@ function NextCaseSection({
       category: language === "en"
         ? "Component library, design tokens and documentation"
         : "Biblioteca de componentes, design tokens e documentação",
-      href: "/cases/petrobras-design-system",
+      href: "/cases/petrobras-design-system/",
       coverImage: petrobrasDsCover,
       bgClass: "bg-[#08080c]",
     },
@@ -787,7 +787,7 @@ function NextCaseSection({
       category: language === "en"
         ? "Editorial content hub connected to the design system"
         : "Portal editorial de conteúdos conectado ao design system",
-      href: "/cases/petrobras-nossa-energia",
+      href: "/cases/petrobras-nossa-energia/",
       coverImage: petrobrasNossaEnergia,
       bgClass: "bg-[#08080c]",
     },
@@ -929,7 +929,7 @@ export function PetrobrasDesignSystemCasePage({
       >
         <motion.section className="flex flex-col items-center gap-8 text-center" variants={sectionReveal}>
           <a
-            href="/petrobras"
+            href="/petrobras/"
             className="self-start text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToPetrobras}
@@ -1364,7 +1364,7 @@ export function PetrobrasNossaEnergiaCasePage({
       >
         <motion.section className="flex flex-col items-center gap-8 text-center" variants={sectionReveal}>
           <a
-            href="/petrobras"
+            href="/petrobras/"
             className="self-start text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToPetrobras}
@@ -1621,7 +1621,7 @@ export function PetrobrasNossaEnergiaCasePage({
                 {t.viewPetroDs}
               </motion.a>
               <motion.a
-                href="/cases/petrobras-design-system"
+                href="/cases/petrobras-design-system/"
                 className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
                 whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
                 whileTap={TAP}
@@ -1656,7 +1656,7 @@ export function PetrobrasNossaEnergiaCasePage({
                 Ver documentação do Petro DS v2
               </motion.a>
               <motion.a
-                href="/cases/petrobras-design-system"
+                href="/cases/petrobras-design-system/"
                 className="inline-flex items-center justify-center rounded-[10px] border border-border px-4 py-2 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary"
                 whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
                 whileTap={TAP}
@@ -1750,7 +1750,7 @@ export function CliniaCasePage({
       >
         <motion.section className="flex flex-col items-center gap-8 text-center" variants={sectionReveal}>
           <a
-            href="/projetos"
+            href="/projetos/"
             className="self-start text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToProjects}
@@ -2114,7 +2114,7 @@ export function TalquiCasePage({
       >
         <motion.section className="flex flex-col items-center gap-8 text-center" variants={sectionReveal}>
           <a
-            href="/projetos"
+            href="/projetos/"
             className="self-start text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted"
           >
             {t.backToProjects}

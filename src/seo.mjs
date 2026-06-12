@@ -235,7 +235,7 @@ export function getRouteSeo(path, en = false) {
   const pathWithoutQueryOrFragment = path.split(/[?#]/, 1)[0] || "/";
   const normalizedPath =
     pathWithoutQueryOrFragment === "/" ? "/" : pathWithoutQueryOrFragment.replace(/\/+$/, "");
-  const canonical = normalizedPath === "/" ? `${SITE_URL}/` : `${SITE_URL}${normalizedPath}`;
+  const canonical = normalizedPath === "/" ? `${SITE_URL}/` : `${SITE_URL}${normalizedPath}/`;
   const copy = routeCopy(normalizedPath, en);
   const noindex = normalizedPath === "/styleguide" || normalizedPath.startsWith("/cv/");
   const caseMetadata = CASE_METADATA[normalizedPath];

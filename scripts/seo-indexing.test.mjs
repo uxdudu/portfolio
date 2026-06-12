@@ -8,6 +8,8 @@ const prerenderSource = readFileSync(new URL("./prerender.mjs", import.meta.url)
 const sitemap = readFileSync(new URL("../public/sitemap.xml", import.meta.url), "utf8");
 const pagesWorkflow = readFileSync(new URL("../.github/workflows/deploy-pages.yml", import.meta.url), "utf8");
 const pagesCname = readFileSync(new URL("../public/CNAME", import.meta.url), "utf8").trim();
+const appSource = readFileSync(new URL("../src/App.tsx", import.meta.url), "utf8");
+const casePagesSource = readFileSync(new URL("../src/CasePages.tsx", import.meta.url), "utf8");
 
 const INDEXABLE_ROUTES = [
   "/",
@@ -55,12 +57,29 @@ test("prerenders every public route and both CV routes", () => {
 
 test("lists every indexable route in the sitemap and excludes CV routes", () => {
   for (const route of INDEXABLE_ROUTES) {
-    const url = `https://eduardoamaral.me${route === "/" ? "/" : route}`;
+    const url = `https://eduardoamaral.me${route === "/" ? "/" : `${route}/`}`;
     assert.match(sitemap, new RegExp(`<loc>${url.replaceAll("/", "\\/")}<\\/loc>`), `${route} is missing`);
   }
 
   assert.doesNotMatch(sitemap, /\/cv\/(?:pt|en)<\/loc>/);
   assert.doesNotMatch(sitemap, /\/styleguide<\/loc>/);
+});
+
+test("sitemap only contains final URLs instead of redirecting directory URLs", () => {
+  const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+
+  for (const location of locations) {
+    assert.match(location, /\/$/, `${location} must end with a slash`);
+  }
+});
+
+test("internal page links point directly to final GitHub Pages URLs", () => {
+  const sources = `${appSource}\n${casePagesSource}`;
+  const redirectingLinks = [
+    ...sources.matchAll(/href(?::\s*|=)["'](\/(?!$|#)[^"'?#]*[^/])["']/g),
+  ].map((match) => match[1]);
+
+  assert.deepEqual(redirectingLinks, []);
 });
 
 test("publishes the production build to GitHub Pages with the custom domain", () => {

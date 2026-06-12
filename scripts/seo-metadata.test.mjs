@@ -7,10 +7,10 @@ test("uses a stable trailing slash canonical for the homepage", () => {
   assert.equal(getRouteSeo("/", false).canonical, "https://eduardoamaral.me/");
 });
 
-test("removes query parameters, fragments and trailing slashes from canonicals", () => {
+test("uses the final GitHub Pages URL with a trailing slash for canonicals", () => {
   assert.equal(
     getRouteSeo("/projetos/?tipo=produto#cases", false).canonical,
-    "https://eduardoamaral.me/projetos",
+    "https://eduardoamaral.me/projetos/",
   );
 });
 
