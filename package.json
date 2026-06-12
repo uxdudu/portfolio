@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "node scripts/fetch-sanity-content.mjs && vite build && node scripts/prerender.mjs",
     "build:client": "vite build",
-    "test:analytics": "node --test scripts/vercel-analytics.test.mjs",
+    "test:analytics": "node --test scripts/vercel-analytics.test.mjs scripts/posthog-analytics.test.mjs",
     "test:cases": "node --test scripts/case-narrative.test.mjs",
     "test:ui": "node --test scripts/header-responsive.test.mjs",
     "test:seo": "node --test scripts/seo-indexing.test.mjs scripts/seo-metadata.test.mjs",
