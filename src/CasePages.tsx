@@ -1,5 +1,6 @@
 import { Children, Fragment, cloneElement, isValidElement, useEffect, useState, type ComponentProps, type ReactNode } from "react";
 import { usePostHog } from "@posthog/react";
+import { trackEvent } from "./lib/analytics";
 import { SmoothCorners } from "@lisse/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { orderCaseStages } from "./caseNarrative.mjs";
@@ -266,7 +267,7 @@ function ImageLightbox({
   const posthog = usePostHog();
   useEffect(() => {
     if (!image) return;
-    posthog?.capture("image_lightbox_opened", { image_alt: image.alt, image_caption: image.caption });
+    trackEvent(posthog, "image_lightbox_opened", { image_alt: image.alt, image_caption: image.caption });
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {

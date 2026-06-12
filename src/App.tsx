@@ -65,6 +65,7 @@ import brFlag from "./assets/br.svg";
 import usFlag from "./assets/us.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
+import { trackEvent, trackPageView } from "./lib/analytics";
 import { normalizeRoutePath } from "./routePath.mjs";
 import { getRouteSeo } from "./seo.mjs";
 import {
@@ -1247,7 +1248,7 @@ function ThemeSwitcher({
           key={option.value}
           type="button"
           onClick={() => {
-            posthog?.capture("theme_changed", { theme: option.value, previous_theme: theme });
+            trackEvent(posthog, "theme_changed", { theme: option.value, previous_theme: theme });
             onThemeChange(option.value);
           }}
           aria-label={option.label}
@@ -1281,7 +1282,7 @@ function LanguageSwitcher() {
           key={option.value}
           type="button"
           onClick={() => {
-            posthog?.capture("language_changed", { language: option.value, previous_language: language });
+            trackEvent(posthog, "language_changed", { language: option.value, previous_language: language });
             onLanguageChange(option.value);
           }}
           aria-label={option.value === "pt-BR" ? "Usar português" : "Use English"}
@@ -1633,7 +1634,7 @@ function ProjectCard({ project }: { project: HomeProject }) {
       whileHover={project.href ? { y: -6, borderColor: "var(--color-primary)" } : undefined}
       whileTap={project.href ? TAP : undefined}
       transition={SPRING}
-      onClick={project.href ? () => posthog?.capture("project_card_clicked", { project_id: project.id, project_title: project.title, href: project.href }) : undefined}
+      onClick={project.href ? () => trackEvent(posthog, "project_card_clicked", { project_id: project.id, project_title: project.title, href: project.href }) : undefined}
     >
       <div className="flex h-full flex-col overflow-hidden rounded-[24px] bg-card">
         <div className="media-outline relative h-[260px] shrink-0 overflow-hidden rounded-3xl bg-card p-1 sm:h-[360px] lg:h-[450px]">
@@ -1810,7 +1811,7 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
             href="/cv/pt"
             target="_blank"
             className="flex w-full items-center gap-2.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
-            onClick={() => { posthog?.capture("cv_downloaded", { cv_language: "pt-BR" }); setIsOpen(false); }}
+            onClick={() => { trackEvent(posthog, "cv_downloaded", { cv_language: "pt-BR" }); setIsOpen(false); }}
           >
             <img src={brFlag} alt="" aria-hidden="true" className="size-[18px] shrink-0" />
             <span>{ptLabel}</span>
@@ -1819,7 +1820,7 @@ function CvDropdownButton({ language }: { language: "en" | "pt-BR" }) {
             href="/cv/en"
             target="_blank"
             className="flex w-full items-center gap-2.5 whitespace-nowrap rounded-[8px] px-3 py-2 text-left text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-foreground hover:bg-[#fafafa] dark:hover:bg-[#08080c] transition-colors"
-            onClick={() => { posthog?.capture("cv_downloaded", { cv_language: "en" }); setIsOpen(false); }}
+            onClick={() => { trackEvent(posthog, "cv_downloaded", { cv_language: "en" }); setIsOpen(false); }}
           >
             <img src={usFlag} alt="" aria-hidden="true" className="size-[18px] shrink-0" />
             <span>{enLabel}</span>
@@ -2396,7 +2397,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
       if (window.matchMedia("(min-width: 1024px)").matches) return;
       if ((event.target as HTMLElement).closest("a")) return;
       window.open(href, "_blank", "noreferrer");
-      posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card" });
+      trackEvent(posthog, "youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card" });
     };
 
     return (
@@ -2410,7 +2411,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
           if (event.key !== "Enter") return;
           if (window.matchMedia("(min-width: 1024px)").matches) return;
           window.open(href, "_blank", "noreferrer");
-          posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card_keyboard" });
+          trackEvent(posthog, "youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card_keyboard" });
         }}
       >
         <div className="media-outline aspect-video overflow-hidden rounded-[24px] bg-media">
@@ -2440,7 +2441,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
             whileHover={{ y: -1, borderColor: "var(--color-primary)" }}
             whileTap={TAP}
             transition={SPRING}
-            onClick={() => posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true })}
+            onClick={() => trackEvent(posthog, "youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true })}
           >
             {t.watchOnYoutube}
           </motion.a>
@@ -2459,7 +2460,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
       whileHover={{ y: -5, borderColor: "var(--color-primary)" }}
       whileTap={TAP}
       transition={SPRING}
-      onClick={() => posthog?.capture("youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: false })}
+      onClick={() => trackEvent(posthog, "youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: false })}
     >
       <div className="media-outline aspect-video overflow-hidden bg-media">
         <img loading="lazy" decoding="async"
@@ -2883,7 +2884,7 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
                 whileHover={{ y: -2 }}
                 whileTap={TAP}
                 transition={SPRING}
-                onClick={() => posthog?.capture("social_link_clicked", { platform: item.label, href: item.href })}
+                onClick={() => trackEvent(posthog, "social_link_clicked", { platform: item.label, href: item.href })}
               >
                 <span className="grid size-10 shrink-0 place-items-center text-primary">
                   <SocialIcon icon={item.icon} />
@@ -2947,7 +2948,7 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
             action="https://formsubmit.co/oi@eduardoamaral.me"
             method="POST"
             className="flex flex-col gap-6 p-0"
-            onSubmit={() => posthog?.capture("contact_form_submitted", { language })}
+            onSubmit={() => trackEvent(posthog, "contact_form_submitted", { language })}
           >
             <input type="hidden" name="_next" value={window.location.origin + "/contato?success=true"} />
             <input type="hidden" name="_subject" value="Novo contato do Portfólio!" />
@@ -3012,7 +3013,7 @@ function ContactPage({ theme, onThemeChange }: PageProps) {
               whileHover={{ y: -5, borderColor: "var(--color-primary)" }}
               whileTap={TAP}
               transition={SPRING}
-              onClick={() => posthog?.capture("whatsapp_contact_clicked", { language })}
+              onClick={() => trackEvent(posthog, "whatsapp_contact_clicked", { language })}
             >
               <div className="flex flex-col gap-3">
                 <SectionLabel>WhatsApp</SectionLabel>
@@ -3228,7 +3229,7 @@ function ProjectsPage({
             </p>
             <div className="flex flex-wrap gap-2">
               {projectTypeFilters.map((item) => (
-                <FilterChip key={item} label={item === "Todos" ? (language === "en" ? "All" : "Todos") : item} active={typeFilter === item} onClick={() => { posthog?.capture("project_filter_applied", { filter_type: "type", filter_value: item }); setTypeFilter(item); }} />
+                <FilterChip key={item} label={item === "Todos" ? (language === "en" ? "All" : "Todos") : item} active={typeFilter === item} onClick={() => { trackEvent(posthog, "project_filter_applied", { filter_type: "type", filter_value: item }); setTypeFilter(item); }} />
               ))}
             </div>
           </div>
@@ -3242,7 +3243,7 @@ function ProjectsPage({
                   key={item}
                   label={item === "Todos" ? (language === "en" ? "All" : "Todos") : item}
                   active={deliverableFilter === item}
-                  onClick={() => { posthog?.capture("project_filter_applied", { filter_type: "deliverable", filter_value: item }); setDeliverableFilter(item); }}
+                  onClick={() => { trackEvent(posthog, "project_filter_applied", { filter_type: "deliverable", filter_value: item }); setDeliverableFilter(item); }}
                 />
               ))}
             </div>
@@ -3279,7 +3280,7 @@ function ProjectOptionCard({ project }: { project: HubProject }) {
       whileHover={isAvailable ? { y: -6, borderColor: "var(--color-primary)" } : undefined}
       whileTap={isAvailable ? TAP : undefined}
       transition={SPRING}
-      onClick={isAvailable ? () => posthog?.capture("case_study_opened", { case_title: project.title, href: project.href }) : undefined}
+      onClick={isAvailable ? () => trackEvent(posthog, "case_study_opened", { case_title: project.title, href: project.href }) : undefined}
     >
       <div className="flex items-start justify-between gap-6">
         <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
@@ -3548,7 +3549,9 @@ export function App() {
     structuredData.textContent = JSON.stringify(seo.structuredData);
   }, [path, language]);
 
-
+  useEffect(() => {
+    trackPageView();
+  }, [path]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
