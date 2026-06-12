@@ -14,6 +14,10 @@ import petrobrasNossaEnergia from "./assets/case-petrobras-nossa-energia.webp";
 import petrobrasNossaEnergiaHomeDesktop from "./assets/petrobras-nossa-energia-home-desktop.webp";
 import petrobrasNossaEnergiaHomeMobile from "./assets/petrobras-nossa-energia-home-mobile.webp";
 import petrobrasDsCover from "./assets/petrobras-ds-cover.webp";
+import stackClaude from "./assets/stack-claude.svg";
+import stackCursor from "./assets/stack-cursor.svg";
+import stackFigma from "./assets/stack-figma.svg";
+import stackNotion from "./assets/stack-notion.svg";
 import talquiCover from "./assets/talqui-cover.webp";
 import {
   Header,
@@ -109,6 +113,38 @@ function CaseMeta({ label, value }: { label: string; value: string }) {
       <span className="text-[14px] leading-[1.45] tracking-[-0.42px] text-card-foreground">
         {value}
       </span>
+    </div>
+  );
+}
+
+const caseStackLogos = [
+  { name: "Figma", src: stackFigma, className: "" },
+  { name: "Claude", src: stackClaude, className: "" },
+  { name: "Notion", src: stackNotion, className: "" },
+  { name: "Cursor", src: stackCursor, className: "" },
+];
+
+function CaseStackLogos() {
+  return (
+    <div
+      className="flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2"
+      aria-label="Stack: Figma, Claude, Notion e Cursor"
+    >
+      {caseStackLogos.map(({ name, src, className }) => (
+        <span
+          key={name}
+          role="img"
+          aria-label={name}
+          title={name}
+          className="flex size-5 items-center justify-center"
+        >
+          <img
+            src={src}
+            alt=""
+            className={`max-h-5 max-w-5 object-contain ${className}`}
+          />
+        </span>
+      ))}
     </div>
   );
 }
@@ -1243,7 +1279,7 @@ export function PetrobrasNossaEnergiaCasePage({
             <div className="flex flex-wrap justify-center gap-2 pt-2">
               <CaseMeta label={language === "en" ? "Role" : "Função"} value={language === "en" ? (cmsCase?.roleEn || cmsCase?.role || "Design System, UX, UI and Liferay collaboration") : (cmsCase?.role || "Design System, UX, UI e colaboração com Liferay")} />
               <CaseMeta label="Status" value={cmsCase?.status || "2024"} />
-              <CaseMeta label="Stack" value={language === "en" ? (cmsCase?.stackEn?.join(", ") || cmsCase?.stack?.join(", ") || "Institutional editorial portal") : (cmsCase?.stack?.join(", ") || "Portal editorial institucional")} />
+              <CaseStackLogos />
             </div>
           </div>
         </motion.section>

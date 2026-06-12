@@ -94,7 +94,7 @@
   --card: light-dark(#ffffff, #16161d);
   --card-foreground: light-dark(#16161d, #f3f3f6);
   --muted-foreground: light-dark(#636374, #9c9caf);
-  --primary-foreground: light-dark(#3e6ff3, #8eabff);
+  --primary-foreground: light-dark(oklch(0.145 0.01 285), oklch(0.985 0.002 285));
   --border: light-dark(#f3f3f6, #24242e);
   --media: light-dark(#203400, #172403);
   --alpha: light-dark(rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.06));
@@ -108,7 +108,7 @@
   --card: #ffffff;
   --card-foreground: #16161d;
   --muted-foreground: #636374;
-  --primary-foreground: #3e6ff3;
+  --primary-foreground: oklch(0.145 0.01 285);
   --border: #f3f3f6;
   --media: #203400;
   --alpha: rgb(255 255 255 / 0.02);
@@ -122,7 +122,7 @@
   --card: #16161d;
   --card-foreground: #f3f3f6;
   --muted-foreground: #9c9caf;
-  --primary-foreground: #8eabff;
+  --primary-foreground: oklch(0.985 0.002 285);
   --border: #24242e;
   --media: #172403;
   --alpha: rgb(255 255 255 / 0.06);

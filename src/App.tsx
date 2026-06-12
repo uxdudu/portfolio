@@ -1996,7 +1996,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
             <h1 className="font-display text-[36px] font-medium leading-none tracking-[-1.8px] text-[#08080c] sm:text-[44px] sm:tracking-[-2.2px]">
               Eduardo Amaral
             </h1>
-            <p className="text-[14px] font-medium uppercase leading-[1.45] tracking-[0.12em] text-[#3e6ff3] sm:text-right">
+            <p className="text-[14px] font-medium uppercase leading-[1.45] tracking-[0.12em] text-[#08080c] sm:text-right">
               {t.role}
             </p>
           </div>

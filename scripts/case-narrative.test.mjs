@@ -74,3 +74,25 @@ test("applies all four narrative stages to every project case", () => {
     }
   }
 });
+
+test("uses logo-only stack in the Petrobras Nossa Energia hero", () => {
+  const start = casePagesSource.indexOf(
+    "export function PetrobrasNossaEnergiaCasePage",
+  );
+  const end = casePagesSource.indexOf(
+    "export function CliniaCasePage",
+    start,
+  );
+  const source = casePagesSource.slice(start, end);
+
+  assert.match(source, /<CaseStackLogos/);
+  assert.doesNotMatch(source, /<CaseMeta label="Stack"/);
+
+  for (const name of ["Figma", "Claude", "Notion", "Cursor"]) {
+    assert.match(casePagesSource, new RegExp(`name: "${name}"`));
+  }
+
+  assert.match(casePagesSource, /stack-cursor\.svg/);
+  assert.match(casePagesSource, /max-h-5 max-w-5/);
+  assert.doesNotMatch(casePagesSource, /name: "Notion".*dark:invert/);
+});
