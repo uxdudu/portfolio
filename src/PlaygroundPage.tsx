@@ -9,6 +9,7 @@ import finclassJornada from "./assets/playground/finclass-mapa-da-jornada.webp";
 import foodiaryHome from "./assets/playground/foodiary-home.webp";
 import foodiaryPlano from "./assets/playground/foodiary-plano.webp";
 import icones3d from "./assets/playground/icones-3d.webp";
+import inputPromptQuestions from "./assets/playground/input-prompt-questions.webp";
 import marmarisFooter from "./assets/playground/marmaris-travel-footer.webp";
 import orcamaisBadge from "./assets/playground/orcamais-badge-documentation.webp";
 import orcamaisCpu from "./assets/playground/orcamais-editar-cpu.webp";
@@ -32,6 +33,7 @@ const items: PlaygroundItem[] = [
   { src: docomplianceHome, label: "DOCOMPLIANCE", ar: 1.5, span: 2 },
   { src: foodiaryPlano, label: "FOODIARY", ar: 0.462, span: 1 },
   { src: orcamaisCpu, label: "ORÇAMAIS", ar: 1.244, span: 2 },
+  { src: inputPromptQuestions, label: "INPUT PROMPT", ar: 1.086, span: 2 },
   { src: fincheckHome, label: "FINCHECK", ar: 0.462, span: 1 },
   { src: marmarisFooter, label: "MARMARIS", ar: 1.266, span: 2 },
   { src: finclassJornada, label: "FINCLASS", ar: 0.462, span: 1 },
