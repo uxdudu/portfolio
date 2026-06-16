@@ -205,17 +205,6 @@ p, li, figcaption, blockquote {
   }
 }
 
-@keyframes playground-image-resolve {
-  0% {
-    filter: blur(10px) contrast(1.45) saturate(1.8);
-    transform: scale(1.07);
-  }
-  100% {
-    filter: blur(0) contrast(1) saturate(1);
-    transform: scale(1);
-  }
-}
-
 @keyframes playground-dither-field {
   0% {
     opacity: 0.96;
@@ -248,11 +237,6 @@ p, li, figcaption, blockquote {
 .playground-pixel-frame {
   position: relative;
   isolation: isolate;
-}
-
-.playground-pixel-frame img {
-  animation: playground-image-resolve 680ms steps(8, end) both;
-  animation-delay: var(--playground-reveal-delay, 0ms);
 }
 
 .playground-dither-frame::before,
@@ -439,7 +423,6 @@ p, li, figcaption, blockquote {
 
 @media (prefers-reduced-motion: reduce) {
   .playground-pixel-reveal,
-  .playground-pixel-frame img,
   .playground-dither-frame::before,
   .playground-dither-frame::after {
     animation: none;

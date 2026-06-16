@@ -22,6 +22,8 @@ test("uses a single CSS pixel reveal instead of a rerunnable GSAP entrance", () 
   assert.match(playgroundSource, /data-loaded/);
   assert.match(stylesSource, /@keyframes playground-pixel-reveal/);
   assert.match(stylesSource, /@keyframes playground-dither-field/);
+  assert.match(stylesSource, /\.playground-dither-frame\[data-loaded="false"\] img/);
+  assert.doesNotMatch(stylesSource, /playground-image-resolve/);
 });
 
 test("disables the pixel reveal when reduced motion is requested", () => {
