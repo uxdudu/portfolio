@@ -90,6 +90,42 @@ function buildBlock(): { placed: Placed[]; blockH: number } {
 
 const { placed, blockH: BLOCK_H } = buildBlock();
 
+function PlaygroundTile({ item, index }: { item: Placed; index: number }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <figure
+      data-figure
+      className="playground-pixel-reveal group absolute m-0"
+      style={{
+        left: item.x,
+        top: item.y,
+        width: item.w,
+        "--playground-reveal-delay": `${(index % items.length) * 26}ms`,
+      } as React.CSSProperties}
+    >
+      <div
+        className="playground-dither-frame playground-pixel-frame overflow-hidden rounded-[6px] bg-white/5"
+        data-loaded={loaded ? "true" : "false"}
+      >
+        <img
+          src={item.src}
+          alt={item.label}
+          draggable={false}
+          loading="eager"
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          style={{ width: item.w, height: "auto" }}
+          className="block transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.04]"
+        />
+      </div>
+      <figcaption className="pt-3 text-[11px] font-medium uppercase tracking-[0.26em] text-white/45 transition-colors duration-300 group-hover:text-white">
+        {item.label}
+      </figcaption>
+    </figure>
+  );
+}
+
 export function PlaygroundPage() {
   const surfaceRef = useRef<HTMLDivElement>(null);
   const [copies, setCopies] = useState({ x: 3, y: 3 });
@@ -239,32 +275,7 @@ export function PlaygroundPage() {
             style={{ transform: `translate(${ox}px, ${oy}px)`, width: BLOCK_W, height: BLOCK_H }}
           >
             {placed.map((item, index) => (
-              <figure
-                key={`${key}-${index}`}
-                data-figure
-                className="playground-pixel-reveal group absolute m-0"
-                style={{
-                  left: item.x,
-                  top: item.y,
-                  width: item.w,
-                  "--playground-reveal-delay": `${(index % items.length) * 26}ms`,
-                } as React.CSSProperties}
-              >
-                <div className="playground-pixel-frame overflow-hidden rounded-[6px] bg-white/5">
-                  <img
-                    src={item.src}
-                    alt={item.label}
-                    draggable={false}
-                    loading="eager"
-                    decoding="async"
-                    style={{ width: item.w, height: "auto" }}
-                    className="block transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                  />
-                </div>
-                <figcaption className="pt-3 text-[11px] font-medium uppercase tracking-[0.26em] text-white/45 transition-colors duration-300 group-hover:text-white">
-                  {item.label}
-                </figcaption>
-              </figure>
+              <PlaygroundTile key={`${key}-${index}`} item={item} index={index} />
             ))}
           </div>
         ))}

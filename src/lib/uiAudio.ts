@@ -11,13 +11,6 @@ const interactiveSelector = [
   "summary",
 ].join(",");
 
-const hoverSound = defineSound({
-  source: { type: "triangle", frequency: { start: 760, end: 620 } },
-  envelope: { attack: 0.002, decay: 0.035, sustain: 0, release: 0.015 },
-  filter: { type: "lowpass", frequency: 2200 },
-  gain: 0.035,
-});
-
 const pressSound = defineSound({
   layers: [
     {
@@ -50,7 +43,6 @@ const getInteractive = (target: EventTarget | null) => {
 export function installUiAudio(root: Document = document) {
   let ready = false;
   let preparing: Promise<void> | null = null;
-  let lastHovered: HTMLElement | null = null;
 
   const prepare = () => {
     if (ready) return Promise.resolve();
@@ -70,29 +62,9 @@ export function installUiAudio(root: Document = document) {
     });
   };
 
-  const onPointerOver = (event: PointerEvent) => {
-    if (event.pointerType === "touch" || !ready) return;
-    const interactive = getInteractive(event.target);
-    if (!interactive || interactive === lastHovered) return;
-    lastHovered = interactive;
-    hoverSound();
-  };
-
-  const onPointerOut = (event: PointerEvent) => {
-    const interactive = getInteractive(event.target);
-    if (!interactive) return;
-    const next = getInteractive(event.relatedTarget);
-    if (next !== interactive) lastHovered = null;
-  };
-
   const onPointerDown = (event: PointerEvent) => {
     if (event.button !== 0 || !getInteractive(event.target)) return;
     playPress();
-  };
-
-  const onFocusIn = (event: FocusEvent) => {
-    if (!ready || !getInteractive(event.target)) return;
-    hoverSound({ volume: 0.8 });
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -101,17 +73,11 @@ export function installUiAudio(root: Document = document) {
     playPress();
   };
 
-  root.addEventListener("pointerover", onPointerOver);
-  root.addEventListener("pointerout", onPointerOut);
   root.addEventListener("pointerdown", onPointerDown);
-  root.addEventListener("focusin", onFocusIn);
   root.addEventListener("keydown", onKeyDown);
 
   return () => {
-    root.removeEventListener("pointerover", onPointerOver);
-    root.removeEventListener("pointerout", onPointerOut);
     root.removeEventListener("pointerdown", onPointerDown);
-    root.removeEventListener("focusin", onFocusIn);
     root.removeEventListener("keydown", onKeyDown);
   };
 }

@@ -205,29 +205,27 @@ p, li, figcaption, blockquote {
   }
 }
 
-@keyframes playground-image-resolve {
+@keyframes playground-dither-field {
   0% {
-    filter: blur(14px) contrast(1.2) saturate(0.55);
-    transform: scale(1.07);
+    opacity: 0.96;
+    transform: translate3d(-2px, 0, 0);
+  }
+  50% {
+    opacity: 0.82;
+    transform: translate3d(2px, 1px, 0);
   }
   100% {
-    filter: blur(0) contrast(1) saturate(1);
-    transform: scale(1);
+    opacity: 0.96;
+    transform: translate3d(0, -1px, 0);
   }
 }
 
-@keyframes playground-pixel-grid {
+@keyframes playground-dither-scanline {
   0% {
-    opacity: 0.92;
-    background-size: 28px 28px;
-  }
-  70% {
-    opacity: 0.32;
-    background-size: 10px 10px;
+    background-position: 0 0, 0 0, 0 0;
   }
   100% {
-    opacity: 0;
-    background-size: 4px 4px;
+    background-position: 0 0, 0 9px, 16px 0;
   }
 }
 
@@ -241,23 +239,56 @@ p, li, figcaption, blockquote {
   isolation: isolate;
 }
 
-.playground-pixel-frame img {
-  animation: playground-image-resolve 680ms steps(8, end) both;
-  animation-delay: var(--playground-reveal-delay, 0ms);
-}
-
-.playground-pixel-frame::after {
+.playground-dither-frame::before,
+.playground-dither-frame::after {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   content: "";
-  background-color: rgb(10 10 10 / 0.28);
+  transition: opacity 420ms ease;
+}
+
+.playground-dither-frame::before {
+  background-color: #050505;
   background-image:
-    linear-gradient(90deg, rgb(10 10 10 / 0.62) 1px, transparent 1px),
-    linear-gradient(rgb(10 10 10 / 0.62) 1px, transparent 1px);
-  animation: playground-pixel-grid 680ms steps(8, end) both;
+    radial-gradient(circle, rgb(255 0 76 / 0.95) 0 1px, transparent 1.7px),
+    radial-gradient(circle, rgb(0 255 221 / 0.9) 0 1px, transparent 1.7px),
+    radial-gradient(circle, rgb(35 85 255 / 0.95) 0 1px, transparent 1.7px),
+    radial-gradient(circle, rgb(255 255 255 / 0.7) 0 0.9px, transparent 1.6px);
+  background-position:
+    0 0,
+    3px 0,
+    6px 0,
+    1.5px 4.5px;
+  background-size:
+    9px 9px,
+    9px 9px,
+    9px 9px,
+    9px 9px;
+  mix-blend-mode: screen;
+  animation: playground-dither-field 360ms steps(2, end) infinite;
   animation-delay: var(--playground-reveal-delay, 0ms);
+}
+
+.playground-dither-frame::after {
+  background-image:
+    linear-gradient(90deg, rgb(255 0 0 / 0.22), rgb(0 255 255 / 0.18), rgb(0 0 255 / 0.22)),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.42) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.38) 0 1px, transparent 1px 16px);
+  mix-blend-mode: hard-light;
+  animation: playground-dither-scanline 540ms steps(6, end) infinite;
+  animation-delay: var(--playground-reveal-delay, 0ms);
+}
+
+.playground-dither-frame[data-loaded="true"]::before,
+.playground-dither-frame[data-loaded="true"]::after {
+  animation: none;
+  opacity: 0;
+}
+
+.playground-dither-frame[data-loaded="false"] img {
+  opacity: 0.18;
 }
 
 .media-outline {
@@ -392,12 +423,13 @@ p, li, figcaption, blockquote {
 
 @media (prefers-reduced-motion: reduce) {
   .playground-pixel-reveal,
-  .playground-pixel-frame img,
-  .playground-pixel-frame::after {
+  .playground-dither-frame::before,
+  .playground-dither-frame::after {
     animation: none;
   }
 
-  .playground-pixel-frame::after {
+  .playground-dither-frame::before,
+  .playground-dither-frame::after {
     display: none;
   }
 }

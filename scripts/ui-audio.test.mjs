@@ -10,8 +10,9 @@ const audioSource = await readFile(new URL("../src/lib/uiAudio.ts", import.meta.
 test("installs one delegated UI audio controller for the whole application", () => {
   assert.match(appSource, /installUiAudio/);
   assert.match(audioSource, /@web-kits\/audio/);
-  assert.match(audioSource, /pointerover/);
   assert.match(audioSource, /pointerdown/);
+  assert.doesNotMatch(audioSource, /pointerover/);
+  assert.doesNotMatch(audioSource, /focusin/);
 });
 
 test("keeps native form fields and explicitly muted controls silent", () => {
