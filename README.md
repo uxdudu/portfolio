@@ -2,6 +2,12 @@
 
 [![GitHub Pages](https://shieldcn.dev/badge/Hosted%20on-GitHub%20Pages-222222.svg?logo=github&logoColor=fff&variant=secondary&mode=light)](https://eduardoamaral.me)
 [![YouTube Subscribers](https://shieldcn.dev/youtube/subscribers/@uxdudu.svg?variant=branded&mode=light)](https://www.youtube.com/@uxdudu)
+![React](https://shieldcn.dev/badge/React-61DAFB.svg?logo=react&logoColor=000&variant=branded&mode=light)
+![TypeScript](https://shieldcn.dev/badge/TypeScript-3178C6.svg?logo=typescript&logoColor=fff&variant=branded&mode=light)
+![Tailwind CSS](https://shieldcn.dev/badge/Tailwind%20CSS-06B6D4.svg?logo=tailwindcss&logoColor=fff&variant=branded&mode=light)
+![Built in Brazil](https://shieldcn.dev/flag/br.svg?mode=light)
+![Vibe Coded](https://shieldcn.dev/badge/vibe-coded-7C3AED.svg?variant=secondary&mode=light)
+![Built with OpenAI](https://shieldcn.dev/badge/Built%20with-OpenAI-412991.svg?logo=ri%3ASiOpenai&variant=secondary&mode=light)
 
 A modern, interactive, and premium portfolio website for **Eduardo Amaral**, showcasing expertise in **Product Design**, **Frontend Development**, and **AI integrations**.
 
