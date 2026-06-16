@@ -18,12 +18,19 @@ test("uses a single CSS pixel reveal instead of a rerunnable GSAP entrance", () 
     "the GSAP figure entrance can restart after the canvas copy count changes",
   );
   assert.match(playgroundSource, /playground-pixel-reveal/);
+  assert.match(playgroundSource, /playground-dither-frame/);
+  assert.match(playgroundSource, /data-loaded/);
   assert.match(stylesSource, /@keyframes playground-pixel-reveal/);
+  assert.match(stylesSource, /@keyframes playground-dither-field/);
 });
 
 test("disables the pixel reveal when reduced motion is requested", () => {
   assert.match(
     stylesSource,
     /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.playground-pixel-reveal/,
+  );
+  assert.match(
+    stylesSource,
+    /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.playground-dither-frame::before/,
   );
 });
