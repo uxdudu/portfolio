@@ -99,6 +99,8 @@
   --media: light-dark(#203400, #172403);
   --alpha: light-dark(rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.06));
   --neutral-400: light-dark(#9c9caf, #b7b7c8);
+  --project-checker-base: light-dark(#fafafa, #1b1b23);
+  --project-checker-cell: light-dark(#eeeeee, #252530);
 }
 
 :root[data-theme="light"] {
@@ -113,6 +115,8 @@
   --media: #203400;
   --alpha: rgb(255 255 255 / 0.02);
   --neutral-400: #9c9caf;
+  --project-checker-base: #fafafa;
+  --project-checker-cell: #eeeeee;
 }
 
 :root[data-theme="dark"] {
@@ -127,6 +131,23 @@
   --media: #172403;
   --alpha: rgb(255 255 255 / 0.06);
   --neutral-400: #b7b7c8;
+  --project-checker-base: #1b1b23;
+  --project-checker-cell: #252530;
+}
+
+.project-list-card-media {
+  background-color: var(--project-checker-base);
+  background-image:
+    linear-gradient(45deg, var(--project-checker-cell) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--project-checker-cell) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--project-checker-cell) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--project-checker-cell) 75%);
+  background-position:
+    0 0,
+    0 20px,
+    20px -20px,
+    -20px 0;
+  background-size: 40px 40px;
 }
 
 * {
@@ -161,6 +182,82 @@ h1, h2, h3, h4, h5, h6 {
 
 p, li, figcaption, blockquote {
   text-wrap: pretty;
+}
+
+.cv-sheet-wrap {
+  background-image: url("./assets/cv-pattern.svg");
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+}
+
+@keyframes playground-pixel-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.975);
+  }
+  35% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes playground-image-resolve {
+  0% {
+    filter: blur(14px) contrast(1.2) saturate(0.55);
+    transform: scale(1.07);
+  }
+  100% {
+    filter: blur(0) contrast(1) saturate(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes playground-pixel-grid {
+  0% {
+    opacity: 0.92;
+    background-size: 28px 28px;
+  }
+  70% {
+    opacity: 0.32;
+    background-size: 10px 10px;
+  }
+  100% {
+    opacity: 0;
+    background-size: 4px 4px;
+  }
+}
+
+.playground-pixel-reveal {
+  animation: playground-pixel-reveal 680ms steps(8, end) both;
+  animation-delay: var(--playground-reveal-delay, 0ms);
+}
+
+.playground-pixel-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+.playground-pixel-frame img {
+  animation: playground-image-resolve 680ms steps(8, end) both;
+  animation-delay: var(--playground-reveal-delay, 0ms);
+}
+
+.playground-pixel-frame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  background-color: rgb(10 10 10 / 0.28);
+  background-image:
+    linear-gradient(90deg, rgb(10 10 10 / 0.62) 1px, transparent 1px),
+    linear-gradient(rgb(10 10 10 / 0.62) 1px, transparent 1px);
+  animation: playground-pixel-grid 680ms steps(8, end) both;
+  animation-delay: var(--playground-reveal-delay, 0ms);
 }
 
 .media-outline {
@@ -293,6 +390,18 @@ p, li, figcaption, blockquote {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .playground-pixel-reveal,
+  .playground-pixel-frame img,
+  .playground-pixel-frame::after {
+    animation: none;
+  }
+
+  .playground-pixel-frame::after {
+    display: none;
+  }
+}
+
 @media print {
   html, body, #root, main, main > div {
     background: white !important;
@@ -349,5 +458,54 @@ p, li, figcaption, blockquote {
 
   [class*="min-h-"] {
     min-height: auto !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  .cv-page,
+  .cv-sheet-wrap {
+    padding: 0 !important;
+  }
+
+  .cv-sheet-wrap {
+    background-image: none !important;
+  }
+
+  .cv-sheet {
+    width: 100% !important;
+    max-width: none !important;
+    gap: 24px !important;
+    padding: 0 !important;
+  }
+
+  .cv-header {
+    border-bottom: 1px solid #e8e8ee !important;
+    padding-bottom: 24px !important;
+  }
+
+  .cv-section {
+    gap: 10px !important;
+    break-inside: avoid;
+  }
+
+  .cv-section-title {
+    border-bottom: 1px solid #f3f3f6 !important;
+    padding-bottom: 6px !important;
+  }
+
+  .cv-skill {
+    display: inline-flex !important;
+    margin: 0 !important;
+    padding: 3px 9px !important;
+    border: 1px solid #e8e8ee !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+  }
+
+  .cv-experience {
+    break-inside: avoid;
   }
 }

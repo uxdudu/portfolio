@@ -2,7 +2,7 @@
 
 Product Designer Senior | UX/UI | Design Systems | AI-powered product workflows
 
-Brasil  
+Maringá, PR - Brasil
 LinkedIn: https://www.linkedin.com/in/eduardooamaral/  
 Portfólio: site pessoal em desenvolvimento  
 Versare Design: https://versare.design/
@@ -41,19 +41,7 @@ Destaques:
 - Organização de design system com componentes, tokens, variáveis e documentação.
 - Uso de Cursor, Claude e MCP do Figma para aproximar design, prototipação e implementação.
 
-### Senior Product Designer, Talqui
-
-Redesign completo da plataforma de atendimento com IA, novo design system, site em Framer e protótipos funcionais com vibe coding.
-
-Destaques:
-
-- Reconstrução da plataforma a partir de uma versão antiga que havia nascido como fork técnico.
-- Criação de identidade de plataforma alinhada à marca Talqui.
-- Estruturação de design tokens, variáveis e componentes escaláveis.
-- Organização de documentação conectada ao Storybook.
-- Trabalho em novas telas, fluxos e padrões para produto de atendimento com IA.
-
-### Fundador / UX Designer, Versare Design
+### Fundador / Product Designer, Versare Design
 
 Estúdio de produto digital para startups e empresas em crescimento, com atuação em discovery, design end-to-end, Framer, plataformas e produtos com IA.
 
@@ -62,16 +50,6 @@ Destaques:
 - Criação de experiências digitais para startups e empresas consolidadas.
 - Atuação em sites, produtos SaaS, plataformas e sistemas internos.
 - Entregas envolvendo UX, UI, design system, no-code e AI-assisted workflows.
-
-### Head of Product Design, JStack
-
-Estratégia de product design, padrões de UX/UI e design systems escaláveis para plataforma de educação em desenvolvimento.
-
-Destaques:
-
-- Definição de padrões de experiência e interface.
-- Evolução de produto educacional para desenvolvedores.
-- Organização de componentes, fluxos e consistência visual.
 
 ### Senior UX Designer, Brivia
 
@@ -84,7 +62,7 @@ Destaques:
 - Prototipação da Escola de Influenciadores do Banco do Brasil.
 - Documentação manual de specs, tokens, componentes, seções, templates, motion e acessibilidade.
 
-### UX Designer, Grupo Primo
+### Product Designer, Grupo Primo
 
 Produtos digitais de educação e conteúdo como Staart, Finclass e Staage.
 
@@ -119,23 +97,10 @@ Prototipação da Escola de Influenciadores, dentro de projeto conduzido durante
 
 Atuação em produtos digitais de educação e conteúdo como Staart, Finclass e Staage.
 
-## Formação
+## Formação Acadêmica
 
-### Bacharelado em Administração
-
-Faculdade Adventista do Paraná  
-2017 a 2020
-
-## Cursos e Certificações
-
-- Product Design, Design Circuit, 2020 a 2021
-- UI Design, UX Unicórnio, 2022
-- UI Design, UI Expert, 2021 a 2024
-- UI Design, uiBoost-design, 2020 a 2024
-- Webflow
-- Figma do básico ao avançado
-- Semana OmniStack 11.0
-- Carreira em tecnologia
+- Product Design: Design Circuit, UX Unicórnio
+- UI Design: UI Boost, UI Expert
 
 ## Serviços e Áreas de Atuação
 
