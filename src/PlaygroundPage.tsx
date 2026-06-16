@@ -91,7 +91,6 @@ function buildBlock(): { placed: Placed[]; blockH: number } {
 const { placed, blockH: BLOCK_H } = buildBlock();
 
 export function PlaygroundPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const surfaceRef = useRef<HTMLDivElement>(null);
   const [copies, setCopies] = useState({ x: 3, y: 3 });
 
@@ -213,23 +212,6 @@ export function PlaygroundPage() {
     };
   }, [prefersReduced]);
 
-  // Entrada suave do conteúdo.
-  useEffect(() => {
-    if (prefersReduced || !containerRef.current) return;
-    const figures = containerRef.current.querySelectorAll("[data-figure]");
-    gsap.fromTo(
-      figures,
-      { opacity: 0, scale: 0.94 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: { amount: 0.6, from: "random" },
-      },
-    );
-  }, [prefersReduced, copies]);
-
   const blockOffsets = useMemo(() => {
     const offsets: { ox: number; oy: number; key: string }[] = [];
     for (let i = 0; i < copies.x; i++) {
@@ -242,7 +224,6 @@ export function PlaygroundPage() {
 
   return (
     <div
-      ref={containerRef}
       className="fixed inset-0 z-50 overflow-hidden bg-[#0a0a0a] text-white select-none"
       style={{ touchAction: "none" }}
     >
@@ -261,15 +242,20 @@ export function PlaygroundPage() {
               <figure
                 key={`${key}-${index}`}
                 data-figure
-                className="group absolute m-0"
-                style={{ left: item.x, top: item.y, width: item.w }}
+                className="playground-pixel-reveal group absolute m-0"
+                style={{
+                  left: item.x,
+                  top: item.y,
+                  width: item.w,
+                  "--playground-reveal-delay": `${(index % items.length) * 26}ms`,
+                } as React.CSSProperties}
               >
-                <div className="overflow-hidden rounded-[6px] bg-white/5">
+                <div className="playground-pixel-frame overflow-hidden rounded-[6px] bg-white/5">
                   <img
                     src={item.src}
                     alt={item.label}
                     draggable={false}
-                    loading="lazy"
+                    loading="eager"
                     decoding="async"
                     style={{ width: item.w, height: "auto" }}
                     className="block transition-transform duration-700 ease-out group-hover:scale-[1.04]"

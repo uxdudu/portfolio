@@ -1,0 +1,13 @@
+<svg width="1248" height="1314" viewBox="0 0 1248 1314" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="1248" height="1314" fill="url(#cv-pattern)"/>
+<defs>
+<pattern id="cv-pattern" patternUnits="userSpaceOnUse" patternTransform="matrix(13.26 0 0 13.26 -0.240391 -0.240412)" preserveAspectRatio="none" viewBox="-0.707031 -0.707094 39 39" width="1" height="1">
+<use xlink:href="#cv-pattern-inner" transform="translate(-39 -39)"/>
+<use xlink:href="#cv-pattern-inner" transform="translate(0 -39)"/>
+<use xlink:href="#cv-pattern-inner" transform="translate(-39 0)"/>
+<g id="cv-pattern-inner">
+<line opacity="0.3" x1="-0.353553" y1="38.6464" x2="38.6464" y2="-0.353553" stroke="#1A0151"/>
+</g>
+</pattern>
+</defs>
+</svg>

@@ -66,6 +66,7 @@ import usFlag from "./assets/us.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
 import { trackEvent, trackPageView } from "./lib/analytics";
+import { installUiAudio } from "./lib/uiAudio";
 import { normalizeRoutePath } from "./routePath.mjs";
 import { getRouteSeo } from "./seo.mjs";
 import {
@@ -716,10 +717,15 @@ const knownCompanies = [
   { name: "Grana.ai", href: "http://grana.ai/", logo: companyGranaAiLogo },
 ];
 
-const projectCompanyVisuals: Record<string, { logo?: string; iconUrl?: string }> = {
-  Clinia: { logo: companyCliniaLogo },
-  Talqui: { logo: companyTalquiLogo },
-  Petrobras: { logo: companyPetrobrasLogo },
+const projectCompanyVisuals: Record<string, { logo?: string; iconUrl?: string; cover?: string; coverAlt?: string; coverClassName?: string }> = {
+  Clinia: { logo: companyCliniaLogo, cover: cliniaCover, coverAlt: "Clinia Plataforma" },
+  Talqui: { logo: companyTalquiLogo, cover: talquiCover, coverAlt: "Talqui Plataforma" },
+  Petrobras: {
+    logo: companyPetrobrasLogo,
+    cover: petrobrasNossaEnergia,
+    coverAlt: "Portal Nossa Energia Petrobras",
+    coverClassName: "object-top",
+  },
   "Grupo Primo": { iconUrl: faviconUrl("https://www.grupo-primo.com/") },
   "Grana.ai": { logo: companyGranaAiLogo },
   Gennio: { logo: companyGennioLogo },
@@ -736,19 +742,9 @@ const experiences = [
     meta: "Design de produto para saúde digital, com pesquisa de UX, validações de usabilidade, interfaces escaláveis e experiências com IA para clínicas.",
   },
   {
-    role: "Senior Product Designer",
-    company: "Talqui",
-    meta: "Redesign completo da plataforma de atendimento com IA, novo design system, site em Framer e protótipos funcionais com vibe coding.",
-  },
-  {
-    role: "Fundador / UX Designer",
+    role: "Fundador / Product Designer",
     company: "Versare Design",
     meta: "Estúdio de produto digital para startups e empresas em crescimento, com discovery, design end-to-end, Framer, plataformas e produtos com IA.",
-  },
-  {
-    role: "Head of Product Design",
-    company: "JStack",
-    meta: "Estratégia de product design, padrões de UX/UI e design systems escaláveis para plataforma de educação em desenvolvimento.",
   },
   {
     role: "Senior UX Designer",
@@ -756,17 +752,15 @@ const experiences = [
     meta: "Redesign do portal da Petrobras com design system aplicado em 100+ páginas e prototipação da Escola de Influenciadores do Banco do Brasil.",
   },
   {
-    role: "UX Designer",
+    role: "Product Designer",
     company: "Grupo Primo",
     meta: "Produtos digitais de educação e conteúdo como Staart, Finclass e Staage, com co-criação, prototipação, componentes e acompanhamento técnico.",
   },
-];
-
-const training = [
-  "Bacharelado em administração",
-  "Certificações em UI e UX",
-  "Duolingo pontuação: 116",
-  "eHeadset escola de inglês: Intermediário Avançado",
+  {
+    role: "UX Designer",
+    company: "União Sul Brasileira da IASD",
+    meta: "Produtos digitais e educacionais, com criação de interfaces, prototipação, componentes e acompanhamento técnico.",
+  },
 ];
 
 // ─── English translations for static content ────────────────────────────────
@@ -912,18 +906,10 @@ const aboutStatsEn = [
 
 const experiencesEn = [
   { role: "Senior Product Designer", company: "Clinia", meta: "Product design for digital health, including UX research, usability testing, scalable interfaces, and AI-powered experiences for clinics." },
-  { role: "Senior Product Designer", company: "Talqui", meta: "Full redesign of the AI-powered support platform, new design system, Framer site, and functional prototypes with vibe coding." },
-  { role: "Founder / UX Designer", company: "Versare Design", meta: "Digital product studio for startups and growing companies, covering discovery, end-to-end design, Framer, platforms, and AI products." },
-  { role: "Head of Product Design", company: "JStack", meta: "Product design strategy, UX/UI standards, and scalable design systems for an education platform for developers." },
+  { role: "Founder / Product Designer", company: "Versare Design", meta: "Digital product studio for startups and growing companies, covering discovery, end-to-end design, Framer, platforms, and AI products." },
   { role: "Senior UX Designer", company: "Brivia", meta: "Petrobras portal redesign using a design system applied across 100+ pages, and prototyping Banco do Brasil's Escola de Influenciadores." },
-  { role: "UX Designer", company: "Grupo Primo", meta: "Digital education and content products like Staart, Finclass, and Staage, with co-creation, prototyping, components, and technical oversight." },
-];
-
-const trainingEn = [
-  "Bachelor's in business administration",
-  "Certifications in UI and UX",
-  "Duolingo score: 116",
-  "eHeadset English school: Upper-intermediate",
+  { role: "Product Designer", company: "Grupo Primo", meta: "Digital education and content products like Staart, Finclass, and Staage, with co-creation, prototyping, components, and technical oversight." },
+  { role: "UX Designer", company: "South Brazil Union of the SDA Church", meta: "Digital and educational products, including interface design, prototyping, components, and technical delivery support." },
 ];
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -1865,22 +1851,10 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       description: "Design de produto para saúde digital, conduzindo pesquisas de UX, testes de usabilidade, criação de interfaces escaláveis e design systems baseados em shadcn. Integração com ferramentas de inteligência artificial no fluxo de trabalho técnico de frontend."
     },
     {
-      role: "Senior Product Designer",
-      company: "Talqui",
-      period: "2024",
-      description: "Redesign de plataforma SaaS de atendimento com IA, criação de design system escalável com nomenclatura de tokens semânticos, construção de site institucional em Framer e protótipos em código funcional."
-    },
-    {
-      role: "Fundador / UX Designer",
+      role: "Fundador / Product Designer",
       company: "Versare Design",
       period: "2023 - Presente",
       description: "Liderança de estúdio de produto digital end-to-end, gerenciando discovery, UX/UI, sites em Framer e desenvolvimento de plataformas web/mobile inteligentes com IA. Mais de 80 projetos entregues."
-    },
-    {
-      role: "Head of Product Design",
-      company: "JStack",
-      period: "2022 - 2023",
-      description: "Estratégia de product design, definição de padrões de UX/UI e design systems escaláveis para plataforma de educação tech de alto engajamento."
     },
     {
       role: "Senior UX Designer",
@@ -1889,7 +1863,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       description: "Redesign do portal da Petrobras com design system aplicado a mais de 100 páginas de conteúdos editoriais. Prototipação funcional para a Escola de Influenciadores do Banco do Brasil."
     },
     {
-      role: "UX Designer",
+      role: "Product Designer",
       company: "Grupo Primo",
       period: "2021 - 2022",
       description: "Design de produto para edtechs e finanças (Finclass, Staage, Staart). Condução de co-criação, prototipagem ágil, estruturação de componentes no Figma e acompanhamento de entrega técnica."
@@ -1902,22 +1876,10 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       description: "Product design for digital health, including UX research, usability testing, scalable interfaces, and shadcn-based design systems. Integrated AI-powered workflows into frontend development pipelines."
     },
     {
-      role: "Senior Product Designer",
-      company: "Talqui",
-      period: "2024",
-      description: "End-to-end redesign of Talqui's AI support platform, setup of scalable design systems with semantic design tokens, creation of their website in Framer, and functional prototyping."
-    },
-    {
-      role: "Founder / UX Designer",
+      role: "Founder / Product Designer",
       company: "Versare Design",
       period: "2023 - Present",
       description: "Led a product studio delivering discovery, end-to-end design, Framer websites, and AI platforms. Managed design pipelines for 80+ projects with exceptional satisfaction."
-    },
-    {
-      role: "Head of Product Design",
-      company: "JStack",
-      period: "2022 - 2023",
-      description: "Formulated product design strategy, set UI/UX guidelines, and implemented scalable design systems for a developer education platform."
     },
     {
       role: "Senior UX Designer",
@@ -1926,7 +1888,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       description: "Directed the Petrobras portal redesign with design system patterns scaled across 100+ pages. Prototyped the Escola de Influenciadores platform for Banco do Brasil."
     },
     {
-      role: "UX Designer",
+      role: "Product Designer",
       company: "Grupo Primo",
       period: "2021 - 2022",
       description: "Created tech education and finance products (Finclass, Staage, Staart). Facilitated co-creation, rapid prototyping, component structures in Figma, and frontend handoff."
@@ -1934,46 +1896,52 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
   ];
 
   const cvCourses = lang === "pt" ? [
-    "Bacharelado em Administração, Faculdade Adventista do Paraná (2017 - 2020)",
-    "Product Design, Design Circuit (2020 - 2021)",
-    "UI Design, UX Unicórnio (2022)",
-    "UI Design Especializado, UI Expert & uiBoost (2020 - 2024)",
-    "Certificações adicionais em Webflow, Figma avançado e desenvolvimento moderno (OmniStack)"
+    "Product Design: Design Circuit, UX Unicórnio",
+    "UI Design: UI Boost, UI Expert"
   ] : [
-    "Bachelor of Business Administration, Faculdade Adventista do Paraná (2017 - 2020)",
-    "Product Design, Design Circuit (2020 - 2021)",
-    "UI Design, UX Unicórnio (2022)",
-    "Specialized UI Design, UI Expert & uiBoost (2020 - 2024)",
-    "Additional certifications in Webflow, advanced Figma, and modern coding (OmniStack)"
+    "Product Design: Design Circuit, UX Unicórnio",
+    "UI Design: UI Boost, UI Expert"
   ];
 
   const cvSkills = lang === "pt" ? [
-    "UX/UI Design & Discovery",
-    "Design Systems & Tokens",
-    "Framer & Webflow Development",
-    "Protótipos em Código (AI Workflows)",
-    "Figma MCP & Cursor/Claude",
-    "Pesquisa & Teste de Usabilidade"
+    "UX/UI Design",
+    "Design Systems",
+    "Framer Development",
+    "AI Workflows",
+    "Figma MCP",
+    "Cursor",
+    "Claude",
+    "Teste de Usabilidade",
+    "Discovery",
+    "Delivery",
+    "Design Tokens",
+    "Interaction Design"
   ] : [
-    "UX/UI Design & Discovery",
-    "Design Systems & Design Tokens",
-    "Framer & Webflow Development",
-    "Code Prototyping (AI Workflows)",
-    "Figma MCP & Cursor/Claude",
-    "UX Research & Usability Testing"
+    "UX/UI Design",
+    "Design Systems",
+    "Framer Development",
+    "AI Workflows",
+    "Figma MCP",
+    "Cursor",
+    "Claude",
+    "Usability Testing",
+    "Discovery",
+    "Delivery",
+    "Design Tokens",
+    "Interaction Design"
   ];
 
   const cvContact = [
-    { label: "Local", value: "Paraná, Brasil" },
+    { label: lang === "pt" ? "Local" : "Location", value: lang === "pt" ? "Maringá, PR - Brasil" : "Maringá, PR - Brazil" },
     { label: "Email", value: "oi@eduardoamaral.me", href: "mailto:oi@eduardoamaral.me" },
     { label: "LinkedIn", value: "linkedin.com/in/eduardooamaral", href: "https://linkedin.com/in/eduardooamaral/" },
     { label: "Web", value: "eduardoamaral.me", href: "https://eduardoamaral.me" },
   ];
 
   return (
-    <div className="min-h-screen w-full bg-[#fafafa] p-6 font-sans text-[#08080c] selection:bg-black/10 sm:p-12 md:px-24 md:py-16 print:bg-white print:p-0 print:text-black">
+    <div className="cv-page min-h-screen w-full bg-[#fafafa] px-6 py-8 font-sans text-[#08080c] selection:bg-black/10 sm:px-12 md:px-24 md:py-16 print:bg-white print:p-0 print:text-black">
       {/* Action Bar (hidden when printing) */}
-      <div className="mb-12 flex items-center justify-between border-b border-[#e8e8ee] pb-6 print:hidden">
+      <div className="cv-action-bar flex items-center justify-between pb-6 print:hidden">
         <a
           href="/sobre/"
           className="inline-flex items-center gap-1.5 whitespace-nowrap text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-[#636374] transition-colors hover:text-[#08080c]"
@@ -1991,10 +1959,11 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
       </div>
 
       {/* Main CV Layout */}
-      <div className="mx-auto flex max-w-[800px] flex-col gap-10 rounded-[18px] border border-[#e8e8ee] bg-white p-8 shadow-[0_18px_70px_rgba(8,8,12,0.06)] print:gap-8 print:rounded-none print:border-0 print:p-0 print:shadow-none">
+      <div className="cv-sheet-wrap rounded-[24px] px-0 py-6 sm:p-12 print:p-0">
+      <div className="cv-sheet mx-auto flex max-w-[800px] flex-col gap-10 rounded-[16px] bg-white p-8 shadow-[0_8px_8px_rgba(8,8,12,0.02)] sm:p-12 lg:p-16 print:gap-8 print:rounded-none print:p-0 print:shadow-none">
         {/* Header Section */}
-        <div className="flex flex-col gap-5 border-b border-[#e8e8ee] pb-8 print:pb-6">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div className="cv-header flex flex-col gap-5 border-b border-[#e8e8ee] pb-8">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h1 className="font-display text-[36px] font-medium leading-none tracking-[-1.8px] text-[#08080c] sm:text-[44px] sm:tracking-[-2.2px]">
               Eduardo Amaral
             </h1>
@@ -2026,8 +1995,8 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
         </div>
 
         {/* Profile Section */}
-        <section className="flex flex-col gap-3">
-          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
+        <section className="cv-section flex flex-col gap-3">
+          <h2 className="cv-section-title border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.profile}
           </h2>
           <p className="text-[15px] font-normal leading-[1.65] tracking-[-0.3px] text-[#363642]">
@@ -2036,13 +2005,13 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
         </section>
 
         {/* Skills Section */}
-        <section className="flex flex-col gap-3">
-          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
+        <section className="cv-section flex flex-col gap-3">
+          <h2 className="cv-section-title border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.skills}
           </h2>
           <div className="flex flex-wrap gap-2 pt-1">
             {cvSkills.map(skill => (
-              <span key={skill} className="rounded-[8px] border border-[#e8e8ee] bg-[#fafafa] px-2.5 py-1 text-[13px] font-medium leading-[1.45] tracking-[-0.26px] text-[#363642]">
+              <span key={skill} className="cv-skill rounded-full border border-[#e8e8ee] px-2.5 py-1 text-[12px] font-medium leading-[1.5] tracking-[-0.26px] text-[#363642]">
                 {skill}
               </span>
             ))}
@@ -2050,13 +2019,13 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
         </section>
 
         {/* Experience Section */}
-        <section className="flex flex-col gap-6">
-          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
+        <section className="cv-section flex flex-col gap-3">
+          <h2 className="cv-section-title border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.experience}
           </h2>
-          <div className="flex flex-col gap-6 print:gap-5">
+          <div className="flex flex-col gap-6">
             {cvExps.map(exp => (
-              <article key={exp.company + exp.role} className="flex flex-col gap-1.5">
+              <article key={exp.company + exp.role} className="cv-experience flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                   <h3 className="text-[17px] font-medium leading-[1.25] tracking-[-0.51px] text-[#08080c]">
                     {exp.role} <span className="font-normal text-[#636374]">@ {exp.company}</span>
@@ -2074,18 +2043,19 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
         </section>
 
         {/* Education Section */}
-        <section className="flex flex-col gap-3">
-          <h2 className="border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
+        <section className="cv-section flex flex-col gap-3">
+          <h2 className="cv-section-title border-b border-[#f3f3f6] pb-1.5 text-[12px] font-medium uppercase leading-[1.45] tracking-[0.14em] text-[#9c9caf]">
             {t.education}
           </h2>
-          <ul className="flex list-disc flex-col gap-2 pl-4 text-[14px] font-normal leading-[1.55] tracking-[-0.28px] text-[#636374]">
+          <ul className="flex list-none flex-col gap-2 text-[14px] font-normal leading-[1.55] tracking-[-0.28px] text-[#636374]">
             {cvCourses.map((course, idx) => (
-              <li key={idx} className="pl-0.5">
+              <li key={idx}>
                 {course}
               </li>
             ))}
           </ul>
         </section>
+      </div>
       </div>
     </div>
   );
@@ -2106,7 +2076,6 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
     .map((word) => word[0])
     .join("");
   const exps = language === "en" ? experiencesEn : experiences;
-  const courses = language === "en" ? trainingEn : training;
   const goToPreviousTestimonial = () => {
     setTestimonialIndex((current) => (current === 0 ? socialProof.length - 1 : current - 1));
   };
@@ -2118,18 +2087,20 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
     <>
       <Header activePage="about" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-10 p-5 lg:gap-12 lg:p-20"
+        className="flex w-full flex-col gap-12 p-6 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-center lg:gap-20" variants={sectionReveal}>
-          <div className="flex flex-col gap-8 items-start">
+        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-center lg:gap-8" variants={sectionReveal}>
+          <div className="flex flex-col items-start gap-8">
             <SectionLabel>{language === "en" ? "About" : "Sobre"}</SectionLabel>
-            <h1 className="max-w-[720px] font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
-              Crafting Excepcional Design
+            <h1 className="max-w-[490px] font-display text-[40px] font-medium leading-none tracking-[-2px] text-foreground sm:text-[48px] sm:tracking-[-2.4px] lg:text-[56px] lg:tracking-[-2.8px]">
+              <span className="block">Crafting</span>
+              <span className="block">Excepcional</span>
+              <span className="block">Designs</span>
             </h1>
-            <p className="max-w-[520px] text-[18px] leading-[1.45] tracking-[-0.36px] text-muted">
+            <p className="max-w-[420px] text-[18px] leading-[1.45] tracking-[-0.36px] text-muted">
               {language === "en"
                 ? "My point of view connects product, craft, and scale to create consistent digital experiences."
                 : "Minha visão conecta produto, craft e escala para criar experiências digitais consistentes."}
@@ -2149,13 +2120,13 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           </motion.div>
         </motion.section>
 
-        <motion.section className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20" variants={sectionReveal}>
+        <motion.section className="flex flex-col gap-8 border-t border-border pt-10" variants={sectionReveal}>
           <SectionLabel>{language === "en" ? "Overview" : "Resumo"}</SectionLabel>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-0.5 bg-card sm:grid-cols-2 lg:grid-cols-4">
             {highlights.map((item) => (
               <motion.p
                 key={item}
-                className="rounded-3xl border border-border bg-card p-6 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground"
+                className="rounded-md bg-background p-4 text-[18px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground"
                 variants={sectionReveal}
               >
                 {item}
@@ -2170,13 +2141,13 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
             {stats.map((item) => (
               <motion.div
                 key={item.label}
-                className="rounded-3xl border border-border bg-card p-6"
+                className="p-6"
                 variants={sectionReveal}
               >
                 <p className="font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-card-foreground tabular-nums lg:text-[48px] lg:tracking-[-2.4px]">
                   {item.value}
                 </p>
-                <p className="mt-3 text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+                <p className="mt-2 text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
                   {item.label}
                 </p>
               </motion.div>
@@ -2190,20 +2161,20 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Companies" : "Empresas"}</SectionLabel>
-            <h2 className="max-w-[300px] text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-              {language === "en" ? "Companies and projects that know my work." : "Empresas e projetos que conhecem meu trabalho."}
+            <h2 className="max-w-[320px] text-[28px] font-medium leading-[1.1] tracking-[-1.4px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+              {language === "en" ? "Companies that know my work" : "Empresas que conhecem meu trabalho"}
             </h2>
           </div>
-          <div className="about-companies-grid grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="about-companies-grid grid grid-cols-2 gap-0.5 bg-card sm:grid-cols-3 lg:grid-cols-5">
             {knownCompanies.map((company) => (
               <motion.a
                 key={company.name}
                 href={company.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex min-h-[104px] flex-col justify-between rounded-2xl border border-border bg-card p-4"
+                className="group flex min-h-[104px] flex-col justify-between rounded-md bg-background p-4 transition-colors hover:bg-card"
                 variants={sectionReveal}
-                whileHover={{ y: -3, borderColor: "var(--color-primary)" }}
+                whileHover={{ y: -2 }}
                 whileTap={TAP}
                 transition={SPRING}
               >
@@ -2247,8 +2218,8 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>{language === "en" ? "Testimonials" : "Depoimentos"}</SectionLabel>
-            <h2 className="max-w-[260px] text-[22px] font-medium leading-none tracking-[-1.1px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-              {language === "en" ? "What people say about working with me." : "O que falam sobre trabalhar comigo."}
+            <h2 className="max-w-[320px] text-[28px] font-medium leading-[1.1] tracking-[-1.4px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+              {language === "en" ? "What people say about working with me" : "O que falam sobre trabalhar comigo"}
             </h2>
           </div>
 
@@ -2256,11 +2227,11 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
             <AnimatePresence mode="wait" initial={false}>
               <motion.figure
                 key={`${activeTestimonial.author}-${language}`}
-                className="flex min-h-[360px] w-full flex-col justify-between rounded-3xl border border-border bg-card p-6 sm:p-8 lg:min-h-[420px] lg:p-10"
+                className="flex min-h-[420px] w-full flex-col justify-between rounded-3xl bg-card p-6 sm:p-8"
                 initial={prefersReducedMotion ? false : { opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={prefersReducedMotion ? undefined : { opacity: 0, x: -24 }}
-                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
               >
                 <div className="flex min-h-10 items-center">
                   {activeTestimonial.companyLogo || activeTestimonial.companyIconUrl ? (
@@ -2283,7 +2254,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
                   )}
                 </div>
 
-                <blockquote className="max-w-[720px] py-8 text-[20px] font-medium leading-[1.4] tracking-[-0.6px] text-card-foreground lg:text-[22px] lg:tracking-[-0.66px]">
+                <blockquote className="max-w-[540px] py-8 text-[20px] font-medium leading-[1.4] tracking-[-0.6px] text-card-foreground lg:text-[22px] lg:tracking-[-0.66px]">
                   {activeTestimonial.quote}
                 </blockquote>
 
@@ -2307,7 +2278,6 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
                 onClick={goToPreviousTestimonial}
                 aria-label={language === "en" ? "Previous testimonial" : "Depoimento anterior"}
                 className="grid size-12 place-items-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-card"
-                whileHover={{ y: -2 }}
                 whileTap={TAP}
                 transition={SPRING}
               >
@@ -2320,7 +2290,6 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
                 onClick={goToNextTestimonial}
                 aria-label={language === "en" ? "Next testimonial" : "Próximo depoimento"}
                 className="grid size-12 place-items-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-card"
-                whileHover={{ y: -2 }}
                 whileTap={TAP}
                 transition={SPRING}
               >
@@ -2336,12 +2305,17 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
           variants={sectionReveal}
         >
-          <SectionLabel>{language === "en" ? "Experience" : "Experiência"}</SectionLabel>
+          <div className="flex flex-col gap-4">
+            <SectionLabel>{language === "en" ? "Experience" : "Experiência"}</SectionLabel>
+            <h2 className="max-w-[320px] text-[28px] font-medium leading-[1.1] tracking-[-1.4px] text-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+              {language === "en" ? "A little about my professional journey" : "Um pouco da minha trajetória profissional"}
+            </h2>
+          </div>
           <div className="flex flex-col gap-4">
             {exps.map((item) => (
               <motion.article
                 key={`${item.role}-${item.company}`}
-                className="flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 sm:grid sm:grid-cols-[1fr_1.2fr] sm:gap-8"
+                className="flex flex-col gap-4 sm:grid sm:grid-cols-[260px_1fr] sm:gap-20"
                 variants={sectionReveal}
               >
                 <div>
@@ -2360,27 +2334,6 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
           </div>
         </motion.section>
 
-        <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:gap-20"
-          initial={prefersReducedMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-15% 0px" }}
-          variants={sectionReveal}
-        >
-          <SectionLabel>{language === "en" ? "Education" : "Educação"}</SectionLabel>
-          <div className="rounded-3xl border border-border bg-card p-2">
-            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[20px] bg-border sm:grid-cols-2">
-              {courses.map((item) => (
-                <div key={item} className="bg-card p-6 sm:min-h-[132px]">
-                  <p className="text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
       </motion.div>
       <Footer />
     </>
@@ -2388,7 +2341,7 @@ function AboutPage({ theme, onThemeChange }: PageProps) {
 }
 
 function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[number]; featured?: boolean }) {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const href = `https://www.youtube.com/watch?v=${video.id}`;
 
@@ -2402,7 +2355,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
 
     return (
       <motion.article
-        className="featured-video-card flex cursor-pointer flex-col gap-4 rounded-[32px] border border-border bg-card p-2 lg:grid lg:cursor-default lg:grid-cols-[1.35fr_0.65fr] lg:gap-6"
+        className="featured-video-card flex cursor-pointer flex-col gap-4 rounded-[32px] border border-border bg-card p-2 lg:grid lg:cursor-default lg:grid-cols-2 lg:gap-4"
         variants={sectionReveal}
         role="link"
         tabIndex={0}
@@ -2414,7 +2367,7 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
           trackEvent(posthog, "youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: true, source: "mobile_card_keyboard" });
         }}
       >
-        <div className="media-outline aspect-video overflow-hidden rounded-[24px] bg-media">
+        <div className="media-outline aspect-video overflow-hidden rounded-[24px] bg-[light-dark(#eeeeee,#24242e)]">
           <iframe
             className="h-full w-full"
             src={`https://www.youtube.com/embed/${video.id}`}
@@ -2423,15 +2376,12 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
             allowFullScreen
           />
         </div>
-        <div className="featured-video-copy flex flex-col gap-5 p-4 lg:justify-between">
+        <div className="featured-video-copy flex flex-col justify-center gap-8 p-4">
           <div className="featured-video-content flex flex-col gap-4">
             <SectionLabel>{t.latestVideo}</SectionLabel>
             <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
               {video.title}
             </h2>
-            <p className="tabular-nums text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-              {language === "en" ? (video.dateEn || video.date) : video.date}. {language === "en" ? (video.viewsEn || video.views) : video.views}.
-            </p>
           </div>
           <motion.a
             href={href}
@@ -2455,33 +2405,21 @@ function VideoCard({ video, featured = false }: { video: (typeof youtubeVideos)[
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="group flex min-h-[300px] flex-col overflow-hidden rounded-3xl border border-border bg-card"
+      aria-label={video.title}
+      className="group media-outline aspect-video overflow-hidden rounded-2xl bg-[light-dark(#eeeeee,#24242e)]"
       variants={sectionReveal}
-      whileHover={{ y: -5, borderColor: "var(--color-primary)" }}
+      whileHover={{ y: -4 }}
       whileTap={TAP}
       transition={SPRING}
       onClick={() => trackEvent(posthog, "youtube_video_clicked", { video_id: video.id, video_title: video.title, featured: false })}
     >
-      <div className="media-outline aspect-video overflow-hidden bg-media">
-        <img loading="lazy" decoding="async"
-          src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
-          alt=""
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.035]"
-        />
-      </div>
-      <div className="flex flex-1 flex-col justify-between gap-5 p-6">
-        <div className="flex flex-col gap-3">
-          <p className="tabular-nums text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-primary">
-            {language === "en" ? (video.dateEn || video.date) : video.date}
-          </p>
-          <h3 className="text-[24px] font-medium leading-none tracking-[-1.2px] text-card-foreground">
-            {video.title}
-          </h3>
-        </div>
-        <p className="tabular-nums text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-          {language === "en" ? (video.viewsEn || video.views) : video.views}
-        </p>
-      </div>
+      <img
+        loading="lazy"
+        decoding="async"
+        src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+        alt=""
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+      />
     </motion.a>
   );
 }
@@ -2812,29 +2750,24 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
   const { t, language } = useTranslation();
   const posthog = usePostHog();
   const [featuredVideo, ...moreVideos] = youtubeVideos;
-  const feeds = language === "en" ? socialFeedSectionsEn : socialFeedSections;
 
   return (
     <>
       <Header activePage="content" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="content-page-shell flex w-full flex-col gap-10 p-6 lg:gap-20 lg:p-20"
+        className="content-page-shell flex w-full flex-col gap-10 p-6 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
         <motion.section className="flex flex-col gap-8" variants={sectionReveal}>
-          <div className="flex flex-col gap-8">
-            <SectionLabel>{language === "en" ? "Content" : "Conteúdos"}</SectionLabel>
-            <h1 className="max-w-[760px] font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
-              {language === "en" ? "My point of view on Product Design, AI and more." : "Meus pontos de vista sobre Product Design, IA e muito mais"}
-            </h1>
-            <p className="max-w-[520px] text-left text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-              {language === "en"
-                ? "Explore the latest shared content."
-                : "Confira os últimos conteúdos compartilhados"}
-            </p>
-          </div>
+          <SectionLabel>{language === "en" ? "Content" : "Conteúdos"}</SectionLabel>
+          <h1 className="w-full font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
+            {language === "en" ? "My point of view on Product Design, AI and more." : "Meus pontos de vista sobre Product Design, IA e muito mais"}
+          </h1>
+          <p className="w-full text-left text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+            {language === "en" ? "Explore the latest shared content." : "Confira os últimos conteúdos compartilhados"}
+          </p>
         </motion.section>
 
         <motion.section
@@ -2861,7 +2794,7 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
             </a>
           </div>
           <VideoCard video={featuredVideo} featured />
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {moreVideos.map((video) => (
               <VideoCard key={video.id} video={video} />
             ))}
@@ -2869,27 +2802,26 @@ function ContentPage({ theme, onThemeChange }: PageProps) {
         </motion.section>
 
         <motion.section
-          className="flex flex-col gap-8 border-t border-border pt-10 lg:grid lg:grid-cols-[320px_1fr] lg:items-center lg:gap-20"
+          className="flex items-center justify-between gap-8 border-t border-border py-10"
           variants={sectionReveal}
         >
           <SectionLabel>Links</SectionLabel>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
+          <div className="flex items-center gap-2">
             {contentLinks.map((item) => (
               <motion.a
                 key={item.label}
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
-                className="flex min-h-10 items-center gap-2 text-[20px] font-medium leading-[1.45] tracking-[-0.6px] text-card-foreground transition-colors hover:text-primary"
+                aria-label={item.label}
+                title={item.label}
+                className="grid size-10 place-items-center rounded-full text-muted transition-colors hover:bg-card hover:text-primary"
                 whileHover={{ y: -2 }}
                 whileTap={TAP}
                 transition={SPRING}
                 onClick={() => trackEvent(posthog, "social_link_clicked", { platform: item.label, href: item.href })}
               >
-                <span className="grid size-10 shrink-0 place-items-center text-primary">
-                  <SocialIcon icon={item.icon} />
-                </span>
-                <span>{item.label}</span>
+                <SocialIcon icon={item.icon} />
               </motion.a>
             ))}
           </div>
@@ -3117,6 +3049,7 @@ function ProjectListCard({ project }: { project: DirectoryProject }) {
   const Wrapper = project.href ? motion.a : motion.article;
   const visual = projectCompanyVisuals[project.name];
   const visualSrc = visual?.logo || visual?.iconUrl;
+  const coverSrc = visual?.cover;
   const deliverables = normalizeDeliverables(project.deliverables);
   const visibleDeliverables = deliverables.slice(0, 3);
   const hiddenDeliverablesCount = Math.max(0, deliverables.length - visibleDeliverables.length);
@@ -3126,49 +3059,61 @@ function ProjectListCard({ project }: { project: DirectoryProject }) {
   return (
     <Wrapper
       href={project.href}
-      className="group flex min-h-[250px] flex-col justify-between rounded-3xl border border-border bg-card p-6"
+      className="group flex min-h-[354px] flex-col rounded-[26px] bg-card p-1"
       variants={sectionReveal}
-      whileHover={project.href ? { y: -5, borderColor: "var(--color-primary)" } : undefined}
+      whileHover={project.href ? { y: -4 } : undefined}
       whileTap={project.href ? TAP : undefined}
       transition={SPRING}
     >
-      <div className="flex items-center justify-between gap-6">
-        <div className="flex min-w-0 items-center gap-3">
-          {visualSrc ? (
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-border bg-background">
-              <img loading="lazy" decoding="async" src={visualSrc} alt="" className="size-7 object-contain" />
-            </span>
-          ) : (
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-border bg-background text-[13px] font-medium leading-none text-primary">
-              {project.name.slice(0, 2)}
-            </span>
-          )}
-          <span className="rounded-full border border-border px-3 py-1 text-[14px] leading-[1.45] tracking-[-0.42px] text-muted">
-            {project.type}
-          </span>
-        </div>
-        <span className={`shrink-0 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] ${isCaseAvailable ? "text-primary" : "text-muted"}`}>
+      <div className="project-list-card-media relative aspect-[21/9] overflow-hidden rounded-b-lg rounded-t-[20px]">
+        {coverSrc ? (
+          <img
+            loading="lazy"
+            decoding="async"
+            src={coverSrc}
+            alt={visual.coverAlt ?? ""}
+            className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] ${visual.coverClassName ?? ""}`}
+          />
+        ) : null}
+        {coverSrc ? <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/45 to-transparent" /> : null}
+        <span
+          className={`absolute left-3 top-3 text-[14px] font-medium leading-[1.45] tracking-[-0.42px] ${
+            isCaseAvailable ? "text-[#24c653]" : coverSrc ? "text-white/80" : "text-muted"
+          }`}
+        >
           {statusLabel}
         </span>
       </div>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-[22px] font-medium leading-none tracking-[-1.1px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
-          {project.name}
-        </h2>
-        <p className="overflow-hidden text-[16px] leading-[1.45] tracking-[-0.32px] text-muted [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+
+      <div className="flex flex-1 flex-col p-4">
+        <div className="flex items-center justify-between gap-6">
+          <h2 className="min-w-0 text-[28px] font-medium leading-none tracking-[-1.4px] text-card-foreground lg:text-[32px] lg:tracking-[-1.6px]">
+            {project.name}
+          </h2>
+          {visualSrc ? (
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-background">
+              <img loading="lazy" decoding="async" src={visualSrc} alt="" className="size-7 object-contain" />
+            </span>
+          ) : (
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-background text-[13px] font-medium leading-none text-primary">
+              {project.name.slice(0, 2)}
+            </span>
+          )}
+        </div>
+        <p className="mt-4 h-[72px] overflow-hidden text-[16px] leading-[1.45] tracking-[-0.32px] text-muted [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
           {language === "en" ? (project.summaryEn ?? project.summary) : project.summary}
         </p>
-        <div className="flex min-w-0 flex-nowrap items-center gap-2 overflow-hidden">
+        <div className="mt-4 flex min-w-0 flex-nowrap items-center gap-2 overflow-hidden">
           {visibleDeliverables.map((item) => (
             <span
               key={item}
-              className="shrink-0 rounded-full bg-background px-3 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted"
+              className="shrink-0 rounded-full bg-background px-2.5 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted"
             >
               {item}
             </span>
           ))}
           {hiddenDeliverablesCount > 0 ? (
-            <span className="shrink-0 rounded-full bg-background px-3 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted">
+            <span className="shrink-0 rounded-full bg-background px-2.5 py-1 text-[13px] leading-[1.45] tracking-[-0.39px] text-muted">
               +{hiddenDeliverablesCount}
             </span>
           ) : null}
@@ -3203,27 +3148,33 @@ function ProjectsPage({
     <>
       <Header activePage="projects" theme={theme} onThemeChange={onThemeChange} />
       <motion.div
-        className="flex w-full flex-col gap-10 p-5 lg:gap-16 lg:p-20"
+        className="flex w-full flex-col gap-10 p-5 lg:p-20"
         initial={prefersReducedMotion ? false : "hidden"}
         animate="visible"
         variants={staggerChildren}
       >
-        <motion.section className="flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_360px] lg:items-end lg:gap-20" variants={sectionReveal}>
-          <div className="flex flex-col gap-8">
+        <motion.section className="grid gap-8 lg:grid-cols-3 lg:items-start" variants={sectionReveal}>
+          <div className="flex flex-col gap-8 lg:col-span-2">
             <SectionLabel>{language === "en" ? "Projects" : "Projetos"}</SectionLabel>
             <h1 className="max-w-[760px] font-display text-[32px] font-medium leading-none tracking-[-1.6px] text-foreground sm:text-[44px] sm:tracking-[-2.2px] lg:text-[56px] lg:tracking-[-2.8px]">
-              {language === "en" ? "Explore some of my projects." : "Conheça alguns dos meus projetos."}
+              {language === "en" ? (
+                <>Explore some of<br />my projects</>
+              ) : (
+                <>Conheça alguns<br />dos meus projetos</>
+              )}
             </h1>
           </div>
-          <p className="text-left text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
-            {language === "en"
-              ? "You can filter by type or deliverable. Some projects have more than one case."
-              : "Você pode filtrar pelo tipo ou entregável. Alguns deles têm mais de um case."}
-          </p>
+          <div className="lg:col-span-1 lg:flex lg:h-[165px] lg:items-end lg:py-1">
+            <p className="text-left text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+              {language === "en"
+                ? "Filter by type or deliverable. Some projects have more than one case."
+                : "Filtre por tipo ou entregável. Alguns deles têm mais de um case."}
+            </p>
+          </div>
         </motion.section>
 
-        <motion.section className="grid grid-cols-1 gap-6 border-t border-border pt-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-10" variants={sectionReveal}>
-          <div className="flex min-w-0 flex-col gap-3">
+        <motion.section className="flex flex-col gap-6 border-t border-border pt-10 lg:flex-row lg:gap-10" variants={sectionReveal}>
+          <div className="flex min-w-0 flex-col gap-3 lg:w-[425px] lg:shrink-0">
             <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted">
               {language === "en" ? "Type" : "Tipo"}
             </p>
@@ -3233,7 +3184,7 @@ function ProjectsPage({
               ))}
             </div>
           </div>
-          <div className="flex min-w-0 flex-col gap-3">
+          <div className="flex min-w-0 flex-col gap-3 lg:flex-1">
             <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted">
               {language === "en" ? "Deliverables" : "Entregáveis"}
             </p>
@@ -3251,7 +3202,7 @@ function ProjectsPage({
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
           initial={prefersReducedMotion ? false : "hidden"}
           animate="visible"
           variants={staggerChildren}
@@ -3454,6 +3405,8 @@ export function App() {
   const isPetrobrasDesignSystemCase = path === "/cases/petrobras-design-system";
   const isCvPt = path === "/cv/pt";
   const isCvEn = path === "/cv/en";
+
+  useEffect(() => installUiAudio(), []);
 
   useEffect(() => {
     if (theme === "system") {
