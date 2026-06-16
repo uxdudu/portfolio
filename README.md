@@ -1,5 +1,8 @@
 # 🖥️ Eduardo Amaral — Portfolio
 
+[![GitHub Pages](https://shieldcn.dev/badge/Hosted%20on-GitHub%20Pages-222222.svg?logo=github&logoColor=fff&variant=secondary&mode=light)](https://eduardoamaral.me)
+[![YouTube Subscribers](https://shieldcn.dev/youtube/subscribers/@uxdudu.svg?variant=branded&mode=light)](https://www.youtube.com/@uxdudu)
+
 A modern, interactive, and premium portfolio website for **Eduardo Amaral**, showcasing expertise in **Product Design**, **Frontend Development**, and **AI integrations**.
 
 Live at: [eduardoamaral.me](https://eduardoamaral.me)
@@ -16,14 +19,15 @@ Live at: [eduardoamaral.me](https://eduardoamaral.me)
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Stack
 
-- **Framework**: [React](https://react.dev/) + [Vite](https://vite.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Animations**: [Framer Motion / Motion](https://motion.dev/)
-- **Smooth Scroll**: [Lenis Scroll](https://lenis.darkroom.engineering/)
-- **CMS (Seeding)**: [Sanity.io](https://www.sanity.io/) (configured for portfolio content storage)
-- **Deployment**: [Vercel](https://vercel.com/) (Speed Insights integrated)
+- **Core**: [React 19](https://react.dev/), [Vite 7](https://vite.dev/), [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/), custom CSS variables, responsive and print styles
+- **Motion & Interaction**: [Motion](https://motion.dev/), [GSAP](https://gsap.com/), [Lenis](https://lenis.darkroom.engineering/), [`@web-kits/audio`](https://www.npmjs.com/package/@web-kits/audio)
+- **Content**: [Sanity](https://www.sanity.io/) content fetch/prerender pipeline
+- **Analytics**: [PostHog](https://posthog.com/), [Vercel Analytics](https://vercel.com/analytics), [Vercel Speed Insights](https://vercel.com/speed-insights)
+- **Rendering & QA**: Vite build, static prerender scripts, Node test runner, [Puppeteer](https://pptr.dev/)
+- **Hosting**: [GitHub Pages](https://pages.github.com/) with custom domain
 
 ---
 
