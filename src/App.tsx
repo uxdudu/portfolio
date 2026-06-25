@@ -33,6 +33,7 @@ import cliniaV1Inbox from "./assets/clinia-v1-inbox.webp";
 import cliniaV1Login from "./assets/clinia-v1-login.webp";
 import cliniaV1Settings from "./assets/clinia-v1-settings.webp";
 import faviconSymbol from "./assets/favicon-symbol.svg";
+import loadingMotionPortrait from "./assets/loading-motion-portrait.png";
 import logo from "./assets/logo.svg";
 import navState from "./assets/nav-state.svg";
 import cliniaLogoBlue from "./assets/clinia-logo-blue.svg";
@@ -66,7 +67,6 @@ import usFlag from "./assets/us.svg";
 import { useSanityPortfolioContent } from "./lib/useSanityPortfolioContent";
 import type { SanityCaseStudy, SanityProject } from "./lib/sanity";
 import { trackEvent, trackPageView } from "./lib/analytics";
-import { installUiAudio } from "./lib/uiAudio";
 import { normalizeRoutePath } from "./routePath.mjs";
 import { getRouteSeo } from "./seo.mjs";
 import {
@@ -125,6 +125,60 @@ const pageFade = {
   animate: { opacity: 1 },
   exit: { opacity: 0 },
 };
+
+function FigmaMotionPortrait({
+  className = "",
+  animated = true,
+  eager = false,
+  playOnHover = false,
+}: {
+  className?: string;
+  animated?: boolean;
+  eager?: boolean;
+  playOnHover?: boolean;
+}) {
+  return (
+    <span className={`relative block overflow-hidden rounded-full bg-[#f4f4f4] ${playOnHover ? "figma-motion-hover" : ""} ${className}`}>
+      <img
+        src={loadingMotionPortrait}
+        alt=""
+        className={`absolute inset-0 size-full object-cover ${animated ? "figma-motion-normal" : ""}`}
+        decoding="async"
+        fetchPriority={eager ? "high" : undefined}
+      />
+      {animated ? (
+        <img
+          src={loadingMotionPortrait}
+          alt=""
+          className="figma-motion-pixel absolute object-cover"
+          decoding="async"
+          fetchPriority={eager ? "high" : undefined}
+        />
+      ) : null}
+    </span>
+  );
+}
+
+function LoadingScreen() {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-background text-foreground"
+      role="status"
+      aria-label="Carregando"
+    >
+      <motion.div
+        className="relative grid size-[184px] place-items-center overflow-hidden rounded-full bg-[#f4f4f4]"
+        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94 }}
+        animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <FigmaMotionPortrait className="size-full" animated={!prefersReducedMotion} eager />
+      </motion.div>
+    </div>
+  );
+}
 
 type ThemePreference = "system" | "light" | "dark";
 type ActivePage = "home" | "about" | "projects" | "content" | "contact" | "none";
@@ -1171,22 +1225,66 @@ function useTranslation() {
 }
 
 function Logo({ className = "", linked = false }: { className?: string; linked?: boolean }) {
-  const image = <img loading="lazy" decoding="async" src={logo} alt="Eduardo Amaral" className={`h-5 w-[26px] ${className}`} />;
+  const prefersReducedMotion = useReducedMotion();
+  const wrapperVariants = {
+    rest: { y: 0 },
+    hover: { y: prefersReducedMotion ? 0 : -1 },
+  };
+  const content = (
+    <span className={`relative grid size-8 shrink-0 place-items-center overflow-hidden rounded-full ${className}`}>
+      <motion.img
+        loading="lazy"
+        decoding="async"
+        src={logo}
+        alt="Eduardo Amaral"
+        className="h-5 w-[26px]"
+        variants={{
+          rest: { opacity: 1, scale: 1, rotate: 0 },
+          hover: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9, rotate: 0 },
+        }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      />
+      <motion.span
+        className="absolute inset-0"
+        variants={{
+          rest: { opacity: 0, scale: 0.92, rotate: 0 },
+          hover: prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 },
+        }}
+        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <FigmaMotionPortrait className="size-full" animated={!prefersReducedMotion} playOnHover />
+      </motion.span>
+    </span>
+  );
 
   if (!linked) {
-    return image;
+    return (
+      <motion.span
+        className="inline-flex rounded-full"
+        variants={wrapperVariants}
+        initial="rest"
+        animate="rest"
+        whileHover="hover"
+        transition={SPRING}
+      >
+        {content}
+      </motion.span>
+    );
   }
 
   return (
     <motion.a
       href="/"
       aria-label="Ir para a home"
-      className="inline-flex rounded-md"
-      whileHover={{ y: -1 }}
+      className="inline-flex rounded-full"
+      variants={wrapperVariants}
+      initial="rest"
+      animate="rest"
+      whileHover="hover"
       whileTap={TAP}
       transition={SPRING}
     >
-      {image}
+      {content}
     </motion.a>
   );
 }
@@ -3406,8 +3504,6 @@ export function App() {
   const isCvPt = path === "/cv/pt";
   const isCvEn = path === "/cv/en";
 
-  useEffect(() => installUiAudio(), []);
-
   useEffect(() => {
     if (theme === "system") {
       document.documentElement.removeAttribute("data-theme");
@@ -3612,7 +3708,7 @@ export function App() {
 
   if (path === "/playground") {
     return (
-      <Suspense fallback={<div className="fixed inset-0 bg-[#0a0a0a]" />}>
+      <Suspense fallback={<LoadingScreen />}>
         <PlaygroundPage />
       </Suspense>
     );
@@ -3649,7 +3745,7 @@ export function App() {
             exit="exit"
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Suspense fallback={null}>{page}</Suspense>
+            <Suspense fallback={<LoadingScreen />}>{page}</Suspense>
           </motion.div>
         </AnimatePresence>
       </main>

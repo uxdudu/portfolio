@@ -172,6 +172,26 @@ a {
   text-decoration: none;
 }
 
+:where(
+  a[href],
+  button,
+  summary,
+  label[for],
+  select,
+  input[type="checkbox"],
+  input[type="radio"],
+  [role="button"],
+  [role="link"],
+  [tabindex]:not([tabindex="-1"]),
+  [onclick]
+):not([class*="cursor-"]) {
+  cursor: pointer;
+}
+
+:where(:disabled, [aria-disabled="true"]) {
+  cursor: not-allowed;
+}
+
 button {
   white-space: nowrap;
 }
@@ -203,6 +223,75 @@ p, li, figcaption, blockquote {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+@keyframes figma-motion-normal {
+  0%,
+  4.5589% {
+    opacity: 1;
+  }
+  32.5851%,
+  60.9343% {
+    opacity: 0;
+  }
+  95.5943%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes figma-motion-pixel {
+  0%,
+  4.5589% {
+    opacity: 0;
+  }
+  32.5851%,
+  60.9343% {
+    opacity: 1;
+  }
+  95.5943%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.figma-motion-normal {
+  animation: figma-motion-normal 2000ms infinite;
+  animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  will-change: opacity;
+}
+
+.figma-motion-pixel {
+  animation: figma-motion-pixel 2000ms infinite;
+  animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  image-rendering: pixelated;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: opacity;
+}
+
+.figma-motion-hover .figma-motion-normal,
+.figma-motion-hover .figma-motion-pixel {
+  animation: none;
+}
+
+.figma-motion-hover .figma-motion-normal {
+  opacity: 1;
+}
+
+.figma-motion-hover .figma-motion-pixel {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.figma-motion-hover:hover .figma-motion-normal {
+  animation: figma-motion-normal 2000ms 1 cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}
+
+.figma-motion-hover:hover .figma-motion-pixel {
+  animation: figma-motion-pixel 2000ms 1 cubic-bezier(0.5, 0, 0.5, 1) forwards;
 }
 
 @keyframes playground-dither-field {
