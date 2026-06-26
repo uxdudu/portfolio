@@ -168,7 +168,8 @@ body {
   font-family: "Geist", sans-serif;
 }
 
-body.bio-route {
+body.bio-route,
+body.not-found-route {
   min-width: 0;
 }
 
@@ -240,6 +241,27 @@ p, li, figcaption, blockquote {
 .bio-card:focus-visible {
   outline: 2px solid var(--primary-foreground);
   outline-offset: 3px;
+}
+
+.bio-thumb-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bio-instagram-thumb {
+  aspect-ratio: 83 / 104;
+  border-radius: 3px;
+}
+
+.bio-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.not-found-page {
+  min-width: 0;
 }
 
 @keyframes playground-pixel-reveal {

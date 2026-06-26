@@ -32,6 +32,7 @@ const ROUTES = [
   "/cases/petrobras-design-system",
   "/cv/pt",
   "/cv/en",
+  "/404",
 ];
 
 function outPathFor(route) {
@@ -87,6 +88,11 @@ async function run() {
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(out, html, "utf8");
     console.log(`✓ ${route} → ${out.replace(distDir, "dist")}`);
+    if (route === "/404") {
+      const notFoundOut = join(distDir, "404.html");
+      writeFileSync(notFoundOut, html, "utf8");
+      console.log(`✓ ${route} → dist/404.html`);
+    }
   }
 }
 

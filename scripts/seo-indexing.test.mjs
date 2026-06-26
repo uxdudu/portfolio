@@ -49,10 +49,11 @@ test("uses a serverless Chromium binary for Vercel prerendering", () => {
   assert.match(prerenderSource, /process\.env\.VERCEL/);
 });
 
-test("prerenders every public route and both CV routes", () => {
-  for (const route of [...INDEXABLE_ROUTES, "/cv/pt", "/cv/en"]) {
+test("prerenders every public route, utility route and both CV routes", () => {
+  for (const route of [...INDEXABLE_ROUTES, "/cv/pt", "/cv/en", "/404"]) {
     assert.match(prerenderSource, new RegExp(`"${route.replaceAll("/", "\\/")}"`), `${route} is not prerendered`);
   }
+  assert.match(prerenderSource, /404\.html/);
 });
 
 test("lists every indexable route in the sitemap and excludes utility routes", () => {
@@ -64,6 +65,7 @@ test("lists every indexable route in the sitemap and excludes utility routes", (
   assert.doesNotMatch(sitemap, /\/cv\/(?:pt|en)<\/loc>/);
   assert.doesNotMatch(sitemap, /\/styleguide<\/loc>/);
   assert.doesNotMatch(sitemap, /\/mapa-do-site\/<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/404\/<\/loc>/);
 });
 
 test("sitemap only contains final URLs instead of redirecting directory URLs", () => {
