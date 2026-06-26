@@ -7,22 +7,22 @@ Eduardo Amaral é designer de produto sênior com foco em experiência do usuár
 ## Páginas principais
 
 - [Início](https://eduardoamaral.me/): visão geral do portfólio de Eduardo Amaral, Product Designer (UX/UI, Design Systems, Design com IA).
-- [Sobre](https://eduardoamaral.me/sobre): trajetória, experiência e ponto de vista de Eduardo Amaral sobre produto, craft e escala.
-- [Projetos](https://eduardoamaral.me/projetos): diretório de projetos e trabalhos de UX/UI, Design Systems e produtos digitais.
-- [Conteúdos](https://eduardoamaral.me/conteudos): conteúdos sobre UX, UI, Product Design e Design com IA.
-- [Contato](https://eduardoamaral.me/contato): canais para contato profissional.
+- [Sobre](https://eduardoamaral.me/sobre/): trajetória, experiência e ponto de vista de Eduardo Amaral sobre produto, craft e escala.
+- [Projetos](https://eduardoamaral.me/projetos/): diretório de projetos e trabalhos de UX/UI, Design Systems e produtos digitais.
+- [Conteúdos](https://eduardoamaral.me/conteudos/): conteúdos sobre UX, UI, Product Design e Design com IA.
+- [Contato](https://eduardoamaral.me/contato/): canais para contato profissional.
 
 ## Cases de trabalho
 
-- [Case Clinia](https://eduardoamaral.me/cases/clinia): construção de Design System, UX/UI e produto, com uso de IA no fluxo de design.
-- [Case Talqui](https://eduardoamaral.me/cases/talqui): UX/UI e design de produto digital.
-- [Case Petrobras Nossa Energia](https://eduardoamaral.me/cases/petrobras-nossa-energia): UX/UI e produto digital em escala.
-- [Case Petrobras Design System](https://eduardoamaral.me/cases/petrobras-design-system): Design System com IA, tokens, componentes e governança.
+- [Case Clinia](https://eduardoamaral.me/cases/clinia/): construção de Design System, UX/UI e produto, com uso de IA no fluxo de design.
+- [Case Talqui](https://eduardoamaral.me/cases/talqui/): UX/UI e design de produto digital.
+- [Case Petrobras Nossa Energia](https://eduardoamaral.me/cases/petrobras-nossa-energia/): UX/UI e produto digital em escala.
+- [Case Petrobras Design System](https://eduardoamaral.me/cases/petrobras-design-system/): Design System com IA, tokens, componentes e governança.
 
 ## Currículo
 
-- [Currículo (PT)](https://eduardoamaral.me/cv/pt): currículo de Eduardo Amaral em português.
-- [Currículo (EN)](https://eduardoamaral.me/cv/en): Eduardo Amaral's resume in English.
+- [Currículo (PT)](https://eduardoamaral.me/cv/pt/): currículo de Eduardo Amaral em português.
+- [Currículo (EN)](https://eduardoamaral.me/cv/en/): Eduardo Amaral's resume in English.
 
 ## Perfis e redes
 

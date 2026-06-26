@@ -20,6 +20,7 @@ const ROUTES = [
   "/projetos",
   "/conteudos",
   "/contato",
+  "/bio",
   "/styleguide",
   "/mapa-do-site",
   "/clinia",

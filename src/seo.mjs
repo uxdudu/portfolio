@@ -60,6 +60,14 @@ function routeCopy(path, en) {
           "Contact Eduardo Amaral for projects, mentoring, partnerships and conversations about product, design and AI.",
         ),
       };
+    case "/bio":
+      return {
+        title: `${SITE_NAME} | Links`,
+        description: t(
+          "Links principais de Eduardo Amaral: portfolio, projetos, vídeos, redes sociais, podcast e contato.",
+          "Eduardo Amaral's main links: portfolio, projects, videos, social channels, podcast and contact.",
+        ),
+      };
     case "/styleguide":
       return {
         title: `Styleguide | ${SITE_NAME}`,
@@ -237,7 +245,10 @@ export function getRouteSeo(path, en = false) {
     pathWithoutQueryOrFragment === "/" ? "/" : pathWithoutQueryOrFragment.replace(/\/+$/, "");
   const canonical = normalizedPath === "/" ? `${SITE_URL}/` : `${SITE_URL}${normalizedPath}/`;
   const copy = routeCopy(normalizedPath, en);
-  const noindex = normalizedPath === "/styleguide" || normalizedPath.startsWith("/cv/");
+  const noindex =
+    normalizedPath === "/styleguide" ||
+    normalizedPath === "/mapa-do-site" ||
+    normalizedPath.startsWith("/cv/");
   const caseMetadata = CASE_METADATA[normalizedPath];
   const image = caseMetadata?.image || DEFAULT_IMAGE;
 
