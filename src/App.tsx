@@ -2775,10 +2775,10 @@ function BioLinkCard({ item }: { item: BioLink }) {
   return (
     <motion.a
       href={item.href}
-      target={item.href.startsWith("http") ? "_blank" : undefined}
-      rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-        className={[
-          "group bio-card flex min-h-[176px] overflow-hidden rounded-[22px] border border-border bg-card text-card-foreground shadow-[0_1px_2px_rgb(8_8_12_/_0.04)]",
+      target="_blank"
+      rel="noreferrer"
+      className={[
+        "group bio-card flex min-h-[176px] overflow-hidden rounded-[22px] border border-border bg-card text-card-foreground shadow-[0_1px_2px_rgb(8_8_12_/_0.04)]",
         item.kind === "course" ? "col-span-full !min-h-[132px] flex-col" : "",
         item.kind === "media" ? "flex-col" : "",
         item.kind === "wide" ? "col-span-full flex-col" : "",
