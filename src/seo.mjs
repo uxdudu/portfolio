@@ -23,11 +23,39 @@ const CASE_METADATA = {
 };
 
 const CASE_PATHS = new Set(Object.keys(CASE_METADATA));
+const ROUTE_PATHS = new Set([
+  "/",
+  "/sobre",
+  "/projetos",
+  "/conteudos",
+  "/contato",
+  "/bio",
+  "/styleguide",
+  "/mapa-do-site",
+  "/clinia",
+  "/petrobras",
+  "/playground",
+  "/cases/clinia",
+  "/cases/talqui",
+  "/cases/petrobras-nossa-energia",
+  "/cases/petrobras-design-system",
+  "/cv/pt",
+  "/cv/en",
+  "/404",
+]);
 
 function routeCopy(path, en) {
   const t = (pt, english) => (en ? english : pt);
 
   switch (path) {
+    case "/":
+      return {
+        title: `${SITE_NAME} | Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
+        description: t(
+          "Portfólio de Eduardo Amaral, Senior Product Designer especializado em UX/UI, Design Systems e IA aplicada a produtos digitais.",
+          "Portfolio of Eduardo Amaral, a Senior Product Designer specializing in UX/UI, Design Systems and AI for digital products.",
+        ),
+      };
     case "/sobre":
       return {
         title: `${t("Sobre", "About")} | ${SITE_NAME} | Product Designer`,
@@ -150,12 +178,13 @@ function routeCopy(path, en) {
         title: `${SITE_NAME} | CV`,
         description: "Professional CV of Eduardo Amaral, Senior Product Designer.",
       };
+    case "/404":
     default:
       return {
-        title: `${SITE_NAME} | Product Designer | UX, UI & ${t("Design com IA", "AI for UX")}`,
+        title: `${t("Página não encontrada", "Page not found")} | ${SITE_NAME}`,
         description: t(
-          "Portfólio de Eduardo Amaral, Senior Product Designer especializado em UX/UI, Design Systems e IA aplicada a produtos digitais.",
-          "Portfolio of Eduardo Amaral, a Senior Product Designer specializing in UX/UI, Design Systems and AI for digital products.",
+          "A página solicitada não foi encontrada no portfólio de Eduardo Amaral.",
+          "The requested page was not found in Eduardo Amaral's portfolio.",
         ),
       };
   }
@@ -243,24 +272,28 @@ export function getRouteSeo(path, en = false) {
   const pathWithoutQueryOrFragment = path.split(/[?#]/, 1)[0] || "/";
   const normalizedPath =
     pathWithoutQueryOrFragment === "/" ? "/" : pathWithoutQueryOrFragment.replace(/\/+$/, "");
-  const canonical = normalizedPath === "/" ? `${SITE_URL}/` : `${SITE_URL}${normalizedPath}/`;
-  const copy = routeCopy(normalizedPath, en);
+  const isKnownRoute = ROUTE_PATHS.has(normalizedPath);
+  const seoPath = isKnownRoute ? normalizedPath : "/404";
+  const canonical = seoPath === "/" ? `${SITE_URL}/` : `${SITE_URL}${seoPath}/`;
+  const copy = routeCopy(seoPath, en);
   const noindex =
-    normalizedPath === "/styleguide" ||
-    normalizedPath === "/mapa-do-site" ||
-    normalizedPath.startsWith("/cv/");
-  const caseMetadata = CASE_METADATA[normalizedPath];
+    !isKnownRoute ||
+    seoPath === "/404" ||
+    seoPath === "/styleguide" ||
+    seoPath === "/mapa-do-site" ||
+    seoPath.startsWith("/cv/");
+  const caseMetadata = CASE_METADATA[seoPath];
   const image = caseMetadata?.image || DEFAULT_IMAGE;
 
   return {
     ...copy,
     canonical,
     robots: noindex ? "noindex, follow" : "index, follow, max-image-preview:large",
-    openGraphType: CASE_PATHS.has(normalizedPath) ? "article" : "website",
+    openGraphType: CASE_PATHS.has(seoPath) ? "article" : "website",
     image,
     imageAlt: caseMetadata?.imageAlt || "Eduardo Amaral, Senior Product Designer",
     structuredData: structuredDataFor(
-      normalizedPath,
+      seoPath,
       copy.title,
       copy.description,
       canonical,

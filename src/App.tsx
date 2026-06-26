@@ -33,7 +33,17 @@ import cliniaV1Inbox from "./assets/clinia-v1-inbox.webp";
 import cliniaV1Login from "./assets/clinia-v1-login.webp";
 import cliniaV1Settings from "./assets/clinia-v1-settings.webp";
 import faviconSymbol from "./assets/favicon-symbol.svg";
+import bioInstagram1 from "./assets/bio-instagram-1.png";
+import bioInstagram2 from "./assets/bio-instagram-2.png";
+import bioInstagram3 from "./assets/bio-instagram-3.png";
+import bioInstagram4 from "./assets/bio-instagram-4.png";
+import bioInstagram5 from "./assets/bio-instagram-5.png";
+import bioInstagram6 from "./assets/bio-instagram-6.png";
+import bioVersareOg from "./assets/bio-versare-og.png";
 import bioVersareCover from "./assets/bio-versare-cover.png";
+import bioYoutube1 from "./assets/bio-youtube-1.png";
+import bioYoutube2 from "./assets/bio-youtube-2.png";
+import bioYoutubeHero from "./assets/bio-youtube-hero.png";
 import loadingMotionPortrait from "./assets/loading-motion-portrait.png";
 import logo from "./assets/logo.svg";
 import navState from "./assets/nav-state.svg";
@@ -573,37 +583,51 @@ const contentLinks = [
 
 const bioLinks = [
   {
+    title: "Club",
+    description: "Entre na lista de espera",
+    href: "https://versare.design/club",
+    domain: "versare.design/club",
+    kind: "course",
+  },
+  {
     title: "Portfolio",
     description: "Projetos, cases e estudos de interface.",
     href: "/",
     domain: "eduardoamaral.me",
-    kind: "featured",
+    kind: "media",
     image: ogImage,
   },
   {
-    title: "Projetos",
-    description: "Cases de produto, UX/UI, design system e IA.",
+    title: "Estúdio",
+    description: "Saiba mais sobre nossos serviços.",
+    href: "https://versare.design/",
+    domain: "versare.design",
+    kind: "media",
+    image: bioVersareOg,
+  },
+  {
+    title: "Cases",
+    description: "Projetos de UX/UI, design system e IA.",
     href: "/projetos/",
     domain: "eduardoamaral.me/projetos",
     kind: "wide",
     image: talquiCover,
   },
   {
-    title: "YouTube",
-    description: "Vídeos sobre design, IA, Figma e produto.",
-    href: "https://www.youtube.com/@uxdudu",
-    domain: "youtube.com/@uxdudu",
-    kind: "video",
-    videoId: "hSLU8O22BZM",
-    icon: "youtube",
-  },
-  {
     title: "Instagram",
     description: "Bastidores, processos e referências visuais.",
     href: "https://www.instagram.com/ux.dudu/",
-    domain: "instagram.com/ux.dudu",
-    kind: "social",
+    domain: "@ux.dudu",
+    kind: "instagram",
     icon: "instagram",
+    thumbnails: [
+      bioInstagram1,
+      bioInstagram2,
+      bioInstagram3,
+      bioInstagram4,
+      bioInstagram5,
+      bioInstagram6,
+    ],
   },
   {
     title: "LinkedIn",
@@ -623,11 +647,22 @@ const bioLinks = [
   },
   {
     title: "Podcast",
-    description: "Conversas e conteúdos em áudio.",
+    description: "Conversas com a comunidade de UI e UX.",
     href: "https://open.spotify.com/show/3iRN3dTrHKCfA6bIg56hQv?si=871df89c77f94e21&nd=1&dlsi=91c8707c7bda41e3",
     domain: "open.spotify.com",
     kind: "compact",
     icon: "spotify",
+  },
+  {
+    title: "YouTube",
+    description: "Vídeos sobre design, IA, Figma e produto.",
+    href: "https://www.youtube.com/@uxdudu",
+    domain: "youtube.com/@uxdudu",
+    kind: "video",
+    videoId: "hSLU8O22BZM",
+    heroImage: bioYoutubeHero,
+    icon: "youtube",
+    thumbnails: [bioYoutube1, bioYoutube2],
   },
   {
     title: "Contato",
@@ -641,6 +676,27 @@ const bioLinks = [
 
 type BioLink = (typeof bioLinks)[number];
 type BioIconName = Extract<BioLink, { icon: string }>["icon"];
+
+const routePaths = new Set([
+  "/",
+  "/sobre",
+  "/projetos",
+  "/conteudos",
+  "/contato",
+  "/bio",
+  "/styleguide",
+  "/mapa-do-site",
+  "/clinia",
+  "/petrobras",
+  "/playground",
+  "/cases/clinia",
+  "/cases/talqui",
+  "/cases/petrobras-nossa-energia",
+  "/cases/petrobras-design-system",
+  "/cv/pt",
+  "/cv/en",
+  "/404",
+]);
 
 const youtubeVideos = [
   {
@@ -2632,94 +2688,163 @@ function SocialFeedCard({ item }: { item: (typeof socialFeedSections)[number] })
 }
 
 function SocialIcon({ icon }: { icon: (typeof contentLinks)[number]["icon"] }) {
+  const color = {
+    youtube: "#ff0033",
+    instagram: "#e4405f",
+    spotify: "#1db954",
+    linkedin: "#0a66c2",
+  }[icon];
+
   if (icon === "youtube") {
-    return <IconlyYoutube size={20} />;
+    return <span style={{ color }}><IconlyYoutube size={20} /></span>;
   }
 
   if (icon === "instagram") {
-    return <IconlyInstagram size={20} />;
+    return <span style={{ color }}><IconlyInstagram size={20} /></span>;
   }
 
   if (icon === "spotify") {
-    return <IconlySpotify size={20} />;
+    return <span style={{ color }}><IconlySpotify size={20} /></span>;
   }
 
-  return <IconlyLinkedin size={20} />;
+  return <span style={{ color }}><IconlyLinkedin size={20} /></span>;
 }
 
 function BioSocialIcon({ icon }: { icon: BioIconName }) {
-  if (icon === "youtube") return <IconlyYoutube size={19} />;
-  if (icon === "instagram") return <IconlyInstagram size={19} />;
-  if (icon === "linkedin") return <IconlyLinkedin size={19} />;
-  if (icon === "dribbble") return <IconlyDribbble size={19} />;
-  if (icon === "spotify") return <IconlySpotify size={19} />;
-  if (icon === "whatsapp") return <IconlyWhatsapp size={19} />;
+  const color = {
+    youtube: "#ff0033",
+    instagram: "#e4405f",
+    linkedin: "#0a66c2",
+    dribbble: "#ea4c89",
+    spotify: "#1db954",
+    whatsapp: "#25d366",
+  }[icon];
+
+  if (icon === "youtube") return <span style={{ color }}><IconlyYoutube size={19} /></span>;
+  if (icon === "instagram") return <span style={{ color }}><IconlyInstagram size={19} /></span>;
+  if (icon === "linkedin") return <span style={{ color }}><IconlyLinkedin size={19} /></span>;
+  if (icon === "dribbble") return <span style={{ color }}><IconlyDribbble size={19} /></span>;
+  if (icon === "spotify") return <span style={{ color }}><IconlySpotify size={19} /></span>;
+  if (icon === "whatsapp") return <span style={{ color }}><IconlyWhatsapp size={19} /></span>;
   return null;
+}
+
+function BioPortfolioIcon({ size = 22 }: { size?: number }) {
+  return (
+    <svg id="Pen" width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M20.4923 4.11207C19.4343 3.10707 17.7653 3.09107 16.6983 4.07207L10.6663 9.31807C9.93826 9.98707 9.53226 10.8991 9.52326 11.8881C9.52193 12.0599 9.53585 12.2284 9.56177 12.3937C9.60068 12.6419 9.35711 12.8755 9.11088 12.8255C8.57332 12.7165 8.01058 12.7228 7.45626 12.8571C6.18426 13.1651 5.16926 14.0871 4.73926 15.3221L3.11126 20.0111C3.01726 20.2821 3.06226 20.5821 3.23126 20.8131C3.39526 21.0381 3.65726 21.1711 3.93526 21.1711H3.95826C4.06026 21.1681 4.14126 21.1401 4.21026 21.0641C4.21826 21.0571 4.99326 20.4131 8.54726 20.6271C10.3233 20.7361 11.6733 20.0151 12.2623 18.6621C12.629 17.817 12.6364 16.8524 12.3387 15.9284C12.2592 15.6817 12.4874 15.4126 12.7451 15.4402C12.8466 15.4511 12.9493 15.4571 13.0533 15.4571C13.1223 15.4571 13.1923 15.4551 13.2633 15.4501C14.2513 15.3941 15.1433 14.9441 15.7833 14.1751L16.0043 13.8943C16.0997 13.7733 16.0878 13.5996 15.9768 13.4927L13.4853 11.0921C13.1873 10.8051 13.1793 10.3301 13.4663 10.0321C13.7553 9.73407 14.2293 9.72607 14.5263 10.0121L16.8654 12.2659C16.9932 12.3891 17.1996 12.3749 17.3093 12.2353L20.7133 7.90707C21.6463 6.78507 21.5503 5.11807 20.4923 4.11207Z"
+        fill="currentColor"
+      />
+      <g opacity="0.4">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M19.687 12.235C19.5598 12.1079 19.3502 12.1204 19.239 12.2617L16.946 15.177C16.3162 15.9349 15.5134 16.4802 14.6311 16.785C14.508 16.8276 14.4219 16.9404 14.4146 17.0705C14.3808 17.6677 14.2577 18.2553 14.017 18.808C13.9102 19.0539 13.7809 19.2805 13.6391 19.4956C13.5583 19.6181 13.571 19.7811 13.6748 19.8848L14.058 20.268C14.755 20.96 15.668 21.306 16.579 21.306C17.491 21.306 18.403 20.959 19.095 20.267L20.887 18.476C21.564 17.804 21.937 16.908 21.937 15.954C21.937 15.001 21.564 14.106 20.888 13.436L19.687 12.235Z"
+          fill="currentColor"
+        />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M5.40622 11.6161C5.51016 11.72 5.67363 11.7325 5.79687 11.6524C6.29961 11.3256 6.86007 11.0796 7.46348 10.9333C7.56961 10.9077 7.6761 10.8881 7.78274 10.8709C7.90578 10.8512 8.00472 10.7597 8.03688 10.6393C8.2862 9.70623 8.79593 8.85102 9.51648 8.18834L12.5499 5.55034C12.681 5.43625 12.6881 5.23488 12.5652 5.1119L11.1995 3.74534C10.5265 3.06734 9.63048 2.69434 8.67748 2.69434H8.67548C7.72248 2.69434 6.82848 3.06834 6.15948 3.74434L4.36548 5.53734C2.97648 6.92634 2.97648 9.18634 4.36548 10.5753L5.40622 11.6161Z"
+          fill="currentColor"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function BioVersareIcon({ size = 22 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M10.45 3.25h3.1v17.5h-3.1V3.25Z" fill="currentColor" />
+      <path d="M3.2 14.02c4.18-.74 7.13-3.55 7.74-8.12h3.12c.61 4.57 3.56 7.38 7.74 8.12v3.17c-3.64-.45-6.58-2.12-8.3-4.91v8.47h-3V12.28c-1.72 2.79-4.66 4.46-8.3 4.91v-3.17Z" fill="currentColor" />
+    </svg>
+  );
 }
 
 function BioLinkCard({ item }: { item: BioLink }) {
   const posthog = usePostHog();
-  const hasMedia = "image" in item || "videoId" in item;
-  const isFeatured = item.kind === "featured";
-  const isWide = item.kind === "wide";
+  const hasImage = "image" in item;
+  const hasIcon = "icon" in item;
+  const hasBrandIcon = hasIcon || item.title === "Portfolio" || item.title === "Estúdio";
+  const isImageCard = item.kind === "course" || item.kind === "media" || item.kind === "wide";
 
   return (
     <motion.a
       href={item.href}
       target={item.href.startsWith("http") ? "_blank" : undefined}
       rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-      className={[
-        "group bio-card flex min-h-[132px] overflow-hidden rounded-[22px] border border-border bg-card text-card-foreground shadow-[0_1px_2px_rgb(8_8_12_/_0.04)]",
-        isFeatured ? "col-span-full min-h-[268px] flex-col" : "",
-        isWide ? "col-span-full sm:col-span-7" : "",
-        item.kind === "video" ? "sm:col-span-5 sm:flex-col" : "",
-        item.kind === "social" ? "sm:col-span-4" : "",
-        item.kind === "compact" ? "sm:col-span-6" : "",
-        !hasMedia ? "p-4" : "",
+        className={[
+          "group bio-card flex min-h-[176px] overflow-hidden rounded-[22px] border border-border bg-card text-card-foreground shadow-[0_1px_2px_rgb(8_8_12_/_0.04)]",
+        item.kind === "course" ? "col-span-full !min-h-[132px] flex-col" : "",
+        item.kind === "media" ? "flex-col" : "",
+        item.kind === "wide" ? "col-span-full flex-col" : "",
+        item.kind === "instagram" ? "col-span-full flex-col p-4 sm:col-span-1 sm:row-span-2" : "",
+        item.kind === "video" ? "col-span-full flex-col sm:col-span-1 sm:row-span-2" : "",
+        item.kind === "social" || item.kind === "compact" ? "!min-h-[148px] p-4" : "",
       ].join(" ")}
       whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
       whileTap={TAP}
       transition={SPRING}
       onClick={() => trackEvent(posthog, "bio_link_clicked", { label: item.title, href: item.href })}
     >
-      {"image" in item ? (
-        <div className={isFeatured ? "h-[150px] overflow-hidden bg-[light-dark(#eeeeee,#24242e)]" : "w-[42%] overflow-hidden bg-[light-dark(#eeeeee,#24242e)]"}>
+      {hasImage ? (
+        <div
+          className={[
+            "relative overflow-hidden bg-[light-dark(#eeeeee,#24242e)]",
+            item.kind === "course" ? "h-[184px] sm:h-[190px]" : item.kind === "wide" ? "h-[149px]" : "h-[150px]",
+          ].join(" ")}
+        >
           <img
             src={item.image}
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+            className={[
+              "h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]",
+              item.title === "Estúdio" || item.title === "Versare Club" ? "object-[62%_center]" : "",
+            ].join(" ")}
           />
-        </div>
-      ) : null}
-      {"videoId" in item ? (
-        <div className="relative w-[45%] overflow-hidden bg-[light-dark(#eeeeee,#24242e)] sm:h-[132px] sm:w-full">
-          <img
-            src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-          />
-          <span className="absolute bottom-3 left-3 grid size-9 place-items-center rounded-full bg-white text-[#ff0033] shadow-[0_10px_30px_rgb(8_8_12_/_0.18)]">
-            <IconlyYoutube size={18} />
-          </span>
-        </div>
-      ) : null}
-      <div className={["flex min-w-0 flex-1 flex-col justify-between gap-5", hasMedia ? "p-4" : ""].join(" ")}>
-        <div className="flex items-start justify-between gap-4">
-          {"icon" in item ? (
-            <span className="grid size-10 shrink-0 place-items-center rounded-[14px] border border-border bg-background text-primary">
-              <BioSocialIcon icon={item.icon} />
-            </span>
+          {item.kind === "course" ? (
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_8_12_/_0)_35%,rgb(8_8_12_/_0.50)_100%)]" />
           ) : null}
-          <span className="ml-auto text-[13px] font-medium leading-[1.2] tracking-[-0.26px] text-muted opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            Abrir
-          </span>
         </div>
+      ) : null}
+      {item.kind === "video" ? (
+        <div className="relative h-[150px] overflow-hidden bg-[light-dark(#eeeeee,#24242e)]">
+          <img
+            src={item.heroImage}
+            alt=""
+            loading="eager"
+            decoding="async"
+            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
+          />
+        </div>
+      ) : null}
+      <div
+        className={[
+          "flex min-w-0 flex-1 flex-col",
+          hasBrandIcon || item.kind === "instagram" || item.kind === "video" ? "justify-between gap-5" : "justify-center gap-2",
+          isImageCard || item.kind === "video" ? "p-4" : "",
+          item.kind === "course" ? "p-5" : "",
+        ].join(" ")}
+      >
+        {hasBrandIcon ? (
+          <div className="flex items-start justify-between gap-4">
+            <span className="grid size-10 shrink-0 place-items-center rounded-[14px] border border-border bg-background text-primary">
+              {item.title === "Portfolio" ? <BioPortfolioIcon /> : null}
+              {item.title === "Estúdio" ? <BioVersareIcon /> : null}
+              {hasIcon ? (
+                <BioSocialIcon icon={item.icon} />
+              ) : null}
+            </span>
+          </div>
+        ) : null}
         <div className="flex min-w-0 flex-col gap-2">
-          <h2 className="text-[17px] font-medium leading-[1.1] tracking-[-0.51px] text-card-foreground">
+          <h2 className={item.kind === "course" ? "text-[24px] font-medium leading-[1.02] tracking-[-0.96px] text-card-foreground sm:text-[28px] sm:tracking-[-1.12px]" : "text-[17px] font-medium leading-[1.1] tracking-[-0.51px] text-card-foreground"}>
             {item.title}
           </h2>
           <p className="line-clamp-2 text-[14px] leading-[1.35] tracking-[-0.28px] text-muted">
@@ -2729,6 +2854,24 @@ function BioLinkCard({ item }: { item: BioLink }) {
             {item.domain}
           </p>
         </div>
+        {item.kind === "instagram" ? (
+          <div className="bio-thumb-grid">
+            {item.thumbnails.map((thumbnail, index) => (
+              <div key={`${item.title}-${index}`} className="bio-instagram-thumb overflow-hidden bg-background">
+                <img src={thumbnail} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
+              </div>
+            ))}
+          </div>
+        ) : null}
+        {item.kind === "video" ? (
+          <div className="bio-video-grid">
+            {item.thumbnails.map((videoId) => (
+              <div key={videoId} className="aspect-video overflow-hidden rounded-[8px] bg-background">
+                <img src={videoId} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
+              </div>
+            ))}
+          </div>
+        ) : null}
       </div>
     </motion.a>
   );
@@ -2751,11 +2894,13 @@ function BioPage() {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_8_12_/_0)_48%,rgb(8_8_12_/_0.16)_100%)]" />
           </div>
           <div className="flex flex-col gap-6 px-5 pb-6 pt-0 sm:px-7">
-            <div className="-mt-11 flex items-end justify-between gap-4">
-              <FigmaMotionPortrait className="size-[88px] border-4 border-card shadow-[0_16px_44px_rgb(8_8_12_/_0.16)]" animated={!prefersReducedMotion} eager />
+            <div className="relative z-10 -mt-11 flex items-end justify-between gap-4">
+              <div className="size-[88px] overflow-hidden rounded-[24px] border-4 border-card bg-muted shadow-[0_16px_44px_rgb(8_8_12_/_0.16)]">
+                <img src={avatar} alt="Eduardo Amaral" className="h-full w-full object-cover" decoding="async" fetchPriority="high" />
+              </div>
               <motion.button
                 type="button"
-                className="mb-4 grid size-11 place-items-center rounded-[14px] border border-border bg-card text-primary shadow-[0_10px_28px_rgb(8_8_12_/_0.10)]"
+                className="relative z-20 mb-4 grid size-11 place-items-center rounded-[14px] border border-border bg-card text-primary shadow-[0_10px_28px_rgb(8_8_12_/_0.10)]"
                 aria-label="Compartilhar página"
                 whileHover={{ y: -2 }}
                 whileTap={TAP}
@@ -2802,7 +2947,7 @@ function BioPage() {
         </motion.section>
 
         <motion.section
-          className="grid grid-cols-1 gap-4 sm:grid-cols-12"
+          className="grid grid-cols-2 gap-4"
           initial={prefersReducedMotion ? false : "hidden"}
           animate="visible"
           variants={staggerChildren}
@@ -2813,6 +2958,117 @@ function BioPage() {
         </motion.section>
       </div>
     </div>
+  );
+}
+
+function NotFoundPage({ theme, onThemeChange }: PageProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const { language } = useTranslation();
+  const quickLinks =
+    language === "en"
+      ? [
+          { label: "Home", href: "/", description: "Back to the portfolio overview." },
+          { label: "Projects", href: "/projetos/", description: "See selected product design cases." },
+          { label: "Content", href: "/conteudos/", description: "Videos and design notes." },
+        ]
+      : [
+          { label: "Home", href: "/", description: "Voltar para a visão geral do portfolio." },
+          { label: "Projetos", href: "/projetos/", description: "Ver cases selecionados de produto." },
+          { label: "Conteúdos", href: "/conteudos/", description: "Vídeos e notas sobre design." },
+        ];
+
+  return (
+    <>
+      <Header activePage="none" theme={theme} onThemeChange={onThemeChange} />
+      <motion.div
+        className="not-found-page flex min-h-[calc(100svh-88px)] w-full flex-col justify-between gap-10 px-5 py-8 sm:px-6 lg:px-20 lg:py-14"
+        initial={prefersReducedMotion ? false : "hidden"}
+        animate="visible"
+        variants={staggerChildren}
+      >
+        <motion.section
+          className="mx-auto grid w-full max-w-[1040px] grid-cols-1 overflow-hidden rounded-[32px] border border-border bg-card shadow-[0_1px_2px_rgb(8_8_12_/_0.04)] lg:grid-cols-[0.86fr_1.14fr]"
+          variants={sectionReveal}
+        >
+          <div className="relative min-h-[280px] overflow-hidden bg-[light-dark(#eeeeee,#15151c)] lg:min-h-[560px]">
+            <img
+              src={bioVersareCover}
+              alt=""
+              className="h-full w-full object-cover object-[44%_center]"
+              decoding="async"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_8_12_/_0.10),rgb(8_8_12_/_0.42))]" />
+            <div className="absolute bottom-6 left-6 flex items-center gap-3 rounded-[18px] border border-white/16 bg-white/12 p-3 text-white shadow-[0_20px_60px_rgb(8_8_12_/_0.28)] backdrop-blur-md">
+              <FigmaMotionPortrait className="size-12 border border-white/20" animated={!prefersReducedMotion} />
+              <div className="flex flex-col">
+                <span className="text-[14px] font-medium leading-[1.1] tracking-[-0.28px]">Eduardo Amaral</span>
+                <span className="text-[12px] leading-[1.25] tracking-[-0.24px] text-white/72">Product Designer</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between gap-12 p-6 sm:p-8 lg:p-10">
+            <div className="flex flex-col gap-7">
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.42px] text-muted">404</p>
+                <Logo />
+              </div>
+              <div className="flex flex-col gap-5">
+                <h1 className="max-w-[560px] text-[42px] font-medium leading-none tracking-[-2.1px] text-card-foreground sm:text-[56px] sm:tracking-[-2.8px] lg:text-[72px] lg:tracking-[-3.6px]">
+                  {language === "en" ? "This page is out of frame." : "Essa página saiu do frame."}
+                </h1>
+                <p className="max-w-[520px] text-[17px] leading-[1.45] tracking-[-0.34px] text-muted sm:text-[18px] sm:tracking-[-0.36px]">
+                  {language === "en"
+                    ? "The link may have changed, moved, or never existed. Start from a known route and keep browsing."
+                    : "O link pode ter mudado, saído do ar ou nunca ter existido. Volte por uma rota conhecida e continue navegando."}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-wrap gap-3">
+                <motion.a
+                  href="/"
+                  className="rounded-[12px] bg-primary px-5 py-3 text-[15px] font-medium leading-[1.2] tracking-[-0.3px] text-background"
+                  whileHover={{ y: -2 }}
+                  whileTap={TAP}
+                  transition={SPRING}
+                >
+                  {language === "en" ? "Go home" : "Ir para home"}
+                </motion.a>
+                <motion.a
+                  href="/contato/"
+                  className="rounded-[12px] border border-border px-5 py-3 text-[15px] font-medium leading-[1.2] tracking-[-0.3px] text-primary"
+                  whileHover={{ y: -2, borderColor: "var(--color-primary)" }}
+                  whileTap={TAP}
+                  transition={SPRING}
+                >
+                  {language === "en" ? "Contact" : "Contato"}
+                </motion.a>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {quickLinks.map((item) => (
+                  <motion.a
+                    key={item.href}
+                    href={item.href}
+                    className="flex min-h-[116px] flex-col justify-between rounded-[18px] border border-border bg-background p-4"
+                    whileHover={{ y: -3, borderColor: "var(--color-primary)" }}
+                    whileTap={TAP}
+                    transition={SPRING}
+                  >
+                    <span className="text-[15px] font-medium leading-[1.2] tracking-[-0.3px] text-foreground">{item.label}</span>
+                    <span className="text-[13px] leading-[1.35] tracking-[-0.26px] text-muted">{item.description}</span>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <Footer />
+      </motion.div>
+    </>
   );
 }
 
@@ -3747,6 +4003,8 @@ export function App() {
   const isPetrobrasDesignSystemCase = path === "/cases/petrobras-design-system";
   const isCvPt = path === "/cv/pt";
   const isCvEn = path === "/cv/en";
+  const isNotFound = path === "/404" || !routePaths.has(path);
+  const isFullWidthRoute = isBio || isNotFound;
 
   useEffect(() => {
     if (theme === "system") {
@@ -3765,8 +4023,12 @@ export function App() {
 
   useEffect(() => {
     document.body.classList.toggle("bio-route", isBio);
-    return () => document.body.classList.remove("bio-route");
-  }, [isBio]);
+    document.body.classList.toggle("not-found-route", isNotFound);
+    return () => {
+      document.body.classList.remove("bio-route");
+      document.body.classList.remove("not-found-route");
+    };
+  }, [isBio, isNotFound]);
 
   useLayoutEffect(() => {
     if (lenisRef.current) {
@@ -3947,6 +4209,8 @@ export function App() {
     <ContactPage {...pageProps} />
   ) : isBio ? (
     <BioPage />
+  ) : isNotFound ? (
+    <NotFoundPage {...pageProps} />
   ) : isProjects ? (
     <ProjectsPage {...pageProps} directoryProjects={directoryProjects} />
   ) : isContent ? (
@@ -3985,7 +4249,7 @@ export function App() {
 
   return (
     <LanguageContext.Provider value={{ language, onLanguageChange: handleLanguageChange }}>
-      <main className={isBio ? "mx-auto flex w-full flex-col items-center overflow-x-clip bg-background" : "mx-auto flex w-[1200px] flex-col items-center overflow-x-clip bg-background"}>
+      <main className={isFullWidthRoute ? "mx-auto flex w-full flex-col items-center overflow-x-clip bg-background" : "mx-auto flex w-[1200px] flex-col items-center overflow-x-clip bg-background"}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={path}

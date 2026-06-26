@@ -19,6 +19,7 @@ test("keeps internal utility pages out of the search index", () => {
   assert.equal(getRouteSeo("/mapa-do-site", false).robots, "noindex, follow");
   assert.equal(getRouteSeo("/cv/pt", false).robots, "noindex, follow");
   assert.equal(getRouteSeo("/cv/en", true).robots, "noindex, follow");
+  assert.equal(getRouteSeo("/404", false).robots, "noindex, follow");
 });
 
 test("describes the bio link page with specific metadata", () => {
@@ -27,6 +28,16 @@ test("describes the bio link page with specific metadata", () => {
   assert.equal(seo.title, "Eduardo Amaral | Links");
   assert.match(seo.description, /Links principais/);
   assert.equal(seo.robots, "index, follow, max-image-preview:large");
+});
+
+test("uses custom not found metadata for missing routes", () => {
+  const explicit = getRouteSeo("/404", false);
+  const missing = getRouteSeo("/rota-inexistente", false);
+
+  assert.equal(explicit.title, "Página não encontrada | Eduardo Amaral");
+  assert.equal(missing.title, explicit.title);
+  assert.equal(missing.canonical, "https://eduardoamaral.me/404/");
+  assert.equal(missing.robots, "noindex, follow");
 });
 
 test("describes case studies with specific, page-level metadata", () => {
