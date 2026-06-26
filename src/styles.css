@@ -168,6 +168,10 @@ body {
   font-family: "Geist", sans-serif;
 }
 
+body.bio-route {
+  min-width: 0;
+}
+
 a {
   text-decoration: none;
 }
@@ -209,6 +213,33 @@ p, li, figcaption, blockquote {
   background-position: center top;
   background-repeat: repeat-y;
   background-size: 100% auto;
+}
+
+.bio-page {
+  min-width: 0;
+}
+
+.bio-cover img {
+  filter: saturate(1.02) contrast(1.02);
+}
+
+.bio-cover-image {
+  object-position: 62% center;
+}
+
+@media (max-width: 640px) {
+  .bio-cover-image {
+    object-position: 61% center;
+  }
+}
+
+.bio-card {
+  min-width: 0;
+}
+
+.bio-card:focus-visible {
+  outline: 2px solid var(--primary-foreground);
+  outline-offset: 3px;
 }
 
 @keyframes playground-pixel-reveal {

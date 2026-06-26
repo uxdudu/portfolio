@@ -17,7 +17,7 @@ const INDEXABLE_ROUTES = [
   "/projetos",
   "/conteudos",
   "/contato",
-  "/mapa-do-site",
+  "/bio",
   "/clinia",
   "/petrobras",
   "/playground",
@@ -39,8 +39,8 @@ test("does not rewrite every request to the homepage", () => {
   );
 });
 
-test("redirects trailing-slash variants to the canonical route", () => {
-  assert.equal(vercelConfig.trailingSlash, false);
+test("keeps Vercel fallback aligned with GitHub Pages trailing-slash canonicals", () => {
+  assert.equal(vercelConfig.trailingSlash, true);
 });
 
 test("uses a serverless Chromium binary for Vercel prerendering", () => {
@@ -55,7 +55,7 @@ test("prerenders every public route and both CV routes", () => {
   }
 });
 
-test("lists every indexable route in the sitemap and excludes CV routes", () => {
+test("lists every indexable route in the sitemap and excludes utility routes", () => {
   for (const route of INDEXABLE_ROUTES) {
     const url = `https://eduardoamaral.me${route === "/" ? "/" : `${route}/`}`;
     assert.match(sitemap, new RegExp(`<loc>${url.replaceAll("/", "\\/")}<\\/loc>`), `${route} is missing`);
@@ -63,6 +63,7 @@ test("lists every indexable route in the sitemap and excludes CV routes", () => 
 
   assert.doesNotMatch(sitemap, /\/cv\/(?:pt|en)<\/loc>/);
   assert.doesNotMatch(sitemap, /\/styleguide<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/mapa-do-site\/<\/loc>/);
 });
 
 test("sitemap only contains final URLs instead of redirecting directory URLs", () => {

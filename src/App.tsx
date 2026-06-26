@@ -33,9 +33,11 @@ import cliniaV1Inbox from "./assets/clinia-v1-inbox.webp";
 import cliniaV1Login from "./assets/clinia-v1-login.webp";
 import cliniaV1Settings from "./assets/clinia-v1-settings.webp";
 import faviconSymbol from "./assets/favicon-symbol.svg";
+import bioVersareCover from "./assets/bio-versare-cover.png";
 import loadingMotionPortrait from "./assets/loading-motion-portrait.png";
 import logo from "./assets/logo.svg";
 import navState from "./assets/nav-state.svg";
+import ogImage from "./assets/og-image.webp";
 import cliniaLogoBlue from "./assets/clinia-logo-blue.svg";
 import cliniaLogoPng from "./assets/clinia-logo.png";
 import grupoPrimoLogo from "./assets/grupo-primo-logo.svg";
@@ -71,6 +73,7 @@ import { normalizeRoutePath } from "./routePath.mjs";
 import { getRouteSeo } from "./seo.mjs";
 import {
   IconlyDownload,
+  IconlyDribbble,
   IconlyInstagram,
   IconlyLinkedin,
   IconlyMoon,
@@ -563,10 +566,81 @@ const contentLinks = [
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/eduardooamaral/recent-activity/all/",
+    href: "https://www.linkedin.com/in/eduardooamaral/",
     icon: "linkedin",
   },
 ];
+
+const bioLinks = [
+  {
+    title: "Portfolio",
+    description: "Projetos, cases e estudos de interface.",
+    href: "/",
+    domain: "eduardoamaral.me",
+    kind: "featured",
+    image: ogImage,
+  },
+  {
+    title: "Projetos",
+    description: "Cases de produto, UX/UI, design system e IA.",
+    href: "/projetos/",
+    domain: "eduardoamaral.me/projetos",
+    kind: "wide",
+    image: talquiCover,
+  },
+  {
+    title: "YouTube",
+    description: "Vídeos sobre design, IA, Figma e produto.",
+    href: "https://www.youtube.com/@uxdudu",
+    domain: "youtube.com/@uxdudu",
+    kind: "video",
+    videoId: "hSLU8O22BZM",
+    icon: "youtube",
+  },
+  {
+    title: "Instagram",
+    description: "Bastidores, processos e referências visuais.",
+    href: "https://www.instagram.com/ux.dudu/",
+    domain: "instagram.com/ux.dudu",
+    kind: "social",
+    icon: "instagram",
+  },
+  {
+    title: "LinkedIn",
+    description: "Posts e atualizações profissionais.",
+    href: "https://www.linkedin.com/in/eduardooamaral/",
+    domain: "linkedin.com/in/eduardooamaral",
+    kind: "social",
+    icon: "linkedin",
+  },
+  {
+    title: "Dribbble",
+    description: "Explorações de UI e visual design.",
+    href: "https://dribbble.com/eduardooamaral",
+    domain: "dribbble.com/eduardooamaral",
+    kind: "social",
+    icon: "dribbble",
+  },
+  {
+    title: "Podcast",
+    description: "Conversas e conteúdos em áudio.",
+    href: "https://open.spotify.com/show/3iRN3dTrHKCfA6bIg56hQv?si=871df89c77f94e21&nd=1&dlsi=91c8707c7bda41e3",
+    domain: "open.spotify.com",
+    kind: "compact",
+    icon: "spotify",
+  },
+  {
+    title: "Contato",
+    description: "Projetos, parcerias e mentorias.",
+    href: "/contato/",
+    domain: "eduardoamaral.me/contato",
+    kind: "compact",
+    icon: "whatsapp",
+  },
+] as const;
+
+type BioLink = (typeof bioLinks)[number];
+type BioIconName = Extract<BioLink, { icon: string }>["icon"];
 
 const youtubeVideos = [
   {
@@ -618,7 +692,7 @@ const socialFeedSections = [
     handle: "eduardooamaral",
     description:
       "Espaço para publicações sobre produto, IA, Figma, carreira e processos. O LinkedIn bloqueia feed público automático sem autenticação.",
-    href: "https://www.linkedin.com/in/eduardooamaral/recent-activity/all/",
+    href: "https://www.linkedin.com/in/eduardooamaral/",
     cta: "Ver atividade",
     status: "Feed exige autenticação",
   },
@@ -942,7 +1016,7 @@ const talquiFoundationsEn = [
 
 const socialFeedSectionsEn = [
   { title: "Instagram", handle: "@ux.dudu", description: "Space for recent posts, behind-the-scenes, and stories. Automatic updates require connecting Instagram Graph API or using specific post embeds.", href: "https://www.instagram.com/ux.dudu/", cta: "Open Instagram", status: "Posts and stories require API" },
-  { title: "LinkedIn", handle: "eduardooamaral", description: "Space for posts about product, AI, Figma, career, and processes. LinkedIn blocks automatic public feed without authentication.", href: "https://www.linkedin.com/in/eduardooamaral/recent-activity/all/", cta: "View activity", status: "Feed requires authentication" },
+  { title: "LinkedIn", handle: "eduardooamaral", description: "Space for posts about product, AI, Figma, career, and processes. LinkedIn blocks automatic public feed without authentication.", href: "https://www.linkedin.com/in/eduardooamaral/", cta: "View activity", status: "Feed requires authentication" },
 ];
 
 const aboutHighlightsEn = [
@@ -2032,7 +2106,7 @@ function CvPrintPage({ lang }: { lang: "pt" | "en" }) {
   const cvContact = [
     { label: lang === "pt" ? "Local" : "Location", value: lang === "pt" ? "Maringá, PR - Brasil" : "Maringá, PR - Brazil" },
     { label: "Email", value: "oi@eduardoamaral.me", href: "mailto:oi@eduardoamaral.me" },
-    { label: "LinkedIn", value: "linkedin.com/in/eduardooamaral", href: "https://linkedin.com/in/eduardooamaral/" },
+    { label: "LinkedIn", value: "linkedin.com/in/eduardooamaral", href: "https://www.linkedin.com/in/eduardooamaral/" },
     { label: "Web", value: "eduardoamaral.me", href: "https://eduardoamaral.me" },
   ];
 
@@ -2571,6 +2645,175 @@ function SocialIcon({ icon }: { icon: (typeof contentLinks)[number]["icon"] }) {
   }
 
   return <IconlyLinkedin size={20} />;
+}
+
+function BioSocialIcon({ icon }: { icon: BioIconName }) {
+  if (icon === "youtube") return <IconlyYoutube size={19} />;
+  if (icon === "instagram") return <IconlyInstagram size={19} />;
+  if (icon === "linkedin") return <IconlyLinkedin size={19} />;
+  if (icon === "dribbble") return <IconlyDribbble size={19} />;
+  if (icon === "spotify") return <IconlySpotify size={19} />;
+  if (icon === "whatsapp") return <IconlyWhatsapp size={19} />;
+  return null;
+}
+
+function BioLinkCard({ item }: { item: BioLink }) {
+  const posthog = usePostHog();
+  const hasMedia = "image" in item || "videoId" in item;
+  const isFeatured = item.kind === "featured";
+  const isWide = item.kind === "wide";
+
+  return (
+    <motion.a
+      href={item.href}
+      target={item.href.startsWith("http") ? "_blank" : undefined}
+      rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+      className={[
+        "group bio-card flex min-h-[132px] overflow-hidden rounded-[22px] border border-border bg-card text-card-foreground shadow-[0_1px_2px_rgb(8_8_12_/_0.04)]",
+        isFeatured ? "col-span-full min-h-[268px] flex-col" : "",
+        isWide ? "col-span-full sm:col-span-7" : "",
+        item.kind === "video" ? "sm:col-span-5 sm:flex-col" : "",
+        item.kind === "social" ? "sm:col-span-4" : "",
+        item.kind === "compact" ? "sm:col-span-6" : "",
+        !hasMedia ? "p-4" : "",
+      ].join(" ")}
+      whileHover={{ y: -4, borderColor: "var(--color-primary)" }}
+      whileTap={TAP}
+      transition={SPRING}
+      onClick={() => trackEvent(posthog, "bio_link_clicked", { label: item.title, href: item.href })}
+    >
+      {"image" in item ? (
+        <div className={isFeatured ? "h-[150px] overflow-hidden bg-[light-dark(#eeeeee,#24242e)]" : "w-[42%] overflow-hidden bg-[light-dark(#eeeeee,#24242e)]"}>
+          <img
+            src={item.image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+          />
+        </div>
+      ) : null}
+      {"videoId" in item ? (
+        <div className="relative w-[45%] overflow-hidden bg-[light-dark(#eeeeee,#24242e)] sm:h-[132px] sm:w-full">
+          <img
+            src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+          />
+          <span className="absolute bottom-3 left-3 grid size-9 place-items-center rounded-full bg-white text-[#ff0033] shadow-[0_10px_30px_rgb(8_8_12_/_0.18)]">
+            <IconlyYoutube size={18} />
+          </span>
+        </div>
+      ) : null}
+      <div className={["flex min-w-0 flex-1 flex-col justify-between gap-5", hasMedia ? "p-4" : ""].join(" ")}>
+        <div className="flex items-start justify-between gap-4">
+          {"icon" in item ? (
+            <span className="grid size-10 shrink-0 place-items-center rounded-[14px] border border-border bg-background text-primary">
+              <BioSocialIcon icon={item.icon} />
+            </span>
+          ) : null}
+          <span className="ml-auto text-[13px] font-medium leading-[1.2] tracking-[-0.26px] text-muted opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            Abrir
+          </span>
+        </div>
+        <div className="flex min-w-0 flex-col gap-2">
+          <h2 className="text-[17px] font-medium leading-[1.1] tracking-[-0.51px] text-card-foreground">
+            {item.title}
+          </h2>
+          <p className="line-clamp-2 text-[14px] leading-[1.35] tracking-[-0.28px] text-muted">
+            {item.description}
+          </p>
+          <p className="truncate text-[13px] leading-[1.35] tracking-[-0.26px] text-neutral-400">
+            {item.domain}
+          </p>
+        </div>
+      </div>
+    </motion.a>
+  );
+}
+
+function BioPage() {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <div className="bio-page min-h-svh w-full bg-background px-4 pb-16 pt-7 text-foreground sm:px-6 sm:pt-10">
+      <div className="mx-auto flex w-full max-w-[620px] flex-col gap-4">
+        <motion.section
+          className="overflow-hidden rounded-[28px] border border-border bg-card shadow-[0_1px_2px_rgb(8_8_12_/_0.04)]"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="bio-cover relative h-[166px] overflow-hidden bg-[light-dark(#eeeeee,#24242e)]">
+            <img src={bioVersareCover} alt="" className="bio-cover-image h-full w-full object-cover" decoding="async" fetchPriority="high" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(8_8_12_/_0)_48%,rgb(8_8_12_/_0.16)_100%)]" />
+          </div>
+          <div className="flex flex-col gap-6 px-5 pb-6 pt-0 sm:px-7">
+            <div className="-mt-11 flex items-end justify-between gap-4">
+              <FigmaMotionPortrait className="size-[88px] border-4 border-card shadow-[0_16px_44px_rgb(8_8_12_/_0.16)]" animated={!prefersReducedMotion} eager />
+              <motion.button
+                type="button"
+                className="mb-4 grid size-11 place-items-center rounded-[14px] border border-border bg-card text-primary shadow-[0_10px_28px_rgb(8_8_12_/_0.10)]"
+                aria-label="Compartilhar página"
+                whileHover={{ y: -2 }}
+                whileTap={TAP}
+                transition={SPRING}
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({ title: "Eduardo Amaral", url: "https://eduardoamaral.me/bio/" });
+                  } else {
+                    navigator.clipboard?.writeText("https://eduardoamaral.me/bio/");
+                  }
+                }}
+              >
+                <IconlySendMessage size={18} />
+              </motion.button>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-[28px] font-medium leading-none tracking-[-1.4px] text-card-foreground">
+                  Eduardo Amaral
+                </h1>
+                <p className="max-w-[470px] text-[16px] leading-[1.45] tracking-[-0.32px] text-muted">
+                  Senior Product Designer. UX/UI, Design Systems, IA aplicada ao design e produtos digitais.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {bioLinks.filter((item): item is Extract<BioLink, { icon: BioIconName }> => "icon" in item).slice(0, 5).map((item) => (
+                  <motion.a
+                    key={item.title}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={item.title}
+                    className="grid h-10 min-w-12 place-items-center rounded-[14px] border border-border bg-background px-3 text-primary"
+                    whileHover={{ y: -2, borderColor: "var(--color-primary)" }}
+                    whileTap={TAP}
+                    transition={SPRING}
+                  >
+                    <BioSocialIcon icon={item.icon} />
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          className="grid grid-cols-1 gap-4 sm:grid-cols-12"
+          initial={prefersReducedMotion ? false : "hidden"}
+          animate="visible"
+          variants={staggerChildren}
+        >
+          {bioLinks.map((item) => (
+            <BioLinkCard key={item.title} item={item} />
+          ))}
+        </motion.section>
+      </div>
+    </div>
+  );
 }
 
 function StyleguidePage({ theme, onThemeChange }: PageProps) {
@@ -3493,6 +3736,7 @@ export function App() {
   const isContent = path === "/conteudos";
   const isContact = path === "/contato";
   const isProjects = path === "/projetos";
+  const isBio = path === "/bio";
   const isStyleguide = path === "/styleguide";
   const isSitemap = path === "/mapa-do-site";
   const isCliniaHub = path === "/clinia";
@@ -3518,6 +3762,11 @@ export function App() {
     document.documentElement.lang = language;
     window.localStorage?.setItem("language-preference", language);
   }, [language]);
+
+  useEffect(() => {
+    document.body.classList.toggle("bio-route", isBio);
+    return () => document.body.classList.remove("bio-route");
+  }, [isBio]);
 
   useLayoutEffect(() => {
     if (lenisRef.current) {
@@ -3696,6 +3945,8 @@ export function App() {
     <SitemapPage {...pageProps} />
   ) : isContact ? (
     <ContactPage {...pageProps} />
+  ) : isBio ? (
+    <BioPage />
   ) : isProjects ? (
     <ProjectsPage {...pageProps} directoryProjects={directoryProjects} />
   ) : isContent ? (
@@ -3734,7 +3985,7 @@ export function App() {
 
   return (
     <LanguageContext.Provider value={{ language, onLanguageChange: handleLanguageChange }}>
-      <main className="mx-auto flex w-[1200px] flex-col items-center overflow-x-clip bg-background">
+      <main className={isBio ? "mx-auto flex w-full flex-col items-center overflow-x-clip bg-background" : "mx-auto flex w-[1200px] flex-col items-center overflow-x-clip bg-background"}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={path}

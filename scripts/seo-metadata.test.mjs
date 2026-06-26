@@ -16,8 +16,17 @@ test("uses the final GitHub Pages URL with a trailing slash for canonicals", () 
 
 test("keeps internal utility pages out of the search index", () => {
   assert.equal(getRouteSeo("/styleguide", false).robots, "noindex, follow");
+  assert.equal(getRouteSeo("/mapa-do-site", false).robots, "noindex, follow");
   assert.equal(getRouteSeo("/cv/pt", false).robots, "noindex, follow");
   assert.equal(getRouteSeo("/cv/en", true).robots, "noindex, follow");
+});
+
+test("describes the bio link page with specific metadata", () => {
+  const seo = getRouteSeo("/bio", false);
+
+  assert.equal(seo.title, "Eduardo Amaral | Links");
+  assert.match(seo.description, /Links principais/);
+  assert.equal(seo.robots, "index, follow, max-image-preview:large");
 });
 
 test("describes case studies with specific, page-level metadata", () => {
